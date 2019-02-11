@@ -1,4 +1,6 @@
 # police_database
+## Visual studio code plugins
+Vetur (vue support)
 
 ## Project setup
 ```
