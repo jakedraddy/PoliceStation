@@ -1,6 +1,10 @@
-# example
+# PoliceDatabase
 
 ## Project setup
+First, make sure you have npm installed. I used version 6.9.0, but any version probably works.
+
+I would also use Visual studio code with the *Vetur* extension.
+
 ```
 npm install
 ```
