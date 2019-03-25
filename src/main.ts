@@ -6,3 +6,10 @@ Vue.config.productionTip = false;
 new Vue({
   render: h => h(App)
 }).$mount("#app");
+
+
+new Vue({
+  data: {
+    message: 'Loaded the page on ' + new Date().toLocaleString()
+  }
+}).$mount("#example");
