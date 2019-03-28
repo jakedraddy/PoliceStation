@@ -1,164 +1,223 @@
 -- Person(PersonId, LastName, FirstName, DoB, SSN)
 CREATE TABLE Person(
-    PersonId INTEGER PRIMARY KEY,
+    PersonId NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     LastName VARCHAR(30),
     FirstName VARCHAR(30),
-    DoB DATETIME,
+    DoB DATE,
     SSN VARCHAR(10)
 );
 
 -- PhoneNumber(PId, PersonId, CountryCode, AreaCode, ExchangeCode, LineNumber, Extension)
 CREATE TABLE PhoneNumber(
-    PId INTEGER PRIMARY KEY,
-    FOREIGN KEY PersonId 
-        REFERENCES Person(PersonId)
-        ON DELETE CASCADE
-        NOT NULL,
+    PId NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    PersonId INTEGER NOT NULL,
     CountryCode VARCHAR(2), 
     AreaCode VARCHAR(3), 
     ExchangeCode VARCHAR(3), 
     LineNumber VARCHAR(4), 
-    Extension VARCHAR(8)
-)
-
-CREATE TABLE Address (
-    AId, 
-    FOREIGN KEY PersonId 
+    Extension VARCHAR(8),
+    
+    CONSTRAINT fk_PersonId
+        FOREIGN KEY (PersonId) 
         REFERENCES Person(PersonId)
         ON DELETE CASCADE
-        NOT NULL,
+);
+
+CREATE TABLE Address (
+    AId NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY, 
+    PersonId NUMBER NOT NULL,
     StreetName VARCHAR(40), 
     BuildingNumber VARCHAR(20), 
     ZipCode CHAR(5) NOT NULL, 
-    ZipExtension CHAR(4) NULL
-);
-
-
-CREATE TABLE Email (
-    EId INTEGER PRIMARY KEY, 
-    FOREIGN KEY PersonId 
+    ZipExtension CHAR(4) NULL,
+    
+    CONSTRAINT fk_PersonId
+        FOREIGN KEY (PersonId)
         REFERENCES Person(PersonId)
         ON DELETE CASCADE
-        NOT NULL, 
-    EmailAddress VARCHAR(40)
+);
+
+CREATE TABLE Email (
+    EId NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    PersonId INTEGER NOT NULL,
+    EmailAddress VARCHAR(40),
+    
+    CONSTRAINT fk_PersonId
+        FOREIGN KEY (PersonId) 
+        REFERENCES Person(PersonId)
+        ON DELETE CASCADE
 );
 
 -- Employee()
 CREATE TABLE Employee (
-    EmployeeId INTEGER PRIMARY KEY, 
-    FOREIGN KEY PersonId 
-        REFERENCES Person(PersonId)
-        ON DELETE CASCADE
-        NOT NULL,
+    EmployeeId NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY, 
+    PersonId NUMBER NOT NULL,
     Username VARCHAR(20), 
     HashedPassword VARCHAR(32), 
     JobTitle VARCHAR(20), 
-    HireDate DATETIME, 
-    FOREIGN KEY DeskId 
-        REFERENCES Desk(DeskId)
+    HireDate DATE, 
+    FloorNumber NUMBER,
+    RoomNumber VARCHAR(6),
+    
+    CONSTRAINT fk_PersonId
+        FOREIGN KEY (PersonId) 
+        REFERENCES Person(PersonId)
         ON DELETE CASCADE
-)
-
--- Desk(DeskId, FloorNumber, RoomNumber)
-CREATE TABLE Desk(
-    DeskId INTEGER PRIMARY KEY, 
-    FloorNumber INTEGER PRIMARY KEY, 
-    RoomNumber VARCHAR(6)
+    -- Make way to check for if employee is currently active
 );
--- Officer
-CREATE TABLE Officer(
-    FOREIGN KEY EmployeeId
-        REFERENCES Employee(EmployeeId)
-        ON DELETE CASCADE, 
-    BadgeId VARCHAR(10)
 
-    CONSTRAINT Unique_BadgeId UNIQUE (BadgeId)
+-- Officer()
+CREATE TABLE Officer(
+    EmployeeId NUMBER NOT NULL,        
+    BadgeId NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    
+    CONSTRAINT fk_EmployeeId
+        FOREIGN KEY (EmployeeId)
+        REFERENCES Employee(EmployeeId)
+        ON DELETE CASCADE
 );
 
 -- ForensicExpert(EmployeeId, ForensicExpertId)
 CREATE TABLE ForensicExpert(
-    FOREIGN KEY EmployeeId
-        REFERENCES Employee(EmployeeId)
-        ON DELETE CASCADE, 
+    EmployeeId NUMBER NOT NULL,
+    ForensicExpertId NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     
-    ForensicExpertId INTEGER PRIMARY KEY -- todo auto number, oracle does not make this easy like other dbms
+    CONSTRAINT fk_EmployeeId
+        FOREIGN KEY (EmployeeId)
+        REFERENCES Employee(EmployeeId)
+        ON DELETE CASCADE
 );
-
 
 -- Visit(VisitId, PersonId, Date, Reason)
 CREATE TABLE Visit (
-    VisitId INTEGER PRIMARY KEY, 
-    FOREIGN KEY PersonId REFERENCES Person(PersonId), 
-    "Date" DATETIME, 
-    Reason VARCHAR2(255)
+    VisitId NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    PersonId NUMBER NOT NULL,
+    DateofVisit DATE, 
+    Reason VARCHAR2(255),
+    
+    CONSTRAINT fk_PersonId
+        FOREIGN KEY (PersonId) 
+        REFERENCES Person(PersonId)
 );
 
 -- Arrest(ArrestNumber, PersonId, BadgeId, Date, ArrestReason)
 CREATE TABLE Arrest (
-    ArrestNumber INTEGER PRIMARY KEY, 
-    FOREIGN KEY PersonId REFERENCES Person(PersonId), 
-    FOREIGN KEY BadgeId REFERNCES Officer(BadgeId), 
-    "Date" DATETIME, 
-    ArrestReason VARCHAR(100)
+    ArrestNumber NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    PersonId NUMBER NOT NULL,
+    BadgeId NUMBER NOT NULL,
+    DateofArrest DATE, 
+    ArrestReason VARCHAR(100),
+    
+    CONSTRAINT fk_PersonId
+        FOREIGN KEY (PersonId) 
+        REFERENCES Person(PersonId),
+    CONSTRAINT fk_BadgeId
+        FOREIGN KEY (BadgeId) 
+        REFERENCES Officer(BadgeId)
 );
 
 -- Case(CaseId, DateEntered, Status)
-CREATE TABLE Case (
-    CaseId INTEGER PRIMARY KEY, 
-    DateEntered DATETIME, 
+CREATE TABLE "Case" (
+    CaseId NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY, 
+    DateEntered DATE, 
     Status VARCHAR(10)
 );
 
 -- CaseVisit(CaseId, VisitId)
 CREATE TABLE CaseVisit(
-    FOREIGN KEY CaseId REFERENCES Case(CaseId) PRIMARY KEY,
-    FOREIGN KEY VisitId REFERENCES Visit(VisitId)
+    CaseId NUMBER,
+    VisitId NUMBER,
+    
+    PRIMARY KEY (CaseId, VisitId),
+    CONSTRAINT fk_CaseId
+        FOREIGN KEY (CaseId) 
+        REFERENCES "Case"(CaseId),
+    CONSTRAINT fk_VisitId
+        FOREIGN KEY (VisitId)
+        REFERENCES Visit(VisitId)
 );
 
 -- CaseArrest(CaseId, ArrestNumber)
 CREATE TABLE CaseArrest(
-    ArrestNumber INTEGER PRIMARY KEY,
-    FOREIGN KEY CaseId REFERENCES Case(CaseId)
+    CaseID NUMBER,
+    ArrestNumber NUMBER,
+    
+    PRIMARY KEY (CaseId, ArrestNumber),
+    CONSTRAINT fk_CaseId
+        FOREIGN KEY (CaseId) 
+        REFERENCES "Case"(CaseId),
+    CONSTRAINT fk_ArrestNumber
+        FOREIGN KEY (ArrestNumber)
+        REFERENCES Arrest(ArrestNumber)
 );
-
 
 -- CaseAssignments(CaseId, EmployeeId)
 CREATE TABLE CaseAssignments (
-    FOREIGN KEY CaseId REFERENCES Case(CaseId),
-    FOREIGN KEY EmployeeId REFERENCES Employee(EmployeeId),
+    CaseId NUMBER,
+    EmployeeId NUMBER,
     
-    CONSTRAINT PK_CaseAssignments PRIMARY KEY (CaseId, EmployeeId)
+    CONSTRAINT PK_CaseAssignments 
+        PRIMARY KEY (CaseId, EmployeeId),
+    CONSTRAINT fk_CaseId
+        FOREIGN KEY (CaseId) 
+        REFERENCES "Case"(CaseId),
+    CONSTRAINT fk_EmployeeId
+        FOREIGN KEY (EmployeeId) 
+        REFERENCES Employee(EmployeeId)
 );
+
 -- CaseNote(NoteId, Note, EmployeeId, DateEntered, CaseId)
 CREATE TABLE CaseNote (
-    NoteId INTEGER PRIMARY KEY,
-    Note VARCHAR(2048),
-    FOREIGN KEY EmployeeId REFERENCES Employee(EmployeeId),
-    DateEntered DATETIME,
-    FOREIGN KEY CaseId REFERENCES Case(CaseId)
+    NoteId NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    Note VARCHAR2(2048),
+    EmployeeId NUMBER,
+    DateEntered DATE,
+    CaseId NUMBER,
+    
+    CONSTRAINT fk_EmployeeId 
+        FOREIGN KEY (EmployeeId) 
+        REFERENCES Employee(EmployeeId),
+    CONSTRAINT fk_CaseId 
+        FOREIGN KEY (CaseId) 
+        REFERENCES "Case"(CaseId)
 );
 
 -- Evidence(EvidenceId, CaseId, Date, Address, Description, Location)
 CREATE TABLE Evidence(
-    EvidenceId INTEGER PRIMARY KEY, 
-    FOREIGN KEY CaseId REFERENCES Case(CaseId), 
-    "Date" DATETIME, 
+    EvidenceId NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    CaseId NUMBER,
+    "Date" DATE, 
     Address VARCHAR(150), 
-    Description VARCHAR(1024), 
-    Location VARCHAR(150)
-)
-
+    "Description" VARCHAR(1024), 
+    "Location" VARCHAR(150),
+    
+    CONSTRAINT fk_CaseId
+        FOREIGN KEY (CaseId) 
+        REFERENCES "Case"(CaseId)
+);
 
 -- ForensicTest(TestId, EvidenceId, ResultDescription, Date, TestName)
 CREATE TABLE ForensicTest (
-    TestId INTEGER PRIMARY KEY, 
-    FOREIGN KEY EvidenceId REFERENCES Evidence(EvidenceId), 
+    TestId NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY, 
+    EvidenceId NUMBER,
     ResultDescription VARCHAR(1024), 
-    "Date" DATETIME,
-    TestName VARCHAR(50)
-)
+    "Date" DATE,
+    TestName VARCHAR(50),
+    
+    CONSTRAINT fk_EvidenceId
+        FOREIGN KEY (EvidenceId) 
+        REFERENCES Evidence(EvidenceId)
+);
+
 -- ForensicTestForensicExpert(TestId, ForensicExpertId)
 CREATE TABLE ForensicTestForensicExpert(
-    FOREIGN KEY TestId REFERENCES FoensicTest(TestId),
-    FOREIGN KEY ForensicExpertId REFERENCES ForensicExpert(ForensicExpertId)
+    TestId NUMBER,
+    ForensicExpertId NUMBER,
+    
+    CONSTRAINT fk_TestId
+        FOREIGN KEY (TestId) 
+        REFERENCES FoensicTest(TestId),
+    CONSTRAINT fk_ForensicExpertId
+        FOREIGN KEY (ForensicExpertId) 
+        REFERENCES ForensicExpert(ForensicExpertId)
 );
