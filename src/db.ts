@@ -4,33 +4,23 @@ import * as station from "./station";
 
 var mypw = "testpw";  // set mypw to the hr schema password
 
-module.exports = {
-    get_connection: get_connection,
-    execute_query: execute_query,
-    get_manager: get_manager,
-    create_tables: create_tables,
-    get_user: get_user,
-
-}
-
-function get_user(userName: string): station.Person {
-    let results = execute_query(`SELECT * FROM Person WHERE userName = :username;`, [userName]);
+export function get_user(userName: string): station.Employee {
+    let results = execute_query(`SELECT * FROM Employee WHERE Username = :username;`, [userName]);
     
-    var person = new station.Person();
+    var empl = new station.Employee();
     // person.DoB = results.
-
-    return person;
+    return empl;
 }
 
-function get_connection() {
+export function get_connection() {
     return oracle.getConnection(  {
-        user          : "hr",
-        password      : mypw,
-        connectString : "localhost/XEPDB1"
+        user          : process.env.DB_USER,
+        password      : process.env.DB_USER,
+        connectString : process.env.DB_CONNECTION_STRING
     });
 }
 
-function execute_query(query: string, params?: [any]) {
+export function execute_query(query: string, params?: [any]) {
     let connection;
     try {
         connection = get_connection();
@@ -50,7 +40,7 @@ function execute_query(query: string, params?: [any]) {
     }
 }
 
-function get_manager(id: number) {
+export function get_manager(id: number) {
     return execute_query(`SELECT manager_id, department_id, department_name
         FROM departments
         WHERE manager_id = :id`,
@@ -58,7 +48,7 @@ function get_manager(id: number) {
     );
 }
 
-function create_tables() {
+export function create_tables() {
     var fs = require('fs');
     fs.readFile( __dirname + '/create_tables.sql', function (err, data) {
         if (err) {

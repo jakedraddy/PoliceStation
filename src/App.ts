@@ -1,8 +1,8 @@
 import * as express from 'express';
 
-const db = require("./db");
-
 import * as session from 'express-session';
+import * as db from './db';
+import * as station from './station';
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
@@ -10,15 +10,15 @@ const saltRounds = 10;
 
 function authenticate(userName, pass, fn) {
     if (!module.parent) console.log('authenticating %s:%s', name, pass);
-    var user: User = db.get_user(userName);
+    let empl = db.get_user(userName);
 
     // query the db for the given username
-    if (!user) return fn(new Error('cannot find user'));
+    if (!empl) return fn(new Error('cannot find user'));
     // apply the same algorithm to the POSTed password, applying
     // the hash against the pass / salt, if there is a match we
     // found the user
 
-    bcrypt.compare(pass, user.hash, function(err, res) {
+    bcrypt.compare(pass, empl.HashedPassword, function(err, res) {
         // res == true
     });
 
