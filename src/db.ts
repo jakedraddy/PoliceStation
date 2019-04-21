@@ -1,59 +1,52 @@
 
 import * as oracle from "oracledb";
 import * as station from "./station";
+import * as station_mapper from "./station_mapper";
+import * as fs from 'fs';
 
-var mypw = "testpw";  // set mypw to the hr schema password
 
-export function get_user(userName: string): station.Employee {
-    let results = execute_query(`SELECT * FROM Employee WHERE Username = :username;`, [userName]);
-    
-    var empl = new station.Employee();
-    // person.DoB = results.
-    return empl;
+export async function get_user(userName: string): Promise<station.Employee> {
+    var result = await execute_query(`SELECT * FROM Employee WHERE Username = :username;`, [userName]);
+
+    return station_mapper.map_Employee(result.rows[0]);
 }
 
-export function get_connection() {
-    return oracle.getConnection(  {
+export async function get_connection(): Promise<oracle.IConnection> {
+    return oracle.getConnection({
         user          : process.env.DB_USER,
         password      : process.env.DB_USER,
         connectString : process.env.DB_CONNECTION_STRING
-    });
+    }).then(
+        (data) => {return data;},
+        (err) => {console.log("Failed to connect", err); return err;});
 }
 
-export function execute_query(query: string, params?: [any]) {
-    let connection;
-    try {
-        connection = get_connection();
-
-        let result = connection.execute(query, params);
-        console.log(result.rows);
-    } catch (err) {
-        console.error(err);
-    } finally {
-        if (connection) {
-            try {
-                connection.close();
-            } catch (err) {
-                console.error(err);
+export async function execute_query(query: string, params?: [any]): Promise<oracle.IExecuteReturn> {
+    return get_connection().then(
+        async (connection) => {
+            let result;
+            if (params) {
+                result = connection.execute(query, params);
+            } else {
+                result = connection.execute(query);
             }
-        }
-    }
-}
-
-export function get_manager(id: number) {
-    return execute_query(`SELECT manager_id, department_id, department_name
-        FROM departments
-        WHERE manager_id = :id`,
-        [id],  // bind value for :id
+            
+            await result;
+            connection.close();
+            return result;    
+        },
+        (err) => {console.log("Error executing query", err)}
     );
 }
 
-export function create_tables() {
-    var fs = require('fs');
-    fs.readFile( __dirname + '/create_tables.sql', function (err, data) {
-        if (err) {
-            throw err; 
+export async function create_tables() {
+    fs.readFile('./src/create_tables.sql', 
+        async (err, data) => {
+            if (err) {
+                console.log(err);
+            } else {
+                await execute_query(data.toString());
+            }
         }
-        execute_query(data.toString());
-    });
+    );
 }

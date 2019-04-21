@@ -3,28 +3,17 @@ import * as express from 'express';
 import * as session from 'express-session';
 import * as db from './db';
 import * as station from './station';
+import { debug } from 'util';
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
-
-function authenticate(userName, pass, fn) {
+async function authenticate(userName, pass): Promise<Boolean> {
     if (!module.parent) console.log('authenticating %s:%s', name, pass);
-    let empl = db.get_user(userName);
 
-    // query the db for the given username
-    if (!empl) return fn(new Error('cannot find user'));
-    // apply the same algorithm to the POSTed password, applying
-    // the hash against the pass / salt, if there is a match we
-    // found the user
+    let user = await db.get_user(userName);
 
-    bcrypt.compare(pass, empl.HashedPassword, function(err, res) {
-        // res == true
-    });
-
-    bcrypt.hash(pass, saltRounds, function(err, hash) {
-
-    });
+    return bcrypt.compare(pass, user.HashedPassword);
 }
 
 class App {
@@ -41,6 +30,14 @@ class App {
         const router = express.Router()
 
         router.get('/', express.static('dist/index.html'));
+
+        router.get('/logon', express.static('dist/logon.html'));
+
+        // router.get('/', async (req, rsp) => {
+        //     if (req.session.user) {
+        //         await authenticate(req.session.userName)
+        //     }
+        // });
 
         router.use("/static", express.static('static'));
 

@@ -17,6 +17,11 @@ A Microsoft Visual Studio Redistributable suitable for your Oracle Client librar
 See https://oracle.github.io/node-oracledb/INSTALL.html for details
 
 # Run
+
+## Configure database connection
+1. Copy .env.example to .env
+2. Edit the config values to point to the Oracle database.
+
 ## Compiles and hot-reloads for development
 
 Call tsc to compile the typescript to javascript
