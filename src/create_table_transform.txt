@@ -1,0 +1,35 @@
+regex replace for adding lines like
+
+
+To transform the below
+CREATE TABLE Person(
+    PersonId NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    LastName VARCHAR(30),
+    FirstName VARCHAR(30),
+    DoB DATE,
+    SSN VARCHAR(10)
+);
+
+into the following. syntax seems wrong though...
+https://stackoverflow.com/questions/1799128/oracle-if-table-exists
+
+--#########
+-- SQL to create Person
+BEGIN
+   SELECT COUNT(*) INTO c FROM USER_TABLES WHERE TABLE_NAME = UPPER('Person');
+   IF c = 1 THEN
+      EXECUTE IMMEDIATE 'DROP TABLE Person';
+   END IF;
+END;
+
+CREATE TABLE Person(
+    PersonId NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    LastName VARCHAR(30),
+    FirstName VARCHAR(30),
+    DoB DATE,
+    SSN VARCHAR(10)
+);
+
+CREATE TABLE (\w+)
+
+--#########\n-- SQL to create $1\nBEGIN\n   SELECT COUNT(*) INTO c FROM USER_TABLES WHERE TABLE_NAME = UPPER('$1');\n   IF c = 1 THEN\n      EXECUTE IMMEDIATE 'DROP TABLE $1';\n   END IF;\nEND;\n\nCREATE TABLE $1

@@ -31,7 +31,7 @@ export async function execute_query(query: string, params?: [any]): Promise<orac
                 result = connection.execute(query);
             }
             
-            await result;
+            await result; // Make sure query has completed before we close the connection.
             connection.close();
             return result;    
         },

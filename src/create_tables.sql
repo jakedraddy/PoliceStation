@@ -1,4 +1,7 @@
+
+declare c int;
 -- Person(PersonId, LastName, FirstName, DoB, SSN)
+
 CREATE TABLE Person(
     PersonId NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     LastName VARCHAR(30),
@@ -17,7 +20,7 @@ CREATE TABLE PhoneNumber(
     LineNumber VARCHAR(4), 
     Extension VARCHAR(8),
     
-    CONSTRAINT fk_PersonId
+    CONSTRAINT fk_PhoneNumber_PersonId
         FOREIGN KEY (PersonId) 
         REFERENCES Person(PersonId)
         ON DELETE CASCADE
@@ -31,7 +34,7 @@ CREATE TABLE Address (
     ZipCode CHAR(5) NOT NULL, 
     ZipExtension CHAR(4) NULL,
     
-    CONSTRAINT fk_PersonId
+    CONSTRAINT fk_Address_PersonId
         FOREIGN KEY (PersonId)
         REFERENCES Person(PersonId)
         ON DELETE CASCADE
@@ -42,7 +45,7 @@ CREATE TABLE Email (
     PersonId INTEGER NOT NULL,
     EmailAddress VARCHAR(40),
     
-    CONSTRAINT fk_PersonId
+    CONSTRAINT fk_Email_PersonId
         FOREIGN KEY (PersonId) 
         REFERENCES Person(PersonId)
         ON DELETE CASCADE
@@ -59,7 +62,7 @@ CREATE TABLE Employee (
     FloorNumber NUMBER,
     RoomNumber VARCHAR(6),
     
-    CONSTRAINT fk_PersonId
+    CONSTRAINT fk_Employee_PersonId
         FOREIGN KEY (PersonId) 
         REFERENCES Person(PersonId)
         ON DELETE CASCADE
@@ -71,7 +74,7 @@ CREATE TABLE Officer(
     EmployeeId NUMBER NOT NULL,        
     BadgeId NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     
-    CONSTRAINT fk_EmployeeId
+    CONSTRAINT fk_Officer_EmployeeId
         FOREIGN KEY (EmployeeId)
         REFERENCES Employee(EmployeeId)
         ON DELETE CASCADE
@@ -82,7 +85,7 @@ CREATE TABLE ForensicExpert(
     EmployeeId NUMBER NOT NULL,
     ForensicExpertId NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     
-    CONSTRAINT fk_EmployeeId
+    CONSTRAINT fk_ForensicExpert_EmployeeId
         FOREIGN KEY (EmployeeId)
         REFERENCES Employee(EmployeeId)
         ON DELETE CASCADE
@@ -95,7 +98,7 @@ CREATE TABLE Visit (
     DateofVisit DATE, 
     Reason VARCHAR2(255),
     
-    CONSTRAINT fk_PersonId
+    CONSTRAINT fk_Visit_PersonId
         FOREIGN KEY (PersonId) 
         REFERENCES Person(PersonId)
 );
@@ -108,10 +111,10 @@ CREATE TABLE Arrest (
     DateofArrest DATE, 
     ArrestReason VARCHAR(100),
     
-    CONSTRAINT fk_PersonId
+    CONSTRAINT fk_Arrest_PersonId
         FOREIGN KEY (PersonId) 
         REFERENCES Person(PersonId),
-    CONSTRAINT fk_BadgeId
+    CONSTRAINT fk_Arrest_BadgeId
         FOREIGN KEY (BadgeId) 
         REFERENCES Officer(BadgeId)
 );
@@ -129,10 +132,10 @@ CREATE TABLE CaseVisit(
     VisitId NUMBER,
     
     PRIMARY KEY (CaseId, VisitId),
-    CONSTRAINT fk_CaseId
+    CONSTRAINT fk_CaseVisit_CaseId
         FOREIGN KEY (CaseId) 
         REFERENCES "Case"(CaseId),
-    CONSTRAINT fk_VisitId
+    CONSTRAINT fk_CaseVisit_VisitId
         FOREIGN KEY (VisitId)
         REFERENCES Visit(VisitId)
 );
@@ -143,10 +146,10 @@ CREATE TABLE CaseArrest(
     ArrestNumber NUMBER,
     
     PRIMARY KEY (CaseId, ArrestNumber),
-    CONSTRAINT fk_CaseId
+    CONSTRAINT fk_CaseArrest_CaseId
         FOREIGN KEY (CaseId) 
         REFERENCES "Case"(CaseId),
-    CONSTRAINT fk_ArrestNumber
+    CONSTRAINT fk_CaseArrest_ArrestNumber
         FOREIGN KEY (ArrestNumber)
         REFERENCES Arrest(ArrestNumber)
 );
@@ -158,10 +161,10 @@ CREATE TABLE CaseAssignments (
     
     CONSTRAINT PK_CaseAssignments 
         PRIMARY KEY (CaseId, EmployeeId),
-    CONSTRAINT fk_CaseId
+    CONSTRAINT fk_CaseAssignments_CaseId
         FOREIGN KEY (CaseId) 
         REFERENCES "Case"(CaseId),
-    CONSTRAINT fk_EmployeeId
+    CONSTRAINT fk_CaseAssignments_EmployeeId
         FOREIGN KEY (EmployeeId) 
         REFERENCES Employee(EmployeeId)
 );
@@ -174,10 +177,10 @@ CREATE TABLE CaseNote (
     DateEntered DATE,
     CaseId NUMBER,
     
-    CONSTRAINT fk_EmployeeId 
+    CONSTRAINT fk_CaseNote_EmployeeId 
         FOREIGN KEY (EmployeeId) 
         REFERENCES Employee(EmployeeId),
-    CONSTRAINT fk_CaseId 
+    CONSTRAINT fk_CaseNote_CaseId 
         FOREIGN KEY (CaseId) 
         REFERENCES "Case"(CaseId)
 );
@@ -191,7 +194,7 @@ CREATE TABLE Evidence(
     "Description" VARCHAR(1024), 
     "Location" VARCHAR(150),
     
-    CONSTRAINT fk_CaseId
+    CONSTRAINT fk_Evidence_CaseId
         FOREIGN KEY (CaseId) 
         REFERENCES "Case"(CaseId)
 );
@@ -204,7 +207,7 @@ CREATE TABLE ForensicTest (
     "Date" DATE,
     TestName VARCHAR(50),
     
-    CONSTRAINT fk_EvidenceId
+    CONSTRAINT fk_ForensicTest_EvidenceId
         FOREIGN KEY (EvidenceId) 
         REFERENCES Evidence(EvidenceId)
 );
@@ -214,10 +217,10 @@ CREATE TABLE ForensicTestForensicExpert(
     TestId NUMBER,
     ForensicExpertId NUMBER,
     
-    CONSTRAINT fk_TestId
+    CONSTRAINT fk_ForensicTestForensicExpert_TestId
         FOREIGN KEY (TestId) 
         REFERENCES FoensicTest(TestId),
-    CONSTRAINT fk_ForensicExpertId
+    CONSTRAINT fk_ForensicTestForensicExpert_ForensicExpertId
         FOREIGN KEY (ForensicExpertId) 
         REFERENCES ForensicExpert(ForensicExpertId)
 );
