@@ -28,7 +28,7 @@
     "express-session": "^1.16.1",
     "oracledb": "*",
     "ts-loader": "^5.3.3",
-    "ts-node-dev": "^1.0.0-pre.32",
+    "ts-node-dev": "^1.0.0-pre.32"
   },
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",
