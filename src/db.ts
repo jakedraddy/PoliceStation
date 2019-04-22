@@ -4,7 +4,6 @@ import * as station from "./station";
 import * as station_mapper from "./station_mapper";
 import * as fs from 'fs';
 
-
 export async function get_user(userName: string): Promise<station.Employee> {
     var result = await execute_query(`SELECT * FROM Employee WHERE Username = :username;`, [userName]);
 
@@ -37,6 +36,11 @@ export async function execute_query(query: string, params?: [any]): Promise<orac
         },
         (err) => {console.log("Error executing query", err)}
     );
+}
+
+
+export function create_person(req, resp) {
+    
 }
 
 export async function create_tables() {

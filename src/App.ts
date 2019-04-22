@@ -4,11 +4,12 @@ import * as session from 'express-session';
 import * as db from './db';
 import * as station from './station';
 import { debug } from 'util';
+import * as fs from 'fs';
 
-const bcrypt = require('bcrypt');
+import * as bcrypt from 'bcrypt';
 const saltRounds = 10;
 
-async function authenticate(userName, pass): Promise<Boolean> {
+async function authenticate(userName: string, pass: string): Promise<Boolean> {
     if (!module.parent) console.log('authenticating %s:%s', name, pass);
 
     let user = await db.get_user(userName);
@@ -17,7 +18,7 @@ async function authenticate(userName, pass): Promise<Boolean> {
 }
 
 class App {
-    public express
+    public express: express.Express
   
     constructor () {
         this.express = express()
@@ -25,21 +26,20 @@ class App {
     }
   
     private mountRoutes (): void {
-        db.create_tables();
+        // db.create_tables();
 
         const router = express.Router()
 
-        router.get('/', express.static('dist/index.html'));
+        router.use("/", express.static('static'));
 
-        router.get('/logon', express.static('dist/logon.html'));
+        router.get('/api/create_person', (req, res) => db.create_person(req, res));
+        
 
         // router.get('/', async (req, rsp) => {
         //     if (req.session.user) {
         //         await authenticate(req.session.userName)
         //     }
         // });
-
-        router.use("/static", express.static('static'));
 
         router.use(session({
             resave: false, // don't save session if unmodified
