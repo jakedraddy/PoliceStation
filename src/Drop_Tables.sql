@@ -1,0 +1,17 @@
+drop table ForensicTestForensicExpert;
+drop table ForensicTest;
+drop table Evidence;
+drop table CaseNote;
+drop table CaseAssignments;
+drop table CaseArrest;
+drop table CaseVisit;
+drop table "Case";
+drop table Arrest;
+drop table Visit;
+drop table ForensicExpert;
+drop table Officer;
+drop table Employee;
+drop table Email;
+drop table Address;
+drop table Phonenumber;
+drop table Person;
