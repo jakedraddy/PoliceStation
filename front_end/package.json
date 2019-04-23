@@ -1,5 +1,5 @@
 {
-  "name": "practice",
+  "name": "front_end",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -15,8 +15,14 @@
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.6.0",
+    "@vue/cli-plugin-eslint": "^3.6.0",
     "@vue/cli-plugin-typescript": "^3.6.0",
     "@vue/cli-service": "^3.6.0",
+    "@vue/eslint-config-standard": "^4.0.0",
+    "@vue/eslint-config-typescript": "^4.0.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.16.0",
+    "eslint-plugin-vue": "^5.0.0",
     "lint-staged": "^8.1.5",
     "typescript": "^3.4.3",
     "vue-template-compiler": "^2.5.21"
@@ -25,11 +31,7 @@
     "pre-commit": "lint-staged"
   },
   "lint-staged": {
-    "*.ts": [
-      "vue-cli-service lint",
-      "git add"
-    ],
-    "*.vue": [
+    "*.{js,vue}": [
       "vue-cli-service lint",
       "git add"
     ]
