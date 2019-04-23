@@ -1,6 +1,6 @@
 import app from './App';
 
-const port = 80;
+const port = 8080;
 
 require('dotenv').config()
 console.log("Starting server!");

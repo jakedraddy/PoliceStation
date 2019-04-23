@@ -135,8 +135,8 @@ export function map_CaseArrest(row: any[]): station.CaseArrest {
     return out;
 }
 
-export function map_CaseAssignments(row: any[]): station.CaseAssignments { 
-    let out = new station.CaseAssignments();
+export function map_CaseAssignment(row: any[]): station.CaseAssignment { 
+    let out = new station.CaseAssignment();
 
     out.CaseId = row['CaseId'];
     out.EmployeeId = row['EmployeeId'];

@@ -4,9 +4,9 @@
   "description": "Police station",
   "main": "index.js",
   "scripts": {
-    "prod": "tsc && node ./dist/frontend.js",
+    "prod": "tsc && node ./dist/backend.js",
     "build": "tsc",
-    "front": "ts-node-dev --respawn --transpileOnly ./src/frontend.ts"
+    "backend": "ts-node-dev --respawn --transpileOnly ./src/backend.ts"
   },
   "repository": {
     "type": "git",

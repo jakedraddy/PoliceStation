@@ -2,9 +2,10 @@ import * as express from 'express';
 
 import * as session from 'express-session';
 import * as db from './db';
-import * as station from './station';
-import { debug } from 'util';
-import * as fs from 'fs';
+
+import * as st from './station_db_mapper';
+
+import * as api from './api';
 
 import * as bcrypt from 'bcrypt';
 const saltRounds = 10;
@@ -12,7 +13,7 @@ const saltRounds = 10;
 async function authenticate(userName: string, pass: string): Promise<Boolean> {
     if (!module.parent) console.log('authenticating %s:%s', name, pass);
 
-    let user = await db.get_user(userName);
+    let user = await st.get_user(userName);
 
     return bcrypt.compare(pass, user.HashedPassword);
 }
@@ -32,7 +33,7 @@ class App {
 
         router.use("/", express.static('static'));
 
-        router.get('/api/create_person', (req, res) => db.create_person(req, res));
+        router.get('/api/create_person', (req, res) => api.create_person(req, res));
         
 
         // router.get('/', async (req, rsp) => {

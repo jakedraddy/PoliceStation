@@ -4,11 +4,7 @@ import * as station from "./station";
 import * as station_mapper from "./station_mapper";
 import * as fs from 'fs';
 
-export async function get_user(userName: string): Promise<station.Employee> {
-    var result = await execute_query(`SELECT * FROM Employee WHERE Username = :username;`, [userName]);
 
-    return station_mapper.map_Employee(result.rows[0]);
-}
 
 export async function get_connection(): Promise<oracle.IConnection> {
     return oracle.getConnection({
@@ -20,7 +16,7 @@ export async function get_connection(): Promise<oracle.IConnection> {
         (err) => {console.log("Failed to connect", err); return err;});
 }
 
-export async function execute_query(query: string, params?: [any]): Promise<oracle.IExecuteReturn> {
+export async function execute_query(query: string, params?): Promise<oracle.IExecuteReturn> {
     return get_connection().then(
         async (connection) => {
             let result;
@@ -39,9 +35,6 @@ export async function execute_query(query: string, params?: [any]): Promise<orac
 }
 
 
-export function create_person(req, resp) {
-    
-}
 
 export async function create_tables() {
     fs.readFile('./src/create_tables.sql', 
