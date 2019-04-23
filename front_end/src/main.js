@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import App from './App'
+import * as station from '../../common/station';
 
 Vue.use(BootstrapVue)
 Vue.config.productionTip = false

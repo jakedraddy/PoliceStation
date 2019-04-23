@@ -1,6 +1,6 @@
 
 import * as oracle from "oracledb";
-import * as station from "./station";
+import * as station from "../../common/src/station";
 import * as station_mapper from "./station_mapper";
 import * as fs from 'fs';
 

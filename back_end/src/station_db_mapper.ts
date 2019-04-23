@@ -2,7 +2,7 @@
 import * as mapper from './station_mapper';
 
 
-import * as station from './station'
+import * as station from '../../common/src/station'
 
 import * as db from './db'
 
