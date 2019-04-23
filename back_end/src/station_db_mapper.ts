@@ -172,14 +172,17 @@ export function create_case(case_info: station.Case) {
     db.execute_query(`
     INSERT INTO "Case"
     CaseId, 
+    Title,
     DateEntered, 
     Status
     VALUES (
         :CaseId, 
+        :Title,
         :DateEntered, 
         :Status
     );
-    `, [case_info.CaseId, 
+    `, [case_info.CaseId,
+        case_info.Title,
         case_info.DateEntered, 
         case_info.Status]);
 
@@ -347,8 +350,3 @@ export function create_test_expert(expert: station.ForensicTestForensicExpert) {
     ]);
 }
 
-export async function get_user(userName: string): Promise<station.Employee> {
-    var result = await db.execute_query(`SELECT * FROM Employee WHERE Username = :username;`, [userName]);
-
-    return mapper.map_Employee(result.rows[0]);
-}

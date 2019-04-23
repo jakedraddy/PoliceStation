@@ -2,7 +2,7 @@ import * as station from "../../common/src/station";
 
 /// This module maps from a database row to an object representing the table.
 
-export function map_Person(row: any[]): station.Person { 
+export function map_Person(row): station.Person { 
     let out = new station.Person();
     
     out.PersonId = row['PersonId'];
@@ -14,7 +14,7 @@ export function map_Person(row: any[]): station.Person {
     return out;
 }
 
-export function map_PhoneNumber(row: any[]): station.PhoneNumber { 
+export function map_PhoneNumber(row): station.PhoneNumber { 
     let out = new station.PhoneNumber();
 
     out.PId = row['PId'];
@@ -28,7 +28,7 @@ export function map_PhoneNumber(row: any[]): station.PhoneNumber {
     return out;
 }
 
-export function map_Address(row: any[]): station.Address { 
+export function map_Address(row): station.Address { 
     let out = new station.Address();
 
     out.AId = row['AId']; 
@@ -41,7 +41,7 @@ export function map_Address(row: any[]): station.Address {
     return out;
 }
 
-export function map_Email(row: any[]): station.Email { 
+export function map_Email(row): station.Email { 
     let out = new station.Email();
 
     out.EId = row['EId'];
@@ -51,7 +51,7 @@ export function map_Email(row: any[]): station.Email {
     return out;
 }
 
-export function map_Employee(row: any[]): station.Employee { 
+export function map_Employee(row): station.Employee { 
     let out = new station.Employee();
 
     out.EmployeeId = row['EmployeeId']; 
@@ -66,7 +66,7 @@ export function map_Employee(row: any[]): station.Employee {
     return out;
 }
 
-export function map_Officer(row: any[]): station.Officer { 
+export function map_Officer(row): station.Officer { 
     let out = new station.Officer();
 
     out.EmployeeId = row['EmployeeId'];
@@ -75,7 +75,7 @@ export function map_Officer(row: any[]): station.Officer {
     return out;
 }
 
-export function map_ForensicExpert(row: any[]): station.ForensicExpert { 
+export function map_ForensicExpert(row): station.ForensicExpert { 
     let out = new station.ForensicExpert();
 
     out.EmployeeId = row['EmployeeId'];
@@ -84,7 +84,7 @@ export function map_ForensicExpert(row: any[]): station.ForensicExpert {
     return out;
 }
 
-export function map_Visit(row: any[]): station.Visit { 
+export function map_Visit(row): station.Visit { 
     let out = new station.Visit();
 
     out.VisitId = row['VisitId'];
@@ -95,7 +95,7 @@ export function map_Visit(row: any[]): station.Visit {
     return out;
 }
 
-export function map_Arrest(row: any[]): station.Arrest { 
+export function map_Arrest(row): station.Arrest { 
     let out = new station.Arrest();
 
     out.ArrestNumber = row['ArrestNumber'];
@@ -107,9 +107,10 @@ export function map_Arrest(row: any[]): station.Arrest {
     return out;
 }
 
-export function map_Case(row: any[]): station.Case { 
+export function map_Case(row): station.Case { 
     let out = new station.Case();
     out.CaseId = row['CaseId']; 
+    out.Title = row['Title'];
     out.DateEntered = row['DateEntered']; 
     out.Status = row['Status'];
 
@@ -117,7 +118,7 @@ export function map_Case(row: any[]): station.Case {
 
 }
 
-export function map_CaseVisit(row: any[]): station.CaseVisit { 
+export function map_CaseVisit(row): station.CaseVisit { 
     let out = new station.CaseVisit();
 
     out.CaseId = row['CaseId'];
@@ -126,7 +127,7 @@ export function map_CaseVisit(row: any[]): station.CaseVisit {
     return out;
 }
 
-export function map_CaseArrest(row: any[]): station.CaseArrest { 
+export function map_CaseArrest(row): station.CaseArrest { 
     let out = new station.CaseArrest();
 
     out.CaseID = row['CaseID'];
@@ -135,7 +136,7 @@ export function map_CaseArrest(row: any[]): station.CaseArrest {
     return out;
 }
 
-export function map_CaseAssignment(row: any[]): station.CaseAssignment { 
+export function map_CaseAssignment(row): station.CaseAssignment { 
     let out = new station.CaseAssignment();
 
     out.CaseId = row['CaseId'];
@@ -144,7 +145,7 @@ export function map_CaseAssignment(row: any[]): station.CaseAssignment {
     return out;
 }
 
-export function map_CaseNote(row: any[]): station.CaseNote { 
+export function map_CaseNote(row): station.CaseNote { 
     let out = new station.CaseNote();
 
     out.NoteId = row['NoteId'];
@@ -156,7 +157,7 @@ export function map_CaseNote(row: any[]): station.CaseNote {
     return out;
 }
 
-export function map_Evidence(row: any[]): station.Evidence { 
+export function map_Evidence(row): station.Evidence { 
     let out = new station.Evidence();
 
     out.EvidenceId = row['EvidenceId'];
@@ -169,7 +170,7 @@ export function map_Evidence(row: any[]): station.Evidence {
     return out;
 }
 
-export function map_ForensicTest(row: any[]): station.ForensicTest { 
+export function map_ForensicTest(row): station.ForensicTest { 
     let out = new station.ForensicTest();
 
     out.TestId = row['TestId']; 
@@ -181,7 +182,7 @@ export function map_ForensicTest(row: any[]): station.ForensicTest {
     return out;
 }
 
-export function map_ForensicTestForensicExpert(row: any[]): station.ForensicTestForensicExpert { 
+export function map_ForensicTestForensicExpert(row): station.ForensicTestForensicExpert { 
     let out = new station.ForensicTestForensicExpert();
 
     out.TestId = row['TestId'];

@@ -7,6 +7,7 @@ export class Person {
 
     addresses: Address[];
     emails: Email[];
+    phones: PhoneNumber[];
     employee: Employee
 }
 
@@ -84,6 +85,7 @@ export class Case {
     CaseId: number; 
     DateEntered: Date; 
     Status: string;
+    Title: string;
 
     visits: CaseVisit[];
     arrests: CaseArrest[];

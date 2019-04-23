@@ -34,8 +34,6 @@ export async function execute_query(query: string, params?): Promise<oracle.IExe
     );
 }
 
-
-
 export async function create_tables() {
     fs.readFile('./src/create_tables.sql', 
         async (err, data) => {

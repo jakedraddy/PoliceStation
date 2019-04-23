@@ -122,6 +122,7 @@ CREATE TABLE Arrest (
 -- Case(CaseId, DateEntered, Status)
 CREATE TABLE "Case" (
     CaseId NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY, 
+    Title VARCHAR(50),
     DateEntered DATE, 
     Status VARCHAR(10)
 );
