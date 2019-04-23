@@ -1,7 +1,13 @@
 <template>
   <div id="app">
     <Header />
-    <Quiz />
+    <b-container class="bv-example-row">
+      <b-row>
+        <b-col sm="6" offset="3">
+          <Quiz />
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
