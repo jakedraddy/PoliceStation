@@ -20,9 +20,7 @@ export function create_case(req: e.Request, res: e.Response, next?: e.NextFuncti
 }
 
 export function get_person(req: e.Request, res: e.Response, next?: e.NextFunction) {
-    let data = JSON.parse(req.body);
-    
-    res.send(JSON.stringify(getter.get_person(data.PersonId)));
+    res.send(JSON.stringify(getter.get_person(req.params.PersonId)));
     res.statusCode = codes.OK;
     res.end();  
 }
