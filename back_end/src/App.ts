@@ -34,6 +34,7 @@ class App {
         router.use("/", express.static('static'));
 
         router.get('/api/create_person', (req, res) => api.create_person(req, res));
+        router.get('/api/create_case', (req, res) => api.create_case(req, res));
         
 
         // router.get('/', async (req, rsp) => {

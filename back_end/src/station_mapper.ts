@@ -1,4 +1,4 @@
-import * as station from "./station";
+import * as station from "../../common/src/station";
 
 /// This module maps from a database row to an object representing the table.
 
