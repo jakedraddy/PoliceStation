@@ -2,7 +2,7 @@
 node_modules
 
 dist/
-
+/front_end/build/*
 
 # local env files
 .env.local
