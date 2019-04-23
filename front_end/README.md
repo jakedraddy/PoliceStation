@@ -1,4 +1,4 @@
-# practice
+# front_end
 
 ## Project setup
 ```
