@@ -23,10 +23,13 @@ class App {
 
         router.use("/", express.static('static'));
 
-        router.post('/api/create_person', api.create_person);
-        router.post('/api/create_case', api.create_case);
         router.get('/api/get_person', api.get_person);
+        router.post('/api/person/create', api.create_person);
+
         router.get('/api/auth', api.auth);
+        router.get('/api/cases/', api.auth);
+        router.post('/api/case/create', api.create_case);
+        router.get('/api/cases/all', api.get_all_cases);
 
         this.express.use('/', router)
     }

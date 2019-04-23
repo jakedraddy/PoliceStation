@@ -1,5 +1,3 @@
-
-
 import * as e from 'express';
 import * as mapper from './station_db_mapper';
 import * as getter from './station_get_mapper';
@@ -24,18 +22,21 @@ export function create_case(req: e.Request, res: e.Response, next?: e.NextFuncti
 }
 
 export async function get_person(req: e.Request, res: e.Response, next?: e.NextFunction) {
-    res.send(JSON.stringify(getter.get_person(req.params.PersonId)));
+    res.json(getter.get_person(req.params.PersonId));
     res.statusCode = codes.OK;
     res.end();  
 }
-
 
 async function authenticate(userName: string, pass: string): Promise<Boolean> {
     if (!module.parent) console.log('authenticating %s:%s', name, pass);
 
     let user = await getter.get_employee_by_username(userName);
     
-    return bcrypt.compare(pass, user.employee.HashedPassword);
+    if (user.employee) {
+        return bcrypt.compare(pass, user.employee.HashedPassword);
+    } else {
+        return false;
+    }
 }
 
 export async function auth(req: e.Request, res: e.Response, next?: e.NextFunction) {
@@ -45,6 +46,12 @@ export async function auth(req: e.Request, res: e.Response, next?: e.NextFunctio
         res.write("false");
     }
 
+    res.statusCode = codes.OK;
+    res.end();
+}
+
+export async function get_all_cases(req: e.Request, res: e.Response, next?: e.NextFunction) {
+    res.json(await getter.get_case_stubs());
     res.statusCode = codes.OK;
     res.end();
 }
