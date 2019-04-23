@@ -1,27 +1,20 @@
 <template>
   <div id="app">
-    <Header />
-    <b-container class="bv-example-row">
-      <b-row>
-        <b-col sm="6" offset="3">
-          <Quiz />
-        </b-col>
-      </b-row>
-    </b-container>
+    <img alt="Vue logo" src="./assets/logo.png">
+    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
   </div>
 </template>
 
-<script>
-import Header from './components/Header.vue'
-import Quiz from './components/Quiz.vue'
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+import HelloWorld from './components/HelloWorld.vue';
 
-export default {
-  name: 'App',
+@Component({
   components: {
-    Header,
-    Quiz
-  }
-}
+    HelloWorld,
+  },
+})
+export default class App extends Vue {}
 </script>
 
 <style>
