@@ -1,17 +1,19 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <HelloWorld/>
+    <Header />
+    <Quiz />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
+import Header from './components/Header.vue'
+import Quiz from './components/Quiz.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Header,
+    Quiz
   }
 }
 </script>
