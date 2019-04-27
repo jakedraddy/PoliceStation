@@ -27,6 +27,12 @@ export async function get_person(req: e.Request, res: e.Response, next?: e.NextF
     res.end();  
 }
 
+export async function get_employees(req: e.Request, res: e.Response, next?: e.NextFunction) {
+    res.json(getter.get_employees());
+    res.statusCode = codes.OK;
+    res.end();  
+}
+
 async function authenticate(userName: string, pass: string): Promise<Boolean> {
     if (!module.parent) console.log('authenticating %s:%s', name, pass);
 

@@ -52,6 +52,20 @@ export async function get_employee(PersonId: number): Promise<station.Employee> 
     return employee;
 }
 
+async function get_person_from_employee(empl: station.Employee): Promise<station.Person> {
+    return await get_person(empl.PersonId);
+}
+
+export async function get_employees(): Promise<station.Person[]> {
+    let result = await db.execute_query(`SELECT * FROM Employee`);
+
+    let out = [];
+    result.rows.forEach(async (el) => {
+        out.push(await get_person_from_employee(el));
+    });
+    return out;
+}
+
 export async function get_officer(EmployeeId: number): Promise<station.Officer> {
     let result = await db.execute_query(`SELECT * FROM Officer WHERE EmployeeId=:EmployeeId`, [EmployeeId]);
     let officer = mapper.map_Officer(result.rows[0]);

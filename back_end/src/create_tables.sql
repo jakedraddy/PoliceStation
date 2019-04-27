@@ -1,7 +1,5 @@
 
-declare c int;
 -- Person(PersonId, LastName, FirstName, DoB, SSN)
-
 CREATE TABLE Person(
     PersonId NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     LastName VARCHAR(30),
@@ -220,7 +218,7 @@ CREATE TABLE ForensicTestForensicExpert(
     
     CONSTRAINT fk_ForensicTestForensicExpert_TestId
         FOREIGN KEY (TestId) 
-        REFERENCES FoensicTest(TestId),
+        REFERENCES ForensicTest(TestId),
     CONSTRAINT fk_ForensicTestForensicExpert_ForensicExpertId
         FOREIGN KEY (ForensicExpertId) 
         REFERENCES ForensicExpert(ForensicExpertId)
