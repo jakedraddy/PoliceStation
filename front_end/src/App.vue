@@ -4,8 +4,8 @@
       <Header/>
 
     </div>
-    <router-link :to="'/'">Login</router-link>
-    <router-link :to="'/about'">About</router-link>
+    <router-link v-bind:to="'/'">Login</router-link>
+    <router-link v-bind:to="'/about'">About</router-link>
 
     <router-view></router-view>
   </div>
