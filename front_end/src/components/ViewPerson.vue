@@ -11,13 +11,13 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Person } from "../../../common/src/station";
+import * as station from "../../../common/src/station";
 import * as axios from "axios";
 
 export default Vue.extend({
     data() {
         return {
-            person: new Person(),
+            person: new station.Person(),
             save_message: ""
         }
     },
@@ -44,5 +44,9 @@ export default Vue.extend({
             this.person = response.data;
         });
     }
-})
+});
 </script>
+
+<style>
+
+</style>

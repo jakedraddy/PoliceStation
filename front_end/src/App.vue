@@ -16,7 +16,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 import Header from './components/Header.vue'
 
-@Component({
+export default Vue.extend({
   components: {
     Header,
   },
@@ -27,9 +27,8 @@ import Header from './components/Header.vue'
       index: 0
     }
   }
-})
+});
 
-export default class App extends Vue {}
 </script>
 
 <style>
