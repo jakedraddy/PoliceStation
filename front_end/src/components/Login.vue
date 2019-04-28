@@ -8,15 +8,15 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import * as axios from 'axios'
-import { AuthResult } from '../../../common/src/api_model'
+import Vue from "vue";
+import * as axios from "axios";
+import { AuthResult } from "../../../common/src/api_model";
 
-import * as crypto from 'crypto-js'
+import * as crypto from "crypto";
 export default Vue.extend({
     data() {
         return {
-            text: '',
+            text: "",
             username: "",
             password: "",
             error: "",
@@ -26,11 +26,11 @@ export default Vue.extend({
     methods: {
         login() {
             axios.default({
-                method: 'get',
-                url: '/api/auth',
+                method: "get",
+                url: "/api/auth",
                 params: {
                     username: this.username,
-                    password: crypto.createHash('sha256').update(this.password).digest("hex")
+                    password: crypto.createHash("sha256").update(this.password).digest("hex")
             }}).then((api_response) => {
                 let response: AuthResult = api_response.data;
 
