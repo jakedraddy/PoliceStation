@@ -11,12 +11,12 @@
 import Vue from 'vue'
 import { Employee } from '../../../common/src/station';
 import * as axios from 'axios';
-import { get_person } from '../../../back_end/src/station_get_mapper';
 
 export default Vue.extend({
     data() {
         return {
-            employee: new Employee()
+            employee: new Employee(),
+            save_message: ""
         }
     },
     methods: {

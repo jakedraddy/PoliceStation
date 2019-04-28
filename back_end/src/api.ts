@@ -3,20 +3,7 @@ import * as mapper from './station_db_mapper';
 import * as getter from './station_get_mapper';
 import * as codes from 'http-status-codes';
 
-import * as bcrypt from 'bcrypt';
-import { Person } from '../../common/src/station';
-import { ResultSet } from 'oracledb';
-import * as crypto from 'crypto';
-
-export class AuthResult {
-    result: Boolean
-    user?: Person
-
-    constructor(res: Boolean) {
-        this.result = res;
-        this.user = undefined;
-    }
-}
+import { AuthResult } from '../../common/src/api_model';
 
 // Creates the passed person encoded as the body of the request in json.
 export async function create_person(req: e.Request, res: e.Response, next?: e.NextFunction) {
@@ -35,7 +22,7 @@ export function create_case(req: e.Request, res: e.Response, next?: e.NextFuncti
 }
 
 export async function get_person(req: e.Request, res: e.Response, next?: e.NextFunction) {
-    res.json(getter.get_person(req.params.PersonId));
+    res.json(getter.get_person(req.query.PersonId));
     res.statusCode = codes.OK;
     res.end();  
 }

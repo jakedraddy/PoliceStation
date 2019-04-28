@@ -13,12 +13,12 @@
 import Vue from 'vue'
 import { Person } from '../../../common/src/station';
 import * as axios from 'axios';
-import { get_person } from '../../../back_end/src/station_get_mapper';
 
 export default Vue.extend({
     data() {
         return {
-            person: new Person()
+            person: new Person(),
+            save_message: ""
         }
     },
     props: ['person_id'],
@@ -34,7 +34,15 @@ export default Vue.extend({
         }
     },
     mounted: async function() {
-        this.person = await get_person(this.$props.person_id);
+        axios.default({
+            method: 'post',
+            url: '/api/person/get/',
+            params: {
+                PersonId: this.$props.person_id
+            },
+        }).then((response) => {
+            this.person = response.data;
+        });
     }
 })
 </script>

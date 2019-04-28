@@ -10,8 +10,8 @@
 <script lang="ts">
 import Vue from 'vue';
 import * as axios from 'axios';
-import { AuthResult } from '../../../back_end/src/api';
-import * as crypto from 'crypto'
+import { AuthResult } from '../../../common/src/api_model';
+import * as crypto from 'crypto-js';
 export default Vue.extend({
     data() {
         return {
