@@ -1,12 +1,12 @@
 <template>
   <div>
     <div>
-      <Header/>
-
+      <b-nav tabs> 
+        <b-nav-item disabled><b>Police Station Database</b></b-nav-item>
+        <b-nav-item><b-link :to="'/'">Login</b-link></b-nav-item>
+        <b-nav-item><b-link :to="'/about'">About</b-link></b-nav-item>
+      </b-nav>
     </div>
-    <router-link v-bind:to="'/'">Login</router-link>
-    <router-link v-bind:to="'/about'">About</router-link>
-
     <router-view></router-view>
   </div>
 </template>
@@ -14,11 +14,9 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import Header from './components/Header.vue'
 
 export default Vue.extend({
   components: {
-    Header,
   },
   data() {
     return  {

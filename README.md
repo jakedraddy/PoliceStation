@@ -9,6 +9,7 @@ I would also use Visual studio code with the *Vetur* extension.
 npm install
 npm install -g typescript
 npm install -g ts-node-dev
+npm i vue bootstrap-vue bootstrap
 ```
 ## Oracle DB library setup
 Oracle Client libraries (64-bit) must be in your PATH environment variable

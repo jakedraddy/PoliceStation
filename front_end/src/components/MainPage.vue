@@ -1,8 +1,8 @@
 <template>
     <div>
         <h1>Welcome {{ $root.user.FirstName }}</h1>
-        <router-link :to="'/employees'">Employees</router-link>
-        <router-link :to="'/about'">About</router-link>
+        <b-link :to="'/employees'">Employees</b-link>
+        <b-link :to="'/about'">About</b-link>
     </div>
 </template>
 

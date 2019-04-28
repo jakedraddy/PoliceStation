@@ -1,9 +1,14 @@
 <template>
     <div>
-        <b-form-input v-model="username" placeholder="Username"></b-form-input>
-        <b-form-input v-model="password" placeholder="Password"></b-form-input>
-        <button type="button" @click="login">Login</button>
-        <span v-if="error != ''" v-bind="error" class="error">{{ error }}</span>
+        <b-jumbotron header="Welcome to JDPS Archive" 
+            lead="Please log in to continue..." 
+            hr class="my-4"
+            fluid="true">
+            <b-form-input v-model="username" placeholder="Username"></b-form-input>
+            <b-form-input v-model="password" placeholder="Password"></b-form-input>
+            <button type="button" @click="login">Login</button>
+            <span v-if="error != ''" v-bind="error" class="error">{{ error }}</span>
+        </b-jumbotron>
     </div>
 </template>
 
