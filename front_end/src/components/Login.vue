@@ -10,7 +10,7 @@
 <script lang="ts">
 import Vue from "vue";
 import * as axios from "axios";
-import { SHA256 } from "crypto-js";
+import * as crypto from "crypto-js";
 
 import { AuthResult } from "../../../common/src/api_model";
 
@@ -31,7 +31,7 @@ export default Vue.extend({
                 url: "/api/auth",
                 params: {
                     username: this.username,
-                    password: SHA256(this.password)
+                    password:  crypto.enc.Hex.stringify(crypto.SHA256(this.password)) 
             }}).then((api_response) => {
                 let response: AuthResult = api_response.data;
 
