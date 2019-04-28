@@ -8,7 +8,7 @@ export class Person {
     addresses: Address[];
     emails: Email[];
     phones: PhoneNumber[];
-    employee?: Employee
+    employee: Employee | undefined;
 
     constructor () {
         this.PersonId = 0;
@@ -84,8 +84,8 @@ export class Employee {
     FloorNumber: number;
     RoomNumber: string;
 
-    officer?: Officer;
-    forensic_expert?: ForensicExpert;
+    officer: Officer | undefined;
+    forensic_expert: ForensicExpert | undefined;
 
     constructor () {
         this.EmployeeId = 0; 
@@ -128,7 +128,7 @@ export class Visit {
     DateofVisit: Date; 
     Reason: string;
 
-    arrest?: Arrest;
+    arrest: Arrest | undefined;
     
     constructor () {
         this.VisitId = 0;

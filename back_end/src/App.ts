@@ -22,7 +22,7 @@ class App {
         }));
         router.use("*", async (req: express.Request, res: express.Response, next?: express.NextFunction) => {
             console.log(`Incoming request: ${req.method} ${req.url}`);
-            next();
+            if (next) {next()};
         });
 
 
