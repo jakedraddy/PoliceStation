@@ -17,7 +17,7 @@ export async function create_person(person: station.Person) {
         :LastName,
         :FirstName,
         :DoB,
-        :SSN);`, 
+        :SSN)`, 
         [person.PersonId,
             person.LastName,
             person.FirstName,
@@ -48,7 +48,7 @@ export async function create_address(address: station.Address) {
     :StreetName,
     :BuildingNumber,
     :ZipCode,
-    :ZipExtension);
+    :ZipExtension)
     `, [address.AId,
         address.PersonId,
         address.StreetName,
@@ -90,7 +90,7 @@ export async function create_employee(employee: station.Employee) {
         :HireDate, 
         :FloorNumber,
         :RoomNumber
-    );
+    )
     `, 
     [employee.EmployeeId,
     employee.PersonId,
@@ -106,16 +106,17 @@ export async function create_employee(employee: station.Employee) {
 }
 
 export async function create_officer(officer: station.Officer) {
-    await db.execute_query(`INSERT INTO Officer EmployeeId, BadgeId VALUE (
+    await db.execute_query(`INSERT INTO Officer EmployeeId, BadgeId VALUES (
         :EmployeeId,
-        :BadgeId
+        :BadgeId)
         `[officer.EmployeeId, officer.BadgeId]);
 }
 
 export async function create_forensic_expert(expert: station.ForensicExpert) {
-    await db.execute_query(`INSERT INTO ForensicExpert 
+    await db.execute_query(`INSERT INTO ForensicExpert (EmployeeId,
+    ForensicExpertId) VALUES (
     :EmployeeId,
-    :ForensicExpertId);
+    :ForensicExpertId)
     `,[expert.EmployeeId,
         expert.ForensicExpertId]);
 }
@@ -124,10 +125,10 @@ export async function create_forensic_expert(expert: station.ForensicExpert) {
 
 export async function create_visit(visit: station.Visit) {
     await db.execute_query(`INSERT INTO Visit 
-    VisitId,
+    (VisitId,
     PersonId,
     DateofVisit, 
-    Reason VALUES (
+    Reason) VALUES (
     :VisitId,
     :PersonId,
     :DateofVisit, 
@@ -147,18 +148,18 @@ export async function create_visit(visit: station.Visit) {
 
 export async function create_arrest(arrest: station.Arrest) {
     await db.execute_query(`INSERT INTO Arrest
-    ArrestNumber,
+    (ArrestNumber,
     PersonId,
     BadgeId,
     DateofArrest, 
-    ArrestReason
+    ArrestReason)
     VALUES (
         :ArrestNumber,
         :PersonId,
         :BadgeId,
         :DateofArrest, 
         :ArrestReason
-    );
+    )
     `,[
         arrest.ArrestNumber,
         arrest.PersonId,
@@ -171,16 +172,16 @@ export async function create_arrest(arrest: station.Arrest) {
 export async function create_case(case_info: station.Case) {
     await db.execute_query(`
     INSERT INTO "Case"
-    CaseId, 
+    (CaseId, 
     Title,
     DateEntered, 
-    Status
+    Status)
     VALUES (
         :CaseId, 
         :Title,
         :DateEntered, 
         :Status
-    );
+    )
     `, [case_info.CaseId,
         case_info.Title,
         case_info.DateEntered, 
@@ -216,12 +217,12 @@ export async function create_case(case_info: station.Case) {
 export async function create_case_visit(case_visit: station.CaseVisit) {
     await db.execute_query(`
     INSERT INTO CaseVisit
-    CaseId,
-    VisitId
+    (CaseId,
+    VisitId)
     VALUES (
         :CaseId,
         :VisitId
-    );
+    )
     `,[case_visit.CaseId,
         case_visit.VisitId]);
 }
@@ -229,12 +230,12 @@ export async function create_case_visit(case_visit: station.CaseVisit) {
 export async function create_case_arrest(case_arrest: station.CaseArrest) {
     await db.execute_query(`
     INSERT INTO CaseArrest
-    CaseID,
-    ArrestNumber
+    (CaseID,
+    ArrestNumber)
     VALUES (
         :CaseID,
         :ArrestNumber
-    );
+    )
     `[
         case_arrest.CaseID,
         case_arrest.ArrestNumber
@@ -244,12 +245,12 @@ export async function create_case_arrest(case_arrest: station.CaseArrest) {
 export async function create_case_assignment(assignment: station.CaseAssignment) {
     await db.execute_query(`
     INSERT INTO CaseAssignment
-    CaseId,
-    EmployeeId
+    (CaseId,
+    EmployeeId)
     VALUES (
         :CaseId,
         :EmployeeId
-    );
+    )
     `,[
         assignment.CaseId,
         assignment.EmployeeId
@@ -259,18 +260,18 @@ export async function create_case_assignment(assignment: station.CaseAssignment)
 export async function create_case_note(note: station.CaseNote) {
     await db.execute_query(`
     INSERT INTO CaseNote
-    NoteId,
+    (NoteId,
     Note,
     EmployeeId,
     DateEntered,
-    CaseId
+    CaseId)
     VALUES (
         :NoteId,
         :Note,
         :EmployeeId,
         :DateEntered,
         :CaseId
-    );
+    )
     `, [
         note.NoteId,
         note.Note,
@@ -283,12 +284,12 @@ export async function create_case_note(note: station.CaseNote) {
 export async function create_evidence(evidence: station.Evidence) {
     await db.execute_query(`
     INSERT INTO Evidence
-    EvidenceId,
+    (EvidenceId,
     CaseId,
     Date, 
     Address, 
     Description, 
-    Location
+    Location)
     VALUES (
         :EvidenceId,
         :CaseId,
@@ -309,18 +310,18 @@ export async function create_evidence(evidence: station.Evidence) {
 export async function create_test(test: station.ForensicTest) {
     await db.execute_query(`
     INSERT INTO ForensicTest 
-    TestId, 
+    (TestId, 
     EvidenceId,
     ResultDescription, 
     Date,
-    TestName
+    TestName)
     VALUES (
         :TestId, 
         :EvidenceId,
         :ResultDescription, 
         :Date,
         :TestName
-    );
+    )
     `,[
         test.TestId, 
         test.EvidenceId,
@@ -338,12 +339,12 @@ export async function create_test(test: station.ForensicTest) {
 export async function create_test_expert(expert: station.ForensicTestForensicExpert) {
     await db.execute_query(`
     INSERT INTO ForensicTestForensicExpert
-    TestId,
-    ForensicExpertId
+    (TestId,
+    ForensicExpertId)
     VALUES (
         :TestId,
         :ForensicExpertId
-    );
+    )
     `[
         expert.TestId,
         expert.ForensicExpertId

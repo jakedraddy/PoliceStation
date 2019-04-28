@@ -4,6 +4,18 @@ import * as getter from './station_get_mapper';
 import * as codes from 'http-status-codes';
 
 import * as bcrypt from 'bcrypt';
+import { Person } from '../../common/src/station';
+import { ResultSet } from 'oracledb';
+import * as crypto from 'crypto';
+
+export class AuthResult {
+    result: Boolean
+    user: Person
+
+    constructor(res: Boolean) {
+        this.result = res;
+    }
+}
 
 // Creates the passed person encoded as the body of the request in json.
 export async function create_person(req: e.Request, res: e.Response, next?: e.NextFunction) {
@@ -33,31 +45,29 @@ export async function get_employees(req: e.Request, res: e.Response, next?: e.Ne
     res.end();  
 }
 
-async function authenticate(userName: string, pass: string): Promise<Boolean> {
-    if (!module.parent) console.log('authenticating %s:%s', name, pass);
+async function authenticate(userName: string, hash: string): Promise<AuthResult> {
+    if (!module.parent) console.log('authenticating %s:%s', name, hash);
 
     let user = await getter.get_employee_by_username(userName);
-    
-    if (user.employee) {
-        return bcrypt.compare(pass, user.employee.HashedPassword);
-    } else {
-        return false;
+    let result = new AuthResult(false);
+
+    if (user && user.employee) {
+        result.result = hash == user.employee.HashedPassword;
+        if (result.result) {
+            result.user = user;
+        }
     }
+
+    return result;
 }
 
 export async function auth(req: e.Request, res: e.Response, next?: e.NextFunction) {
-    if (await authenticate(req.params.username, req.params.password)) {
-        res.write("true");
-    } else {
-        res.write("false");
-    }
-
-    res.statusCode = codes.OK;
+    let auth = await authenticate(req.query.username, req.query.password);
+    res.status(codes.OK).json(auth);
     res.end();
 }
 
 export async function get_all_cases(req: e.Request, res: e.Response, next?: e.NextFunction) {
-    res.json(await getter.get_case_stubs());
-    res.statusCode = codes.OK;
+    res.status(codes.OK).json(await getter.get_case_stubs());
     res.end();
 }

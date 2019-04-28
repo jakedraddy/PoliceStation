@@ -20,8 +20,11 @@ class App {
             saveUninitialized: false, // don't create session until something stored
             secret: 'shhhh, very secret'
         }));
+        router.use("*", async (req: express.Request, res: express.Response, next?: express.NextFunction) => {
+            console.log(`Incoming request: ${req.method} ${req.url}`);
+            next();
+        });
 
-        router.use("/", express.static('static'));
 
         router.get('/api/person/get', api.get_person);
         router.post('/api/person/create', api.create_person);
@@ -29,10 +32,9 @@ class App {
 
 
         router.get('/api/auth', api.auth);
-        router.get('/api/cases/', api.auth);
         router.post('/api/case/create', api.create_case);
         router.get('/api/cases/all', api.get_all_cases);
-
+        router.use("/", express.static('static'));
         this.express.use('/', router)
     }
 }

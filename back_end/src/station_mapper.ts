@@ -2,191 +2,258 @@ import * as station from "../../common/src/station";
 
 /// This module maps from a database row to an object representing the table.
 
-export function map_Person(row): station.Person { 
-    let out = new station.Person();
-    
-    out.PersonId = row['PersonId'];
-    out.LastName = row['LastName'];
-    out.FirstName = row['FirstName'];
-    out.DoB = row['DoB'];
-    out.SSN = row['SSN'];
+export function map_Person(row): station.Person {
+    if (row) {
 
-    return out;
+        let out = new station.Person();
+
+        out.PersonId = row[0];
+        out.LastName = row[1];
+        out.FirstName = row[2];
+        out.DoB = row[3];
+        out.SSN = row[4];
+
+        return out;
+
+    }
 }
 
-export function map_PhoneNumber(row): station.PhoneNumber { 
-    let out = new station.PhoneNumber();
+export function map_PhoneNumber(row): station.PhoneNumber {
+    if (row) {
 
-    out.PId = row['PId'];
-    out.PersonId = row['PersonId'];
-    out.CountryCode = row['CountryCode']; 
-    out.AreaCode = row['AreaCode']; 
-    out.ExchangeCode = row['ExchangeCode']; 
-    out.LineNumber = row['LineNumber']; 
-    out.Extension = row['Extension'];
+        let out = new station.PhoneNumber();
 
-    return out;
+        out.PId = row[0];
+        out.PersonId = row[1];
+        out.CountryCode = row[2];
+        out.AreaCode = row[3];
+        out.ExchangeCode = row[4];
+        out.LineNumber = row[5];
+        out.Extension = row[6];
+
+        return out;
+
+    }
 }
 
-export function map_Address(row): station.Address { 
-    let out = new station.Address();
+export function map_Address(row): station.Address {
+    if (row) {
 
-    out.AId = row['AId']; 
-    out.PersonId = row['PersonId'];
-    out.StreetName = row['StreetName']; 
-    out.BuildingNumber = row['BuildingNumber']; 
-    out.ZipCode = row['ZipCode']; 
-    out.ZipExtension = row['ZipExtension'];
+        let out = new station.Address();
 
-    return out;
+        out.AId = row[0];
+        out.PersonId = row[1];
+        out.StreetName = row[2];
+        out.BuildingNumber = row[3];
+        out.ZipCode = row[4];
+        out.ZipExtension = row[5];
+
+        return out;
+
+    }
 }
 
-export function map_Email(row): station.Email { 
-    let out = new station.Email();
+export function map_Email(row): station.Email {
+    if (row) {
 
-    out.EId = row['EId'];
-    out.PersonId = row['PersonId'];
-    out.EmailAddress = row['EmailAddress'];
+        let out = new station.Email();
 
-    return out;
+        out.EId = row[0];
+        out.PersonId = row[1];
+        out.EmailAddress = row[2];
+
+        return out;
+
+    }
 }
 
-export function map_Employee(row): station.Employee { 
-    let out = new station.Employee();
+export function map_Employee(row): station.Employee {
+    if (row) {
 
-    out.EmployeeId = row['EmployeeId']; 
-    out.PersonId = row['PersonId'];
-    out.Username = row['Username']; 
-    out.HashedPassword = row['HashedPassword']; 
-    out.JobTitle = row['JobTitle']; 
-    out.HireDate = row['HireDate']; 
-    out.FloorNumber = row['FloorNumber'];
-    out.RoomNumber = row['RoomNumber'];
+        let out = new station.Employee();
 
-    return out;
+        out.EmployeeId = row[0];
+        out.PersonId = row[1];
+        out.Username = row[2];
+        out.HashedPassword = row[3];
+        out.JobTitle = row[4];
+        out.HireDate = row[5];
+        out.FloorNumber = row[6];
+        out.RoomNumber = row[7];
+
+        return out;
+
+    }
 }
 
-export function map_Officer(row): station.Officer { 
-    let out = new station.Officer();
+export function map_Officer(row): station.Officer {
+    if (row) {
 
-    out.EmployeeId = row['EmployeeId'];
-    out.BadgeId = row['BadgeId'];
+        let out = new station.Officer();
 
-    return out;
+        out.EmployeeId = row[0];
+        out.BadgeId = row[1];
+
+        return out;
+
+    }
 }
 
-export function map_ForensicExpert(row): station.ForensicExpert { 
-    let out = new station.ForensicExpert();
+export function map_ForensicExpert(row): station.ForensicExpert {
+    if (row) {
 
-    out.EmployeeId = row['EmployeeId'];
-    out.ForensicExpertId = row['ForensicExpertId'];
+        let out = new station.ForensicExpert();
 
-    return out;
+        out.EmployeeId = row[0];
+        out.ForensicExpertId = row[1];
+
+        return out;
+
+    }
 }
 
-export function map_Visit(row): station.Visit { 
-    let out = new station.Visit();
+export function map_Visit(row): station.Visit {
+    if (row) {
 
-    out.VisitId = row['VisitId'];
-    out.PersonId = row['PersonId'];
-    out.DateofVisit = row['DateofVisit']; 
-    out.Reason = row['Reason'];
+        let out = new station.Visit();
 
-    return out;
+        out.VisitId = row[0];
+        out.PersonId = row[1];
+        out.DateofVisit = row[2];
+        out.Reason = row[3];
+
+        return out;
+
+    }
 }
 
-export function map_Arrest(row): station.Arrest { 
-    let out = new station.Arrest();
+export function map_Arrest(row): station.Arrest {
+    if (row) {
 
-    out.ArrestNumber = row['ArrestNumber'];
-    out.PersonId = row['PersonId'];
-    out.BadgeId = row['BadgeId'];
-    out.DateofArrest = row['DateofArrest']; 
-    out.ArrestReason = row['ArrestReason'];
+        let out = new station.Arrest();
 
-    return out;
+        out.ArrestNumber = row[0];
+        out.PersonId = row[1];
+        out.BadgeId = row[2];
+        out.DateofArrest = row[3];
+        out.ArrestReason = row[4];
+
+        return out;
+
+    }
 }
 
-export function map_Case(row): station.Case { 
-    let out = new station.Case();
-    out.CaseId = row['CaseId']; 
-    out.Title = row['Title'];
-    out.DateEntered = row['DateEntered']; 
-    out.Status = row['Status'];
+export function map_Case(row): station.Case {
+    if (row) {
 
-    return out;
+        let out = new station.Case();
+        out.CaseId = row[0];
+        out.Title = row[1];
+        out.DateEntered = row[2];
+        out.Status = row[3];
 
+        return out;
+
+
+    }
 }
 
-export function map_CaseVisit(row): station.CaseVisit { 
-    let out = new station.CaseVisit();
+export function map_CaseVisit(row): station.CaseVisit {
+    if (row) {
 
-    out.CaseId = row['CaseId'];
-    out.VisitId = row['VisitId'];
+        let out = new station.CaseVisit();
 
-    return out;
+        out.CaseId = row[0];
+        out.VisitId = row[1];
+
+        return out;
+
+    }
 }
 
-export function map_CaseArrest(row): station.CaseArrest { 
-    let out = new station.CaseArrest();
+export function map_CaseArrest(row): station.CaseArrest {
+    if (row) {
+        let out = new station.CaseArrest();
 
-    out.CaseID = row['CaseID'];
-    out.ArrestNumber = row['ArrestNumber'];
+        out.CaseID = row[0];
+        out.ArrestNumber = row[1];
 
-    return out;
+        return out;
+
+    }
 }
 
-export function map_CaseAssignment(row): station.CaseAssignment { 
-    let out = new station.CaseAssignment();
+export function map_CaseAssignment(row): station.CaseAssignment {
+    if (row) {
 
-    out.CaseId = row['CaseId'];
-    out.EmployeeId = row['EmployeeId'];
+        let out = new station.CaseAssignment();
 
-    return out;
+        out.CaseId = row[0];
+        out.EmployeeId = row[1];
+
+        return out;
+
+    }
 }
 
-export function map_CaseNote(row): station.CaseNote { 
-    let out = new station.CaseNote();
+export function map_CaseNote(row): station.CaseNote {
+    if (row) {
 
-    out.NoteId = row['NoteId'];
-    out.Note = row['Note'];
-    out.EmployeeId = row['EmployeeId'];
-    out.DateEntered = row['DateEntered'];
-    out.CaseId = row['CaseId'];
+        let out = new station.CaseNote();
 
-    return out;
+        out.NoteId = row[0];
+        out.Note = row[1];
+        out.EmployeeId = row[2];
+        out.DateEntered = row[3];
+        out.CaseId = row[4];
+
+        return out;
+
+    }
 }
 
-export function map_Evidence(row): station.Evidence { 
-    let out = new station.Evidence();
+export function map_Evidence(row): station.Evidence {
+    if (row) {
 
-    out.EvidenceId = row['EvidenceId'];
-    out.CaseId = row['CaseId'];
-    out.Date = row['Date']; 
-    out.Address = row['Address']; 
-    out.Description = row['Description']; 
-    out.Location = row['Location'];
+        let out = new station.Evidence();
 
-    return out;
+        out.EvidenceId = row[0];
+        out.CaseId = row[1];
+        out.Date = row[2];
+        out.Address = row[3];
+        out.Description = row[4];
+        out.Location = row[5];
+
+        return out;
+
+    }
 }
 
-export function map_ForensicTest(row): station.ForensicTest { 
-    let out = new station.ForensicTest();
+export function map_ForensicTest(row): station.ForensicTest {
+    if (row) {
 
-    out.TestId = row['TestId']; 
-    out.EvidenceId = row['EvidenceId'];
-    out.ResultDescription = row['ResultDescription']; 
-    out.Date = row['Date'];
-    out.TestName = row['TestName'];
+        let out = new station.ForensicTest();
 
-    return out;
+        out.TestId = row[0];
+        out.EvidenceId = row[1];
+        out.ResultDescription = row[2];
+        out.Date = row[3];
+        out.TestName = row[4];
+
+        return out;
+
+    }
 }
 
-export function map_ForensicTestForensicExpert(row): station.ForensicTestForensicExpert { 
-    let out = new station.ForensicTestForensicExpert();
+export function map_ForensicTestForensicExpert(row): station.ForensicTestForensicExpert {
+    if (row) {
 
-    out.TestId = row['TestId'];
-    out.ForensicExpertId = row['ForensicExpertId'];
+        let out = new station.ForensicTestForensicExpert();
 
-    return out;
+        out.TestId = row[0];
+        out.ForensicExpertId = row[1];
+
+        return out;
+
+    }
 }

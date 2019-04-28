@@ -3,12 +3,12 @@ import * as station from '../../common/src/station'
 import * as db from './db'
 
 async function map_many(table: string, filter_field: string, filter_value: any, hydrator: (any) => any): Promise<any[]> {
-    let result = await db.execute_query(`SELECT * FROM ${table} WHERE ${filter_field}=:{filter_field};`, [filter_value]);
+    let result = await db.execute_query(`SELECT * FROM ${table} WHERE ${filter_field}=:filter_value`, [filter_value]);
     return (result.rows as Array<any>).map(hydrator);
 }
 
 export async function get_person(PersonId: number): Promise<station.Person> {
-    let result = await db.execute_query(`SELECT * FROM Person WHERE PersonId=:PersonId;`, [PersonId]);
+    let result = await db.execute_query(`SELECT * FROM Person WHERE PersonId=:PersonId`, [PersonId]);
     let person = mapper.map_Person(result.rows[0]);
 
     person.employee = await get_employee(PersonId);
@@ -20,7 +20,7 @@ export async function get_person(PersonId: number): Promise<station.Person> {
 }
 
 export async function get_phones(PersonId: number): Promise<station.PhoneNumber[]> {
-    return await map_many("Phone", "PersonId", PersonId, mapper.map_PhoneNumber);
+    return await map_many("PhoneNumber", "PersonId", PersonId, mapper.map_PhoneNumber);
 }
 
 export async function get_emails(PersonId: number): Promise<station.Email[]> {
@@ -32,17 +32,21 @@ export async function get_addresses(PersonId: number): Promise<station.Address[]
 }
 
 export async function get_employee_by_username(userName: string): Promise<station.Person> {
-    let result = await db.execute_query(`SELECT * FROM Employee WHERE Username = :username;`, [userName]);
+    
+    let result = await db.execute_query(`SELECT * FROM Employee WHERE Username=:userName`, [userName]);
 
-    let employee = mapper.map_Employee(result.rows[0]);
+    if (result) {
+        let employee = mapper.map_Employee(result.rows[0]);
 
-    let person = get_person(employee.PersonId);
-
-    return person;
+        let person = await get_person(employee.PersonId);
+    
+        return person;
+    }
+    return null;
 }
 
 export async function get_employee(PersonId: number): Promise<station.Employee> {
-    let result = await db.execute_query(`SELECT * FROM Employee WHERE PersonId = :PersonId;`, [PersonId]);
+    let result = await db.execute_query(`SELECT * FROM Employee WHERE PersonId = :PersonId`, [PersonId]);
 
     let employee = mapper.map_Employee(result.rows[0]);
 
@@ -98,13 +102,13 @@ export async function get_forensic_expert(EmployeeId: number): Promise<station.F
 
 // Just a fast return of a list of all the cases with no sub-details.
 export async function get_case_stubs(): Promise<station.Case[]> {
-    let result = await db.execute_query(`SELECT * FROM Cases;`);
+    let result = await db.execute_query(`SELECT * FROM Cases`);
     return (result.rows as Array<any>).map(mapper.map_Case);
 }
 
 // Full grab of a case.
 export async function get_case(CaseId: number): Promise<station.Case> {
-    let result = await db.execute_query(`SELECT * FROM Cases WHERE CaseId=:CaseId;`, [CaseId]);
+    let result = await db.execute_query(`SELECT * FROM Cases WHERE CaseId=:CaseId`, [CaseId]);
 
     let case_info = mapper.map_Case(result.rows[0]);
 

@@ -7,31 +7,37 @@ import * as fs from 'fs';
 
 
 export async function get_connection(): Promise<oracle.IConnection> {
-    return oracle.getConnection({
+    return await oracle.getConnection({
         user          : process.env.DB_USER,
         password      : process.env.DB_USER,
         connectString : process.env.DB_CONNECTION_STRING
-    }).then(
-        (data) => {return data;},
-        (err) => {console.log("Failed to connect", err); return err;});
+    });
 }
 
 export async function execute_query(query: string, params?): Promise<oracle.IExecuteReturn> {
-    return get_connection().then(
-        async (connection) => {
-            let result;
-            if (params) {
-                result = connection.execute(query, params);
-            } else {
-                result = connection.execute(query);
-            }
-            
-            await result; // Make sure query has completed before we close the connection.
-            connection.close();
-            return result;    
-        },
-        (err) => {console.log("Error executing query", err)}
-    );
+    var connection = await get_connection().catch((err) => {console.trace("Error connecting to server.", err);});
+    let result;
+    console.log(`Running query...${query} with parameters ${params}\n`);
+
+    // let callback = (err, value) => {
+    //     if (err) {
+    //         console.trace(`Error running query...${query} with parameters ${params}\n${err}` )
+    //         result = value;
+    //     } else {
+    //         result = value;
+    //     }
+    // }
+
+    if (connection) {
+        if (params) {
+            result = await connection.execute(query, params);
+        } else {
+            result = await connection.execute(query);
+        }
+        // connection.close();
+    }
+
+    return result;    
 }
 
 export async function create_tables() {
