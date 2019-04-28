@@ -4,8 +4,8 @@
       <Header/>
 
     </div>
-    <router-link v-bind:to="'/'">Login</router-link>
-    <router-link v-bind:to="'/about'">About</router-link>
+    <router-link :to="'/'">Login</router-link>
+    <router-link :to="'/about'">About</router-link>
 
     <router-view></router-view>
   </div>
@@ -16,13 +16,13 @@
 import { Component, Vue } from 'vue-property-decorator'
 import Header from './components/Header.vue'
 
-
 @Component({
   components: {
     Header,
   },
   data() {
     return  {
+      session: {},
       listsOfData: [],
       index: 0
     }

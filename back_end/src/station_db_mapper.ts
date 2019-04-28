@@ -101,8 +101,8 @@ export async function create_employee(employee: station.Employee) {
     employee.FloorNumber,
     employee.RoomNumber]);
 
-    create_officer(employee.officer);
-    create_forensic_expert(employee.forensic_expert);
+    if (employee.officer) {create_officer(employee.officer);};
+    if (employee.forensic_expert) {create_forensic_expert(employee.forensic_expert);};
 }
 
 export async function create_officer(officer: station.Officer) {
@@ -134,7 +134,7 @@ export async function create_visit(visit: station.Visit) {
     :DateofVisit, 
     :Reason
     )
-    `[
+    `,[
         visit.VisitId,
         visit.PersonId,
         visit.DateofVisit, 

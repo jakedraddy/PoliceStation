@@ -4,7 +4,7 @@
             <li v-for="employee in employees"
             v-bind:key="employee.PersonId"
             v-bind:employee="employee">
-                {{ employee.PersonId }} {{ employee.FirstName }} {{ employee.LastName }} <OpenPersonButton id="{{ employee.PersonId }}"></OpenPersonButton>
+                {{ employee.PersonId }} {{ employee.FirstName }} {{ employee.LastName }} <OpenPersonButton :id="employee.PersonId"></OpenPersonButton>
             </li>
         </ul>
     </div>
@@ -14,6 +14,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Employee, Person } from '../../../common/src/station';
+import * as axios from 'axios';
 export default Vue.extend({
     data() {
         return {
@@ -21,13 +22,12 @@ export default Vue.extend({
         }
     },
     mounted: function() {
-        fetch('localhost/api/employee/all', {
-            method: 'get'
+        axios.default({
+            method: 'post',
+            url: '/api/employee/all'
         }).then((response) => {
-            return response.json()
-        }).then((jsonData) => {
-            this.employees = jsonData;
-        })
+            this.employees = response.data;
+        });
     }
 });
 </script>

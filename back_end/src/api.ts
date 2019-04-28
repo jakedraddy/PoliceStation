@@ -10,10 +10,11 @@ import * as crypto from 'crypto';
 
 export class AuthResult {
     result: Boolean
-    user: Person
+    user?: Person
 
     constructor(res: Boolean) {
         this.result = res;
+        this.user = undefined;
     }
 }
 

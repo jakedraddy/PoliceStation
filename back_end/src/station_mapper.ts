@@ -2,7 +2,7 @@ import * as station from "../../common/src/station";
 
 /// This module maps from a database row to an object representing the table.
 
-export function map_Person(row): station.Person {
+export function map_Person(row: any): station.Person {
     if (row) {
 
         let out = new station.Person();
@@ -16,9 +16,12 @@ export function map_Person(row): station.Person {
         return out;
 
     }
+    else {
+        return new station.Person();
+    }
 }
 
-export function map_PhoneNumber(row): station.PhoneNumber {
+export function map_PhoneNumber(row: any): station.PhoneNumber {
     if (row) {
 
         let out = new station.PhoneNumber();
@@ -34,9 +37,12 @@ export function map_PhoneNumber(row): station.PhoneNumber {
         return out;
 
     }
+    else {
+        return new station.PhoneNumber();
+    }
 }
 
-export function map_Address(row): station.Address {
+export function map_Address(row: any): station.Address {
     if (row) {
 
         let out = new station.Address();
@@ -51,9 +57,12 @@ export function map_Address(row): station.Address {
         return out;
 
     }
+    else {
+        return new station.Address();
+    }
 }
 
-export function map_Email(row): station.Email {
+export function map_Email(row: any): station.Email {
     if (row) {
 
         let out = new station.Email();
@@ -65,9 +74,12 @@ export function map_Email(row): station.Email {
         return out;
 
     }
+    else {
+        return new station.Email();
+    }
 }
 
-export function map_Employee(row): station.Employee {
+export function map_Employee(row: any): station.Employee {
     if (row) {
 
         let out = new station.Employee();
@@ -84,9 +96,12 @@ export function map_Employee(row): station.Employee {
         return out;
 
     }
+    else {
+        return new station.Employee();
+    }
 }
 
-export function map_Officer(row): station.Officer {
+export function map_Officer(row: any): station.Officer {
     if (row) {
 
         let out = new station.Officer();
@@ -97,9 +112,12 @@ export function map_Officer(row): station.Officer {
         return out;
 
     }
+    else {
+        return new station.Officer();
+    }
 }
 
-export function map_ForensicExpert(row): station.ForensicExpert {
+export function map_ForensicExpert(row: any): station.ForensicExpert {
     if (row) {
 
         let out = new station.ForensicExpert();
@@ -110,9 +128,12 @@ export function map_ForensicExpert(row): station.ForensicExpert {
         return out;
 
     }
+    else {
+        return new station.ForensicExpert();
+    }
 }
 
-export function map_Visit(row): station.Visit {
+export function map_Visit(row: any): station.Visit {
     if (row) {
 
         let out = new station.Visit();
@@ -125,9 +146,12 @@ export function map_Visit(row): station.Visit {
         return out;
 
     }
+    else {
+        return new station.Visit();
+    }
 }
 
-export function map_Arrest(row): station.Arrest {
+export function map_Arrest(row: any): station.Arrest {
     if (row) {
 
         let out = new station.Arrest();
@@ -141,9 +165,12 @@ export function map_Arrest(row): station.Arrest {
         return out;
 
     }
+    else {
+        return new station.Arrest();
+    }
 }
 
-export function map_Case(row): station.Case {
+export function map_Case(row: any): station.Case {
     if (row) {
 
         let out = new station.Case();
@@ -156,9 +183,12 @@ export function map_Case(row): station.Case {
 
 
     }
+    else {
+        return new station.Case();
+    }
 }
 
-export function map_CaseVisit(row): station.CaseVisit {
+export function map_CaseVisit(row: any): station.CaseVisit {
     if (row) {
 
         let out = new station.CaseVisit();
@@ -169,9 +199,12 @@ export function map_CaseVisit(row): station.CaseVisit {
         return out;
 
     }
+    else {
+        return new station.CaseVisit();
+    }
 }
 
-export function map_CaseArrest(row): station.CaseArrest {
+export function map_CaseArrest(row: any): station.CaseArrest {
     if (row) {
         let out = new station.CaseArrest();
 
@@ -181,9 +214,12 @@ export function map_CaseArrest(row): station.CaseArrest {
         return out;
 
     }
+    else {
+        return new station.CaseArrest();
+    }
 }
 
-export function map_CaseAssignment(row): station.CaseAssignment {
+export function map_CaseAssignment(row: any): station.CaseAssignment {
     if (row) {
 
         let out = new station.CaseAssignment();
@@ -194,9 +230,12 @@ export function map_CaseAssignment(row): station.CaseAssignment {
         return out;
 
     }
+    else {
+        return new station.CaseAssignment();
+    }
 }
 
-export function map_CaseNote(row): station.CaseNote {
+export function map_CaseNote(row: any): station.CaseNote {
     if (row) {
 
         let out = new station.CaseNote();
@@ -210,9 +249,12 @@ export function map_CaseNote(row): station.CaseNote {
         return out;
 
     }
+    else {
+        return new station.CaseNote();
+    }
 }
 
-export function map_Evidence(row): station.Evidence {
+export function map_Evidence(row: any): station.Evidence {
     if (row) {
 
         let out = new station.Evidence();
@@ -227,9 +269,12 @@ export function map_Evidence(row): station.Evidence {
         return out;
 
     }
+    else {
+        return new station.Evidence();
+    }
 }
 
-export function map_ForensicTest(row): station.ForensicTest {
+export function map_ForensicTest(row: any): station.ForensicTest {
     if (row) {
 
         let out = new station.ForensicTest();
@@ -243,9 +288,12 @@ export function map_ForensicTest(row): station.ForensicTest {
         return out;
 
     }
+    else {
+        return new station.ForensicTest();
+    }
 }
 
-export function map_ForensicTestForensicExpert(row): station.ForensicTestForensicExpert {
+export function map_ForensicTestForensicExpert(row: any): station.ForensicTestForensicExpert {
     if (row) {
 
         let out = new station.ForensicTestForensicExpert();
@@ -255,5 +303,8 @@ export function map_ForensicTestForensicExpert(row): station.ForensicTestForensi
 
         return out;
 
+    }
+    else {
+        return new station.ForensicTestForensicExpert();
     }
 }

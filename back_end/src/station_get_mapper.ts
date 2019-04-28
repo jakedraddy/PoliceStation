@@ -2,21 +2,29 @@ import * as mapper from './station_mapper';
 import * as station from '../../common/src/station'
 import * as db from './db'
 
-async function map_many(table: string, filter_field: string, filter_value: any, hydrator: (any) => any): Promise<any[]> {
+async function map_many<T>(table: string, filter_field: string, filter_value: any, hydrator: (row: T) => T): Promise<T[]> {
     let result = await db.execute_query(`SELECT * FROM ${table} WHERE ${filter_field}=:filter_value`, [filter_value]);
-    return (result.rows as Array<any>).map(hydrator);
+
+    if (result && result.rows && result.rows.length) {
+        return (result.rows as Array<any>).map(hydrator) as T[];
+    }
+
+    return [];
 }
 
-export async function get_person(PersonId: number): Promise<station.Person> {
+export async function get_person(PersonId: number): Promise<station.Person | undefined> {
     let result = await db.execute_query(`SELECT * FROM Person WHERE PersonId=:PersonId`, [PersonId]);
-    let person = mapper.map_Person(result.rows[0]);
 
-    person.employee = await get_employee(PersonId);
-    person.emails = await get_emails(PersonId);
-    person.addresses = await get_addresses(PersonId);
-    person.phones = await get_phones(PersonId);
-    
-    return person;    
+    if (result && result.rows && result.rows.length) {
+        let person = mapper.map_Person(result.rows[0]);
+
+        person.employee = await get_employee(PersonId);
+        person.emails = await get_emails(PersonId);
+        person.addresses = await get_addresses(PersonId);
+        person.phones = await get_phones(PersonId);
+        
+        return person; 
+    }
 }
 
 export async function get_phones(PersonId: number): Promise<station.PhoneNumber[]> {
@@ -31,55 +39,75 @@ export async function get_addresses(PersonId: number): Promise<station.Address[]
     return await map_many("Address", "PersonId", PersonId, mapper.map_Address);
 }
 
-export async function get_employee_by_username(userName: string): Promise<station.Person> {
+export async function get_employee_by_username(userName: string): Promise<station.Person | undefined> {
     
     let result = await db.execute_query(`SELECT * FROM Employee WHERE Username=:userName`, [userName]);
 
-    if (result) {
+    if (result && result.rows && result.rows.length) {
         let employee = mapper.map_Employee(result.rows[0]);
 
         let person = await get_person(employee.PersonId);
     
         return person;
     }
-    return null;
+
+    return undefined;
 }
 
-export async function get_employee(PersonId: number): Promise<station.Employee> {
+export async function get_employee(PersonId: number): Promise<station.Employee | undefined> {
     let result = await db.execute_query(`SELECT * FROM Employee WHERE PersonId = :PersonId`, [PersonId]);
+    if (result && result.rows && result.rows.length) {
 
-    let employee = mapper.map_Employee(result.rows[0]);
+        let employee = mapper.map_Employee(result.rows[0]);
 
-    employee.officer = await get_officer(employee.EmployeeId);
-    employee.forensic_expert = await get_forensic_expert(employee.EmployeeId);
+        employee.officer = await get_officer(employee.EmployeeId);
+        employee.forensic_expert = await get_forensic_expert(employee.EmployeeId);
+    
+        return employee;
+    }
 
-    return employee;
+    return undefined;
 }
 
-async function get_person_from_employee(empl: station.Employee): Promise<station.Person> {
+async function get_person_from_employee(empl: station.Employee): Promise<station.Person | undefined> {
     return await get_person(empl.PersonId);
 }
 
 export async function get_employees(): Promise<station.Person[]> {
     let result = await db.execute_query(`SELECT * FROM Employee`);
+    if (result && result.rows && result.rows.length) {
 
-    let out = [];
-    result.rows.forEach(async (el) => {
-        out.push(await get_person_from_employee(el));
-    });
-    return out;
+        let out: station.Person[] = [];
+        result.rows.forEach(async (el) => {
+            let match = await get_person_from_employee(el);
+            if (match) {out.push();}
+        });
+        return out;
+    }
+
+    return [];
 }
 
-export async function get_officer(EmployeeId: number): Promise<station.Officer> {
+export async function get_officer(EmployeeId: number): Promise<station.Officer | undefined> {
     let result = await db.execute_query(`SELECT * FROM Officer WHERE EmployeeId=:EmployeeId`, [EmployeeId]);
-    let officer = mapper.map_Officer(result.rows[0]);
-    return officer;
+
+    if (result && result.rows && result.rows.length) {
+        let officer = mapper.map_Officer(result.rows[0]);
+        return officer;
+    }
+
+    return undefined;
 }
 
-export async function get_forensic_expert(EmployeeId: number): Promise<station.ForensicExpert> {
+export async function get_forensic_expert(EmployeeId: number): Promise<station.ForensicExpert | undefined> {
     let result = await db.execute_query(`SELECT * FROM ForensicExpert WHERE EmployeeId=:EmployeeId`, [EmployeeId]);
-    let officer = mapper.map_ForensicExpert(result.rows[0]);
-    return officer;
+
+    if (result && result.rows && result.rows.length) {
+        let officer = mapper.map_ForensicExpert(result.rows[0]);
+        return officer;
+    }
+
+    return undefined;
 }
 
 // export class Visit {
@@ -103,23 +131,32 @@ export async function get_forensic_expert(EmployeeId: number): Promise<station.F
 // Just a fast return of a list of all the cases with no sub-details.
 export async function get_case_stubs(): Promise<station.Case[]> {
     let result = await db.execute_query(`SELECT * FROM Cases`);
-    return (result.rows as Array<any>).map(mapper.map_Case);
+
+    if (result && result.rows && result.rows.length) {
+        return (result.rows as Array<any>).map(mapper.map_Case);
+    }
+
+    return [];
 }
 
 // Full grab of a case.
-export async function get_case(CaseId: number): Promise<station.Case> {
+export async function get_case(CaseId: number): Promise<station.Case | undefined> {
     let result = await db.execute_query(`SELECT * FROM Cases WHERE CaseId=:CaseId`, [CaseId]);
+    if (result && result.rows && result.rows.length) {
 
-    let case_info = mapper.map_Case(result.rows[0]);
+        let case_info = mapper.map_Case(result.rows[0]);
 
-    case_info.arrests = await get_case_arrests(CaseId);
-    case_info.assignments = await get_case_assignments(CaseId);
-    case_info.evidence = await get_case_evidence(CaseId);
-    case_info.notes = await get_case_notes(CaseId);
-    case_info.tests = await get_case_tests(CaseId);
-    case_info.visits = await get_case_visits(CaseId);
+        case_info.arrests = await get_case_arrests(CaseId);
+        case_info.assignments = await get_case_assignments(CaseId);
+        case_info.evidence = await get_case_evidence(CaseId);
+        case_info.notes = await get_case_notes(CaseId);
+        case_info.tests = await get_case_tests(CaseId);
+        case_info.visits = await get_case_visits(CaseId);
 
-    return case_info;
+        return case_info;
+    }
+
+    return undefined;
 }
 
 export async function get_case_visits(CaseId: number): Promise<station.CaseVisit[]> {

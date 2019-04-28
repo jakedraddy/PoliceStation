@@ -1,5 +1,5 @@
 <template>
-    <button v-on:click="$emit('open_person', {{id}})"></button>
+    <button @click="open_person">Open</button>
 </template>
 
 
@@ -9,6 +9,11 @@ export default Vue.extend({
     data() {
         return {
             id: 0
+        }
+    },
+    methods: {
+        open_person() {
+            this.$router.replace("ViewPerson");
         }
     }
 })

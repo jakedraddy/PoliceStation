@@ -3,11 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service --inspect=127.0.0.1:9227 -- serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "bootstrap": "^4.3.1",
     "bootstrap-vue": "^2.0.0-rc.19",
     "core-js": "^2.6.5",
@@ -25,6 +26,8 @@
     "@vue/eslint-config-typescript": "^4.0.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.16.0",
+    "eslint-config-defaults": "^9.0.0",
+    "eslint-plugin-react": "^7.12.4",
     "eslint-plugin-vue": "^5.0.0",
     "lint-staged": "^8.1.5",
     "typescript": "^3.4.3",

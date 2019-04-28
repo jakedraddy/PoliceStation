@@ -8,7 +8,20 @@ export class Person {
     addresses: Address[];
     emails: Email[];
     phones: PhoneNumber[];
-    employee: Employee
+    employee?: Employee
+
+    constructor () {
+        this.PersonId = 0;
+        this.LastName = '';
+        this.FirstName = '';
+        this.DoB = new Date();
+        this.SSN = '';
+    
+        this.addresses = [];
+        this.emails = [];
+        this.phones = [];
+        this.employee = new Employee();
+    }
 }
 
 export class PhoneNumber {
@@ -19,6 +32,16 @@ export class PhoneNumber {
     ExchangeCode: string; 
     LineNumber: string; 
     Extension: string;
+
+    constructor () {
+        this.PId = 0;
+        this.PersonId = 0;
+        this.CountryCode = ''; 
+        this.AreaCode = ''; 
+        this.ExchangeCode = ''; 
+        this.LineNumber = ''; 
+        this.Extension = '';
+    }
 }
 
 export class Address {
@@ -29,6 +52,14 @@ export class Address {
     ZipCode: string; 
     ZipExtension: string;
 
+    constructor () {
+        this.AId = 0; 
+        this.PersonId = 0;
+        this.StreetName = ''; 
+        this.BuildingNumber = ''; 
+        this.ZipCode = ''; 
+        this.ZipExtension = '';
+    }
 }
 
 export class Email {
@@ -36,6 +67,11 @@ export class Email {
     PersonId: number;
     EmailAddress: string;
 
+    constructor () {
+        this.EId = 0;
+        this.PersonId = 0;
+        this.EmailAddress = '';
+    }
 }
 
 export class Employee {
@@ -48,20 +84,42 @@ export class Employee {
     FloorNumber: number;
     RoomNumber: string;
 
-    officer: Officer;
-    forensic_expert: ForensicExpert;
+    officer?: Officer;
+    forensic_expert?: ForensicExpert;
 
+    constructor () {
+        this.EmployeeId = 0; 
+        this.PersonId = 0;
+        this.Username = ''; 
+        this.HashedPassword = ''; 
+        this.JobTitle = ''; 
+        this.HireDate = new Date(); 
+        this.FloorNumber = 0;
+        this.RoomNumber = '';
+    
+        this.officer = undefined;
+        this.forensic_expert = undefined;
+    }
 }
 
 export class Officer {
     EmployeeId: number;        
     BadgeId: number;
+    
+    constructor () {
+        this.EmployeeId = 0;        
+        this.BadgeId = 0;
+    }
 }
 
 export class ForensicExpert {
     EmployeeId: number;
     ForensicExpertId: number;
 
+    constructor () {
+        this.EmployeeId = 0;
+        this.ForensicExpertId = 0;
+    }
 }
 
 export class Visit {
@@ -70,7 +128,16 @@ export class Visit {
     DateofVisit: Date; 
     Reason: string;
 
-    arrest: Arrest;
+    arrest?: Arrest;
+    
+    constructor () {
+        this.VisitId = 0;
+        this.PersonId = 0;
+        this.DateofVisit = new Date(); 
+        this.Reason = '';
+    
+        this.arrest = undefined;
+    }
 }
 
 export class Arrest {
@@ -79,7 +146,16 @@ export class Arrest {
     BadgeId: number;
     DateofArrest: Date; 
     ArrestReason: string;
+    
+    constructor () {
+        this.ArrestNumber = 0;
+        this.PersonId = 0;
+        this.BadgeId = 0;
+        this.DateofArrest = new Date(); 
+        this.ArrestReason = '';
+    }
 }
+
 
 export class Case {
     CaseId: number; 
@@ -93,23 +169,50 @@ export class Case {
     assignments: CaseAssignment[];
     evidence: Evidence[];
     tests: ForensicTest[];
+    
+    constructor () {
+        this.CaseId = 0; 
+        this.DateEntered = new Date(); 
+        this.Status = '';
+        this.Title = '';
+    
+        this.visits = [];
+        this.arrests = [];
+        this.notes = [];
+        this.assignments = [];
+        this.evidence = [];
+        this.tests = [];
+    }
 }
 
 export class CaseVisit {
     CaseId: number;
     VisitId: number;
 
+    constructor () {
+        this.CaseId = 0;
+        this.VisitId = 0;
+    }
 }
 
 export class CaseArrest {
     CaseID: number;
     ArrestNumber: number;
+    
+    constructor () {
+        this.CaseID = 0;
+        this.ArrestNumber = 0;
+    }
 }
 
 export class CaseAssignment {
     CaseId: number;
     EmployeeId: number;
 
+    constructor () {
+        this.CaseId = 0;
+        this.EmployeeId = 0;
+    }
 }
 
 export class CaseNote {
@@ -118,6 +221,15 @@ export class CaseNote {
     EmployeeId: number;
     DateEntered: Date;
     CaseId: number;
+    
+    constructor () {
+        this.NoteId = 0;
+        this.Note = '';
+        this.EmployeeId = 0;
+        this.DateEntered = new Date();
+        this.CaseId = 0;
+        
+    }
 }
 
 export class Evidence {
@@ -127,6 +239,15 @@ export class Evidence {
     Address: string; 
     Description: string; 
     Location: string;
+    
+    constructor () {
+        this.EvidenceId = 0;
+        this.CaseId = 0;
+        this.Date = new Date(); 
+        this.Address = ''; 
+        this.Description = ''; 
+        this.Location = '';
+    }
 }
 
 export class ForensicTest {
@@ -136,9 +257,23 @@ export class ForensicTest {
     Date: Date;
     TestName: string;
     forensic_experts: ForensicTestForensicExpert[];
+    
+    constructor () {
+        this.TestId = 0; 
+        this.EvidenceId = 0;
+        this.ResultDescription = ''; 
+        this.Date = new Date();
+        this.TestName = '';
+        this.forensic_experts = [];
+    }
 }
 
 export class ForensicTestForensicExpert {
     TestId: number;
     ForensicExpertId: number;
+    
+    constructor () {
+        this.TestId = 0;
+        this.ForensicExpertId = 0;
+    }
 }

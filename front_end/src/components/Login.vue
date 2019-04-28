@@ -2,32 +2,51 @@
     <div>
         <b-form-input v-model="username" placeholder="Username"></b-form-input>
         <b-form-input v-model="password" placeholder="Password"></b-form-input>
-        <div class="mt-2">Value: {{ password }}</div>
+        <button type="button" @click="login">Login</button>
+        <span v-if="error != ''" v-bind="error" class="error">{{ error }}</span>
     </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from 'vue';
+import * as axios from 'axios';
+import { AuthResult } from '../../../back_end/src/api';
+import * as crypto from 'crypto'
 export default Vue.extend({
     data() {
         return {
             text: '',
             username: "",
             password: "",
+            error: "",
         }
     },
 
     methods: {
-        save() {
-            fetch('localhost/api/auth', {
-                method: 'get'
-            }).then((response) => {
-                return response.json()
-            }).then((jsonData) => {
-                this.employees = jsonData;
+        login() {
+            axios.default({
+                method: 'get',
+                url: '/api/auth',
+                params: {
+                    username: this.username,
+                    password: crypto.createHash('sha256').update(this.password).digest("hex")
+            }}).then((api_response) => {
+                let response: AuthResult = api_response.data;
+
+                if (response.result) {
+                    this.error = "";
+                    this.$root.user = response.user;
+                    this.$router.replace("main");
+                } else {
+                    this.error = "Invalid username or password.";
+                };
             })
-            
         }
     }
 })
 </script>
+
+<style>
+
+</style>
+

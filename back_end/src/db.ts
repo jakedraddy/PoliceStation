@@ -8,13 +8,13 @@ import * as fs from 'fs';
 
 export async function get_connection(): Promise<oracle.IConnection> {
     return await oracle.getConnection({
-        user          : process.env.DB_USER,
-        password      : process.env.DB_USER,
-        connectString : process.env.DB_CONNECTION_STRING
+        user          : (process.env.DB_USER) ? process.env.DB_USER : "",
+        password      : (process.env.DB_USER) ? process.env.DB_USER : "",
+        connectString : (process.env.DB_CONNECTION_STRING) ? process.env.DB_CONNECTION_STRING : ""
     });
 }
 
-export async function execute_query(query: string, params?): Promise<oracle.IExecuteReturn> {
+export async function execute_query(query: string, params?: any): Promise<oracle.IExecuteReturn | undefined> {
     var connection = await get_connection().catch((err) => {console.trace("Error connecting to server.", err);});
     let result;
     console.log(`Running query...${query} with parameters ${params}\n`);
@@ -34,10 +34,14 @@ export async function execute_query(query: string, params?): Promise<oracle.IExe
         } else {
             result = await connection.execute(query);
         }
-        // connection.close();
-    }
 
-    return result;    
+        if (result) {
+            return result;
+        }
+    // connection.close();
+    }
+    
+    return undefined;
 }
 
 export async function create_tables() {
