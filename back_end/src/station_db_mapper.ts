@@ -21,14 +21,13 @@ export async function create_person(person: station.Person) {
             person.DoB,
             person.SSN]
     );
-    
-    person.addresses.forEach(address => {
-        create_address(address);
-    });
+    for (const address of person.addresses) {
+        await create_address(address);
+    }
 
-    person.emails.forEach(email => {
-        create_email(email);
-    })
+    for (const email of person.emails) {
+        await create_email(email);
+    }
 }
 
 export async function create_address(address: station.Address) {
@@ -118,8 +117,6 @@ export async function create_forensic_expert(expert: station.ForensicExpert) {
         expert.ForensicExpertId]);
 }
 
-
-
 export async function create_visit(visit: station.Visit) {
     await db.execute_query(`INSERT INTO Visit 
     (VisitId,
@@ -184,32 +181,30 @@ export async function create_case(case_info: station.Case) {
         case_info.DateEntered, 
         case_info.Status]);
 
-    case_info.visits.forEach(function(visit) {
-        create_case_visit(visit);
-    });
+    for (const visit of case_info.visits) {
+        await create_case_visit(visit);
+    }
 
+    for (const arrest of case_info.arrests) {
+        await create_case_arrest(arrest);
+    }
 
-    case_info.arrests.forEach(function(arrest) {
-        create_case_arrest(arrest);
-    });
+    for (const assignment of case_info.assignments) {
+        await create_case_assignment(assignment);
+    }
 
-    case_info.assignments.forEach(function (assignment) {
-        create_case_assignment(assignment);
-    });
+    for (const note of case_info.notes) {
+        await create_case_note(note);
+    }
 
-    case_info.notes.forEach((note) => {
-        create_case_note(note);
-    });
+    for (const evidence of case_info.evidence) {
+        await create_evidence(evidence);
+    }
 
-    case_info.evidence.forEach((evidence) => {
-        create_evidence(evidence);
-    });
-
-    case_info.tests.forEach((test) => {
-        create_test(test);
-    });
+    for (const test of case_info.tests) {
+        await create_test(test);
+    }
 }
-
 
 export async function create_case_visit(case_visit: station.CaseVisit) {
     await db.execute_query(`
@@ -327,9 +322,9 @@ export async function create_test(test: station.ForensicTest) {
         test.TestName
     ]);
 
-    test.forensic_experts.forEach((expert) => {
-        create_test_expert(expert);
-    });
+    for (const expert of test.forensic_experts) {
+        await create_test_expert(expert);
+    }
 }
 
 

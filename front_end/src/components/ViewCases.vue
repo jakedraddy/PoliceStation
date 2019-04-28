@@ -4,7 +4,7 @@
 
 <script lang="ts">
     import Vue from 'vue'
-    import Case from '../../../common/src/station'
+    import { Case } from '../../../common/src/station'
     import * as axios from 'axios';
 export default Vue.extend({
     data() {

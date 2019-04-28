@@ -78,10 +78,13 @@ export async function get_employees(): Promise<station.Person[]> {
     if (result && result.rows && result.rows.length) {
 
         let out: station.Person[] = [];
-        result.rows.forEach(async (el) => {
-            let match = await get_person_from_employee(el);
-            if (match) {out.push();}
-        });
+
+        for (const el of result.rows) {
+            let employee = mapper.map_Employee(el);
+            let match = await get_person_from_employee(employee);
+            if (match) {out.push(match);}
+        }
+
         return out;
     }
 
@@ -183,9 +186,9 @@ export async function get_case_tests(CaseId: number): Promise<station.ForensicTe
     var tests = await map_many("ForensicTest", "CaseId", CaseId, mapper.map_ForensicTest);
 
     // Populate the experts associated with it.
-    tests.forEach(async (t: station.ForensicTest) => {
+    for (const t of tests) {
         t.forensic_experts = await get_test_experts(t.TestId);
-    });
+    }
 
     return tests;
 }
