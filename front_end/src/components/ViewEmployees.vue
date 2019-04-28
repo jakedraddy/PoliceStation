@@ -23,7 +23,7 @@ export default Vue.extend({
     },
     mounted: function() {
         axios.default({
-            method: 'post',
+            method: 'get',
             url: '/api/employee/all'
         }).then((response) => {
             this.employees = response.data;

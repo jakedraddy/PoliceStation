@@ -21,15 +21,13 @@ class App {
             secret: 'shhhh, very secret'
         }));
         router.use("*", async (req: express.Request, res: express.Response, next?: express.NextFunction) => {
-            console.log(`Incoming request: ${req.method} ${req.url}`);
+            console.log(`Incoming request: ${req.method} ${req.originalUrl}`);
             if (next) {next()};
         });
-
 
         router.get('/api/person/get', api.get_person);
         router.post('/api/person/create', api.create_person);
         router.get('/api/employee/all', api.get_employees);
-
 
         router.get('/api/auth', api.auth);
         router.post('/api/case/create', api.create_case);
