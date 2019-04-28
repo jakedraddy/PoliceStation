@@ -8,10 +8,11 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import * as axios from 'axios';
-import { AuthResult } from '../../../common/src/api_model';
-import * as crypto from 'crypto-js';
+import Vue from 'vue'
+import * as axios from 'axios'
+import { AuthResult } from '../../../common/src/api_model'
+
+import * as crypto from 'crypto-js'
 export default Vue.extend({
     data() {
         return {
@@ -49,4 +50,3 @@ export default Vue.extend({
 <style>
 
 </style>
-
