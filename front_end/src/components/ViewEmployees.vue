@@ -14,8 +14,13 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Employee, Person } from '../../../common/src/station';
+import OpenPersonButton from './OpenPersonButton.vue';
+
 import * as axios from 'axios';
 export default Vue.extend({
+    components: {
+        OpenPersonButton
+    },
     data() {
         return {
             employees: [] as Person[]
