@@ -40,7 +40,12 @@ export default Vue.extend({
             save_message: ""
         }
     },
-    props: ["person_id"],
+    props: {
+        person_id: {
+            type: Number,
+            required: true
+        }
+    },
     methods: {
         save() {
             axios.default({
