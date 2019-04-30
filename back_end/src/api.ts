@@ -1,5 +1,5 @@
 import * as e from 'express';
-import * as mapper from './station_db_mapper';
+import * as mapper from './station_create_mapper';
 import * as getter from './station_get_mapper';
 import * as codes from 'http-status-codes';
 
