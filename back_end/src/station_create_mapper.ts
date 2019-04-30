@@ -67,10 +67,6 @@ export async function create_email(email: station.Email) {
             email.EmailAddress]);
 }
 
-export async function delete_email(email: station.Email) {
-    await db.execute_query(`DELETE FROM Email WHERE EId=:EId`, [email.EId]);
-}
-
 export async function create_employee(employee: station.Employee) {
     await db.execute_query(`INSERT INTO Employee
     EmployeeId, 
