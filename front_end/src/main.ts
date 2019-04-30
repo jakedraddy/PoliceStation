@@ -12,14 +12,15 @@ import About from "./components/About.vue";
 import MainPage from "./components/MainPage.vue";
 import ViewEmployees from "./components/ViewEmployees.vue";
 import ViewPerson from "./components/ViewPerson.vue";
+import ViewCases from "./components/ViewCases.vue";
 
 const routes: any[] = [
   { path: "/", component: Login },
   { path: "/about", component: About },
   { path: "/main", component: MainPage },
   { path: "/employees", component: ViewEmployees },
-  { path: "/employee/:id", component: ViewPerson }
-  // { path: "/", component: Login },
+  { path: "/employee/:id", component: ViewPerson },
+  { path: "/cases", component: ViewCases },
   // { path: "/", component: Login },
 ];
 

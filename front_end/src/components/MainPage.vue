@@ -1,8 +1,10 @@
 <template>
     <div>
-        <h1>Welcome {{ $root.user.FirstName }}</h1>
-        <b-link :to="'/employees'">Employees</b-link>
-        <b-link :to="'/about'">About</b-link>
+        <p> Welcome {{ $root.user.FirstName }}</p>
+        <b-list-group>
+            <b-list-group-item><b-link :to="'/employees'">Employees</b-link></b-col></b-list-group-item>
+            <b-list-group-item><b-link :to="'/cases'">Cases</b-link></b-list-group-item>
+        </b-list-group>
     </div>
 </template>
 
