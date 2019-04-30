@@ -1,7 +1,7 @@
 <template>
     <div>
-        
         <h3 v-if="!employees">Loading...</h3>
+        <!-- >
         <ul id="v-for-object" class="employee">
             <li v-for="employee in employees"
             v-bind:key="employee.PersonId"
@@ -9,6 +9,12 @@
                 {{ employee.PersonId }} {{ employee.FirstName }} {{ employee.LastName }} <OpenPersonButton :id="employee.PersonId"></OpenPersonButton>
             </li>
         </ul>
+        < -->
+        <b-table striped hover small :items="employees" :fields="showEmployeesInfo">
+            <template slot="ViewInformation">
+                <b-button @click="open_person">Open</b-button>
+            </template>
+        </b-table>
     </div>
 </template>
 
@@ -23,8 +29,14 @@ export default Vue.extend({
     components: {
         OpenPersonButton
     },
+    methods: {
+        open_person() {
+            this.$router.replace("ViewPerson");
+        }
+    },
     data() {
         return {
+            showEmployeesInfo: ['FirstName', 'LastName', 'ViewInformation'],
             employees: [] as Person[]
         }
     },
@@ -36,6 +48,7 @@ export default Vue.extend({
             this.employees = response.data;
         });
     }
+    
 });
 </script>
 
