@@ -8,6 +8,12 @@
                 {{ Case.CaseId }} {{ Case.DateEntered }} {{ Case.Status }} {{ Case.Title }} <button @click="open_case(Case.CaseId)">Open</button>
             </li>
         </ul>
+
+        <b-table striped hover small :items="cases" :fields="showCaseInfo">
+            <template slot="ViewInformation">
+                <b-button @click="open_case(Case.CaseId)">Open</b-button>
+            </template>
+        </b-table>
     </div>
 </template>
 
@@ -18,12 +24,13 @@
 export default Vue.extend({
     data() {
         return {
+            showCaseInfo: ['CaseId', 'DateEntered', 'Status', 'Title', 'ViewInformation'],
             cases: [] as Case[]
         }
     },
     mounted: function() {
         axios.default({
-            method: 'post',
+            method: 'get_all_cases',
             url: '/api/cases/all'
         }).then((response) => {
             this.employees = response.data;

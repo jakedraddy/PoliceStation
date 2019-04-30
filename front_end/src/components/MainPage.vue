@@ -25,7 +25,7 @@
             </b-list-group>
             <b-list-group horizontal>
                 <b-list-group-item class="w-25">Cases</b-list-group-item>
-                <b-list-group-item class="w-25"><b-button @click="ViewEmp">List of Cases</b-button></b-list-group-item>
+                <b-list-group-item class="w-25"><b-button @click="ViewCase">List of Cases</b-button></b-list-group-item>
                 <b-list-group-item class="w-25"><b-button @click="CreateEmp">New Case</b-button></b-list-group-item>
             </b-list-group>
             <b-list-group horizontal>
@@ -52,10 +52,10 @@ export default Vue.extend({
             this.$router.replace("employees");
         },
         CreateEmp: function () {
-            this.$router.replace("");
+            this.$router.replace("main/person/CreatePerson");
         },
         ViewCase: function () {
-            this.$router.replace("");
+            this.$router.replace("cases");
         },
         CreateCase: function () {
             this.$router.replace("");
