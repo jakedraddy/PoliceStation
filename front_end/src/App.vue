@@ -5,6 +5,7 @@
         <b-nav-item disabled><b>Police Station Database</b></b-nav-item>
         <b-nav-item><b-link :to="'/'">Login</b-link></b-nav-item>
         <b-nav-item><b-link :to="'/about'">About</b-link></b-nav-item>
+        <b-nav-item><b-link :to="'/tempCreatePerson'">CreatePerson</b-link></b-nav-item>
       </b-nav>
     </div>
     <router-view></router-view>

@@ -14,6 +14,8 @@ import ViewEmployees from "./components/ViewEmployees.vue";
 import ViewPerson from "./components/ViewPerson.vue";
 import ViewCases from "./components/ViewCases.vue";
 
+import CreatePerson from "./components/CreatePerson.vue";
+
 const routes: any[] = [
   { path: "/", component: Login },
   { path: "/about", component: About },
@@ -21,6 +23,9 @@ const routes: any[] = [
   { path: "/employees", component: ViewEmployees },
   { path: "/employee/:id", component: ViewPerson },
   { path: "/cases", component: ViewCases },
+  { path: "/tempCreatePerson", component: CreatePerson },
+  // { path: "/", component: Login },
+  // { path: "/", component: Login },
   // { path: "/", component: Login },
 ];
 
