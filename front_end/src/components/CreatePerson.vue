@@ -1,5 +1,5 @@
 <template>
-    <b-form @submit="onSubmit">
+    <b-form @submit="save">
         <b-form-group id="inputFirstName" label="First Name">
             <b-form-input id="inputfName" v-model="person.FirstName" placeholder="first name"></b-form-input>
         </b-form-group>
