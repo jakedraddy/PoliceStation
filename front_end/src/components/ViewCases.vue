@@ -1,5 +1,14 @@
 <template>
-    
+    <div>
+        <h3 v-if="!cases.length">Loading...</h3>
+        <ul id="v-for-object" class="cases">
+            <li v-for="Case in cases"
+                :key="Case.CaseId"
+                :Case="Case">
+                {{ Case.CaseId }} {{ Case.DateEntered }} {{ Case.Status }} {{ Case.Title }} <button @click="open_case(Case.CaseId)">Open</button>
+            </li>
+        </ul>
+    </div>
 </template>
 
 <script lang="ts">
@@ -19,6 +28,11 @@ export default Vue.extend({
         }).then((response) => {
             this.employees = response.data;
         });
+    },
+    methods: {
+        open_case: function (CaseId: number) {
+            this.$router.replace("ViewPerson");
+        }
     }
 });
 </script>

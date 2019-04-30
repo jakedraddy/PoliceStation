@@ -21,7 +21,7 @@ const routes: any[] = [
   { path: "/about", component: About },
   { path: "/main", component: MainPage },
   { path: "/employees", component: ViewEmployees },
-  { path: "/employee/:id", component: ViewPerson },
+  { path: "/employee/:person_id", component: ViewPerson },
   { path: "/cases", component: ViewCases },
   { path: "/tempCreatePerson", component: CreatePerson },
   // { path: "/", component: Login },
@@ -33,7 +33,6 @@ const router = new VueRouter({
   routes, // short for routes: routes
   mode: "history"
 });
-
 
 Vue.use(BootstrapVue);
 Vue.config.productionTip = false;
