@@ -6,7 +6,6 @@
     </form>
 </template>
 
-
 <script lang="ts">
 import Vue from 'vue'
 import { Employee } from '../../../common/src/station';
