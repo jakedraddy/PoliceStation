@@ -36,6 +36,7 @@ export async function get_employees(req: e.Request, res: e.Response, next?: e.Ne
     res.end();  
 }
 
+
 async function authenticate(userName: string, hash: string): Promise<AuthResult> {
     if (!module.parent) console.log('authenticating %s:%s', name, hash);
 
@@ -60,5 +61,10 @@ export async function auth(req: e.Request, res: e.Response, next?: e.NextFunctio
 
 export async function get_all_cases(req: e.Request, res: e.Response, next?: e.NextFunction) {
     res.status(codes.OK).json(await getter.get_case_stubs());
+    res.end();
+}
+
+export async function get_case(req: e.Request, res: e.Response, next?: e.NextFunction) {
+    res.status(codes.OK).json(await getter.get_case(req.query.case_id));
     res.end();
 }

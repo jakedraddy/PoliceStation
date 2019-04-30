@@ -1,5 +1,6 @@
 <template>
     <div>
+        <h3 v-if="!employees">Loading...</h3>
         <ul id="v-for-object" class="employee">
             <li v-for="employee in employees"
             v-bind:key="employee.PersonId"
