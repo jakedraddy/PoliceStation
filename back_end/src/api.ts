@@ -9,16 +9,14 @@ import { AuthResult } from '../../common/src/api_model';
 export async function create_person(req: e.Request, res: e.Response, next?: e.NextFunction) {
     let person = req.body;
     await mapper.create_person(person);
-    res.statusCode = codes.OK;
-    res.end();
+    res.status(codes.OK).json(person).end();
 }
 
 // Creates the passed case object, expects the json as the body of the request.
 export async function create_case(req: e.Request, res: e.Response, next?: e.NextFunction) {
     let case_info = req.body;
     await mapper.create_case(case_info);
-    res.statusCode = codes.OK;
-    res.end();
+    res.status(codes.OK).json(case_info).end();
 }
 
 export async function get_person(req: e.Request, res: e.Response, next?: e.NextFunction) {
