@@ -2,8 +2,9 @@
 import * as station from '../../common/src/station'
 import * as db from './db'
 import * as oracle from 'oracledb';
+import { ServeStaticOptions } from 'serve-static';
 
-export async function create_person(person: station.Person) {
+export async function create_person(person: station.Person): Promise<station.Person | undefined> {
     let result = await db.execute_query(`BEGIN
     UPDATE Person SET 
         LastName = :LastName,
@@ -44,6 +45,8 @@ export async function create_person(person: station.Person) {
         new_PersonId = person.PersonId || (result.outBinds as any).new_id[0];
     }
 
+    person.PersonId = new_PersonId;
+
     for (const address of person.addresses) {
         address.PersonId = new_PersonId;
         await create_address(address);
@@ -53,6 +56,8 @@ export async function create_person(person: station.Person) {
         email.PersonId = new_PersonId;
         await create_email(email);
     }
+
+    return person;
 }
 
 export async function create_address(address: station.Address) {

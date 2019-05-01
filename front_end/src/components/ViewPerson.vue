@@ -25,12 +25,11 @@
             </div>
             <b-button href="#" @click="add_email">Add a new email</b-button>
         </b-form-group>
-
-        <b-form-group id="inputPhone" label="Phones">
+        <label>Phones</label>
+        <b-form inline id="inputPhone">
             <div v-for="phone in person.phones" 
             :key="phone.PId"
-            :phone="phone">
-                <p>({{ phone.CountryCode }}) {{ phone.AreaCode }}-{{ phone.ExchangeCode }}</p>            
+            :phone="phone">         
                 <b-form-input type="text" class="phones" v-model="phone.CountryCode" placeholder="Country Code"></b-form-input>
                 <b-form-input type="text" class="phones" v-model="phone.AreaCode" placeholder="Area Code"></b-form-input>
                 <b-form-input type="text" class="phones" v-model="phone.ExchangeCode" placeholder="Exchange Code"></b-form-input>
@@ -38,7 +37,7 @@
                 <b-form-input type="text" class="phones" v-model="phone.Extension" placeholder="Extension"></b-form-input>
             </div>
             <b-button href="#" @click="add_phone">Add a new phone</b-button>
-        </b-form-group>
+        </b-form>
 
         <b-form-group id="inputAddress" label="Addresses">
             <div v-for="address in person.addresses" 
