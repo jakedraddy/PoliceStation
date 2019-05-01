@@ -2,7 +2,6 @@
     <button @click="open_person">Open</button>
 </template>
 
-
 <script lang="ts">
 import Vue from 'vue'
 export default Vue.extend({
@@ -13,7 +12,7 @@ export default Vue.extend({
     },
     methods: {
         open_person() {
-            this.$router.replace("ViewPerson");
+            this.$router.push({name: 'viewPerson', params: { person_id: this.id}});
         }
     }
 })

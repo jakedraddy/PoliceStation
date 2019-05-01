@@ -21,7 +21,7 @@ const routes: any[] = [
   { path: "/about", component: About },
   { path: "/main", component: MainPage },
   { path: "/employees", component: ViewEmployees },
-  { path: "/employee/:person_id", component: ViewPerson },
+  { path: "/person/:person_id", name: "viewPerson", component: ViewPerson },
   { path: "/cases", component: ViewCases },
   { path: "/main/person/CreatePerson", component: CreatePerson },
   // { path: "/", component: Login },

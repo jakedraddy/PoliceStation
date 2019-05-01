@@ -11,8 +11,8 @@
         </ul>
         < -->
         <b-table striped hover small :items="employees" :fields="showEmployeesInfo">
-            <template slot="ViewInformation">
-                <b-button @click="open_person">Open</b-button>
+            <template slot="ViewInformation" slot-scope="data">
+                <b-button @click="open_person(data.item.PersonId)">Open</b-button>
             </template>
         </b-table>
     </div>
@@ -30,8 +30,8 @@ export default Vue.extend({
         OpenPersonButton
     },
     methods: {
-        open_person() {
-            this.$router.replace("ViewPerson");
+        open_person(id: Number) {
+            this.$router.push({name: 'viewPerson', params: { person_id: id}});
         }
     },
     data() {

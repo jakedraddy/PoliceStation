@@ -1,23 +1,43 @@
 <template>
-    <form>
-        <input v:bind:PersonId="this.person.PersonId">
-        <input v:bind:LastName="this.person.LastName">
-        <input v:bind:FirstName="this.person.FirstName">
-        <input v:bind:DoB="this.person.DoB">
-        <input v:bind:SSN="this.person.SSN">
-    
-        <input v:bind:addresses="this.person.addresses">
-        <input v:bind:emails="this.person.emails">
-        <input v:bind:phones="this.person.phones">
-        <input v:bind:employee="this.person.employee">
-        <EditAddresses person="this.person"></EditAddresses>
-        <EditEmails person="this.person"></EditEmails>
-        <EditEmployee person="this.person"></EditEmployee>
-        <EditPhones phones="this.person"></EditPhones>
 
-        <button @click="save">Save</button>
+    <b-form v-if="person" @submit="save">
+        <b-form-group id="inputFirstName" label="First Name">
+            <b-form-input id="inputfName" v-model="person.FirstName" placeholder="first name"></b-form-input>
+        </b-form-group>
+        <b-form-group id="inputLastName" label="Last Name">
+            <b-form-input id="inputlName" v-model="person.LastName" placeholder="last name"></b-form-input>
+        </b-form-group>
+        <b-form-group id="inputDoB" label="Date of Birth">
+            <b-form-input id="inputdob" v-model="person.DoB" placeholder="date of birth"></b-form-input>
+        </b-form-group>
+        <b-form-group id="inputSSN" label="Social Security Number">
+            <b-form-input id="inputssn" v-model="person.SSN" placeholder="123-45-6789"></b-form-input>
+        </b-form-group>
+        <!--- >
+        <b-form-group id="inputPhoneNumber" label="Phone Number">
+            <b-form-input id="inputphonenumber" v-model="form.name" placeholder="123 456 7890"></b-form-input>
+        </b-form-group>
+        <b-form-group id="inputAddress" label="Address">
+            <b-form-input id="" v-model="form.name" placeholder="5555 Secret Street"></b-form-input>
+        </b-form-group>
+        <b-form-group id="inputEmail" label="Email">
+            <b-form-input id="inputemail" v-model="form.email" 
+            type="email" placeholder="example@aol.com"></b-form-input>
+        </b-form-group>
+        < --->
+        <b-form-group id="inputEmail" label="Emails">
+            <div v-for="email in person.emails" 
+            :key="email.EId"
+            :email="email">
+                <b-form-input id="v-for-object" type="email" class="emails" v-model="email.EmailAddress"></b-form-input>
+            </div>
+            <b-button href="#" @click="add_email">Add a new email</b-button>
+        </b-form-group>
+
+        <b-button type="submit" variant="primary">save</b-button>
+
         <p class="submit_message" v-if="this.save_message">{{ save_message }}</p>
-    </form>
+    </b-form>
 </template>
 
 
@@ -27,28 +47,12 @@ import * as station from "../../../common/src/station";
 import * as axios from "axios";
 import * as remote_api from "../remote_api"
 
-import EditAddresses from "./EditAddresses.vue"
-import EditEmails from "./EditEmails.vue"
-import EditEmployee from "./EditEmployee.vue"
-import EditPhones from "./EditPhones.vue"
 
 export default Vue.extend({
     data() {
         return {
-            person: new station.Person(),
+            person: undefined,
             save_message: ""
-        }
-    },
-    components: {
-        EditAddresses,
-        EditEmails,
-        EditEmployee,
-        EditPhones
-    },
-    props: {
-        person_id: {
-            type: Number,
-            required: true
         }
     },
     methods: {
@@ -56,10 +60,16 @@ export default Vue.extend({
             remote_api.create_person(this.person).then((response) => {
                 this.save_message = "Saved!";
             });
+        },
+
+        add_email() {
+            var email = new station.Email();
+            email.PersonId = this.person.PersonId;
+            this.person.emails.push(email);
         }
     },
     mounted: function() {
-        remote_api.get_person(this.$props.person_id).then((response) => {
+        remote_api.get_person(this.$route.params.person_id).then((response) => {
             this.person = response.data;
         });
     }

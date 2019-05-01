@@ -2,12 +2,17 @@
 import * as oracle from "oracledb";
 import * as fs from 'fs';
 
+var connection: oracle.IConnection;
+
 export async function get_connection(): Promise<oracle.IConnection> {
-    return await oracle.getConnection({
-        user          : (process.env.DB_USER) ? process.env.DB_USER : "",
-        password      : (process.env.DB_USER) ? process.env.DB_USER : "",
-        connectString : (process.env.DB_CONNECTION_STRING) ? process.env.DB_CONNECTION_STRING : ""
-    });
+    if (!connection) {
+        connection = await oracle.getConnection({
+            user          : (process.env.DB_USER) ? process.env.DB_USER : "",
+            password      : (process.env.DB_USER) ? process.env.DB_USER : "",
+            connectString : (process.env.DB_CONNECTION_STRING) ? process.env.DB_CONNECTION_STRING : ""
+        });
+    }
+    return connection;
 }
 
 export async function execute_query(query: string, params?: any): Promise<oracle.IExecuteReturn | undefined> {

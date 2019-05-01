@@ -31,7 +31,7 @@ export default Vue.extend({
     },
     methods: {
         open_case: function (CaseId: number) {
-            this.$router.replace("ViewPerson");
+            this.$router.push({name: 'viewCase', params: { CaseId: CaseId}})
         }
     }
 });

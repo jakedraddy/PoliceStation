@@ -3,8 +3,6 @@
             <div v-for="email in emails"
                 :key="email.EId"
                 :email="email">
-
-
                 {{ Case.CaseId }} {{ Case.DateEntered }} {{ Case.Status }} {{ Case.Title }} <button @click="open_case(Case.CaseId)">Open</button>
             </div>
         </div>
