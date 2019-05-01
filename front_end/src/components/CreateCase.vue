@@ -16,7 +16,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import * as station from "../../../common/src/station";
-import * as remote_api from "../remote_api"
+import * as remote_api from "../remote_api";
 
 import * as axios from 'axios';
 export default Vue.extend({
