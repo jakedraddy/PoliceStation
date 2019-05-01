@@ -32,12 +32,13 @@ export default Vue.extend({
     },
     methods: {
         save() {
+            var that = this;
             axios.default({
                 method: "post",
                 url: "/api/person/create",
                 data: this.person,
             }).then((response) => {
-                this.save_message = "Saved!";
+                that.save_message = "Saved!";
             });
         },
         cancel: function() {

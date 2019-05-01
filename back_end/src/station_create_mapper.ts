@@ -383,7 +383,7 @@ export async function create_arrest(arrest: station.Arrest) {
     return arrest;
 }
 
-export async function create_case(case_info: station.Case) {
+export async function create_case(case_info: station.Case): Promise<station.Case> {
     let result = await db.execute_query(`BEGIN
     UPDATE "Case" SET 
         Title = :Title,
@@ -442,6 +442,8 @@ export async function create_case(case_info: station.Case) {
         evidence.CaseId = case_info.CaseId;
         await create_evidence(evidence);
     }
+
+    return case_info;
 }
 
 export async function create_case_visit(case_visit: station.CaseVisit) {

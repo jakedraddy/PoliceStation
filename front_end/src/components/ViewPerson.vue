@@ -1,5 +1,5 @@
 <template>
-    <b-form v-if="person" @submit="save">
+    <b-form v-if="person" @submit.prevent="save">
         <b-form-group id="inputFirstName" label="First Name">
             <b-form-input id="inputfName" v-model="person.FirstName" placeholder="first name"></b-form-input>
         </b-form-group>
@@ -73,17 +73,37 @@ export default Vue.extend({
     },
     methods: {
         save() {
+            var that = this;
+
+            if (this.person.FirstName.length > 30) {
+                alert("First name is too long, try again!");
+                return;
+            }
+
+            if (this.person.LastName.length > 30) {
+                alert("Last name is too long, try again!");
+                return;
+            }
+
+            this.person.SSN = this.person.SSN.replace(/[-A-Za-z]/gi, '')
+
+            if (this.person.SSN.length > 10) {
+                alert("SSN is too long!");
+                return;
+            }
+            that.save_message = "";
+
             remote_api.create_person(this.person).then((response) => {
-                this.save_message = "Saved!";
+                that.save_message = "Saved!";
                 response.data.DoB = new Date(response.data.DoB);
 
                 // If the person id has changed, we created a new person.
                 // We need to switch to the proper URL or refreshes will be wrong.
-                let old_id = this.person.PersonId;
-                this.person = response.data;
-                if (old_id != this.person.PersonId) {
-                    this.$router.push({name: 'viewPerson', params: { person_id: this.person.PersonId }});
-                }
+                let old_id = that.person.PersonId;
+                that.person = response.data;
+
+                // Refresh the view as we have new data. it will get latest from the server.
+                that.$router.push({name: 'viewPerson', params: { person_id: that.person.PersonId }});
             });
         },
 
@@ -113,9 +133,10 @@ export default Vue.extend({
         if (!this.$route.params.person_id) {
             this.person = new station.Person();
         } else {
+            let that = this;
             remote_api.get_person(this.$route.params.person_id).then((response) => {
                 response.data.DoB = new Date(response.data.DoB);
-                this.person = response.data;
+                that.person = response.data;
             });
         }
 

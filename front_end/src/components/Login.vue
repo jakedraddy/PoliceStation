@@ -31,6 +31,7 @@ export default Vue.extend({
 
     methods: {
         login() {
+            var that = this;
             axios.default({
                 method: "get",
                 url: "/api/auth",
@@ -41,11 +42,11 @@ export default Vue.extend({
                 let response: AuthResult = api_response.data;
 
                 if (response.result) {
-                    this.error = "";
-                    this.$root.user = response.user;
-                    this.$router.replace("main");
+                    that.error = "";
+                    that.$root.user = response.user;
+                    that.$router.replace("main");
                 } else {
-                    this.error = "Invalid username or password.";
+                    that.error = "Invalid username or password.";
                 };
             })
         }

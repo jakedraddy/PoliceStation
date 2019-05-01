@@ -41,11 +41,12 @@ export default Vue.extend({
         }
     },
     mounted: function() {
+        var that = this;
         axios.default({
             method: 'get',
             url: '/api/employee/all'
         }).then((response) => {
-            this.employees = response.data;
+            that.employees = response.data;
         });
     }
     
