@@ -155,7 +155,7 @@ export async function get_arrest(ArrestNumber: number): Promise<station.Arrest |
 
 // Just a fast return of a list of all the cases with no sub-details.
 export async function get_case_stubs(): Promise<station.Case[]> {
-    let result = await db.execute_query(`SELECT * FROM Case`);
+    let result = await db.execute_query(`SELECT * FROM "Case"`);
 
     if (result && result.rows && result.rows.length) {
         return (result.rows as Array<any>).map(mapper.map_Case);
@@ -166,7 +166,7 @@ export async function get_case_stubs(): Promise<station.Case[]> {
 
 // Full grab of a case.
 export async function get_case(CaseId: number): Promise<station.Case | undefined> {
-    let result = await db.execute_query(`SELECT * FROM Case WHERE CaseId=:CaseId`, [CaseId]);
+    let result = await db.execute_query(`SELECT * FROM "Case" WHERE CaseId=:CaseId`, [CaseId]);
     if (result && result.rows && result.rows.length) {
 
         let case_info = mapper.map_Case(result.rows[0]);
