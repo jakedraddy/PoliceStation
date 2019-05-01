@@ -75,6 +75,15 @@ export default Vue.extend({
         save() {
             remote_api.create_person(this.person).then((response) => {
                 this.save_message = "Saved!";
+                response.data.DoB = new Date(response.data.DoB);
+
+                // If the person id has changed, we created a new person.
+                // We need to switch to the proper URL or refreshes will be wrong.
+                let old_id = this.person.PersonId;
+                this.person = response.data;
+                if (old_id != this.person.PersonId) {
+                    this.$router.push({name: 'viewPerson', params: { person_id: this.person.PersonId }});
+                }
             });
         },
 
