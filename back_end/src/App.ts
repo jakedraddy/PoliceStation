@@ -37,7 +37,7 @@ class App {
         router.get('/api/auth', api.auth);
         router.post('/api/case/create', api.create_case);
         router.get('/api/cases/all', api.get_all_cases);
-
+        router.post("/api/evidence/create", api.create_evidence);
         router.get('/api/ftest/all', api.get_all_ftests)
         router.use("/", express.static('static'));
         this.express.use('/', router)

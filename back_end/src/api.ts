@@ -4,6 +4,7 @@ import * as getter from './station_get_mapper';
 import * as codes from 'http-status-codes';
 
 import { AuthResult } from '../../common/src/api_model';
+import { StatOptions } from 'http2';
 
 // Creates the passed person encoded as the body of the request in json.
 export async function create_person(req: e.Request, res: e.Response, next?: e.NextFunction) {
@@ -54,6 +55,11 @@ async function authenticate(userName: string, hash: string): Promise<AuthResult>
     }
 
     return result;
+}
+
+export async function create_evidence(req: e.Request, res: e.Response, next?: e.NextFunction) {
+    let evidence = await mapper.create_evidence(req.body);
+    res.status(codes.OK).json(evidence);
 }
 
 export async function auth(req: e.Request, res: e.Response, next?: e.NextFunction) {

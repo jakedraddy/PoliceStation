@@ -15,7 +15,7 @@
             <template slot="row-details" slot-scope="row">
                 <b-card>
                     <b-table striped :items="row.item.evidence" :fields="showEvidenceInfo"></b-table>
-                    <b-button @click="create_evidence()">New Piece of Evidence</b-button>
+                    <b-button @click="create_evidence(row.item.CaseId)">New Piece of Evidence</b-button>
                 </b-card>
             </template>
         </b-table>
@@ -33,7 +33,7 @@ export default Vue.extend({
             this.$router.push({name: 'viewCase', params: { CaseId: CaseId }})
         },
         create_evidence: function (CaseId: number) {
-            this.$router.push({name: 'addCaseEvidence', params: { CaseId: CaseId }})
+            this.$router.push({name: 'addCaseEvidence', params: { case_id: CaseId }})
         }
     },
     data() {

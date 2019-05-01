@@ -574,19 +574,19 @@ export async function create_evidence(evidence: station.Evidence): Promise<stati
     let result = await db.execute_query(`BEGIN
     UPDATE Evidence SET 
         CaseId = :CaseId,
-        Date = :Date, 
+        "Date" = :Date, 
         Address = :Address, 
-        Description = :Description, 
-        Location = :Location
+        "Description" = :Description, 
+        "Location" = :Location
     WHERE EvidenceId = :EvidenceId;
 
     IF ( sql%notfound ) THEN
         INSERT INTO Evidence (
             CaseId,
-            Date, 
+            "Date", 
             Address, 
-            Description, 
-            Location
+            "Description", 
+            "Location"
         )
         VALUES (
             :CaseId,
@@ -602,7 +602,7 @@ export async function create_evidence(evidence: station.Evidence): Promise<stati
     `, {
             EvidenceId: evidence.EvidenceId,
             CaseId: evidence.CaseId,
-            Date: evidence.Date,
+            Date: new Date(evidence.Date),
             Address: evidence.Address,
             Description: evidence.Description,
             Location: evidence.Location,
@@ -630,7 +630,7 @@ export async function create_test(test: station.ForensicTest): Promise<station.F
     UPDATE ForensicTest SET 
         EvidenceId = :EvidenceId,
         ResultDescription = :ResultDescription, 
-        Date = :Date,
+        "Date" = :Date,
         TestName = :TestName
     WHERE TestId = :TestId;
 
@@ -638,7 +638,7 @@ export async function create_test(test: station.ForensicTest): Promise<station.F
         INSERT INTO ForensicTest (
             EvidenceId,
             ResultDescription, 
-            Date,
+            "Date",
             TestName
         )
         VALUES (

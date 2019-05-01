@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-jumbotron>
-            <b-form @submit="save">
+            <b-form @submit.prevent="save">
                 <label>Address</label>
                 <b-form-input v-model="Evidence.Address"
                     placeholder="Address (ex: 5555 Example Way)"> </b-form-input>
@@ -27,13 +27,21 @@ import * as axios from "axios";
 export default Vue.extend({
     data () {
         return {
-            Evidence: new station.Evidence(),
+            Evidence: undefined,
             save_message: "",
         }
     },
+    mounted: function () {
+        this.Evidence = new station.Evidence();
+        this.Evidence.CaseId = this.$route.params.case_id;
+    },
     methods: {
         save () {
-
+            var that = this;
+            remote_api.create_evidence(this.Evidence).then(function (response) {
+                that.Evidence = response.data;
+                that.$router.replace("/main/Cases");
+            });
         }
     }
 })
