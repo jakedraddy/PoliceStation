@@ -128,15 +128,11 @@ export class Visit {
     DateofVisit: Date; 
     Reason: string;
 
-    arrest: Arrest | undefined;
-    
     constructor () {
         this.VisitId = 0;
         this.PersonId = 0;
         this.DateofVisit = new Date(); 
         this.Reason = '';
-    
-        this.arrest = undefined;
     }
 }
 
@@ -168,7 +164,6 @@ export class Case {
     notes: CaseNote[];
     assignments: CaseAssignment[];
     evidence: Evidence[];
-    tests: ForensicTest[];
     
     constructor () {
         this.CaseId = 0; 
@@ -181,7 +176,6 @@ export class Case {
         this.notes = [];
         this.assignments = [];
         this.evidence = [];
-        this.tests = [];
     }
 }
 
@@ -239,6 +233,8 @@ export class Evidence {
     Address: string; 
     Description: string; 
     Location: string;
+
+    tests: ForensicTest[];
     
     constructor () {
         this.EvidenceId = 0;
@@ -247,6 +243,8 @@ export class Evidence {
         this.Address = ''; 
         this.Description = ''; 
         this.Location = '';
+        
+        this.tests = [];
     }
 }
 

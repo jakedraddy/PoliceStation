@@ -28,15 +28,14 @@ export default Vue.extend({
             people: [] as Person[]
         }
     },
-    // mounted: function() {
-    //     axios.default({
-    //         method: 'get',
-    //         url: '/api/employee/all'
-    //     }).then((response) => {
-    //         this.people = response.data;
-    //     });
-    // }
-    
+    mounted: function() {
+        axios.default({
+            method: 'get',
+            url: '/api/employee/all'
+        }).then((response) => {
+            this.people = response.data;
+        });
+    }
 });
 </script>
 

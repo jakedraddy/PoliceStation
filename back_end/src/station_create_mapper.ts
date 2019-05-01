@@ -1,9 +1,10 @@
 
 import * as station from '../../common/src/station'
 import * as db from './db'
+import * as oracle from 'oracledb';
 
 export async function create_person(person: station.Person) {
-    await db.execute_query(`BEGIN
+    let result = await db.execute_query(`BEGIN
     UPDATE Person SET 
         LastName = :LastName,
         FirstName = :FirstName,
@@ -21,8 +22,11 @@ export async function create_person(person: station.Person) {
                 :LastName,
                 :FirstName,
                 :DoB,
-                :SSN);
+                :SSN)
+        
+    returning PersonId INTO :new_id;
     END IF;
+    COMMIT;
     END;
     `,
         {
@@ -30,14 +34,23 @@ export async function create_person(person: station.Person) {
             LastName: person.LastName,
             FirstName: person.FirstName,
             DoB: new Date(person.DoB), // Date is passed to us as a string because of json conversion...convert back here.
-            SSN: person.SSN
+            SSN: person.SSN,
+            new_id: {dir: oracle.BIND_OUT, type: oracle.NUMBER}
         }
     );
+    let new_PersonId = person.PersonId;
+
+    if (result && result.outBinds) {
+        new_PersonId = person.PersonId || (result.outBinds as any).new_id[0];
+    }
+
     for (const address of person.addresses) {
+        address.PersonId = new_PersonId;
         await create_address(address);
     }
 
     for (const email of person.emails) {
+        email.PersonId = new_PersonId;
         await create_email(email);
     }
 }
@@ -64,8 +77,10 @@ export async function create_address(address: station.Address) {
             :StreetName,
             :BuildingNumber,
             :ZipCode,
-            :ZipExtension);
+            :ZipExtension)
+    returning AId INTO :new_id;
     END IF;
+    COMMIT;
     END;
     `, {
             AId: address.AId,
@@ -73,7 +88,8 @@ export async function create_address(address: station.Address) {
             StreetName: address.StreetName,
             BuildingNumber: address.BuildingNumber,
             ZipCode: address.ZipCode,
-            ZipExtension: address.ZipExtension
+            ZipExtension: address.ZipExtension,
+            new_id: {dir: oracle.BIND_OUT, type: oracle.NUMBER}
         });
 }
 
@@ -90,18 +106,21 @@ export async function create_email(email: station.Email) {
             EmailAddress)
         VALUES (
             :PersonId,
-            :EmailAddress);
+            :EmailAddress)
+    returning EId INTO :new_id;
     END IF;
+    COMMIT;
     END;
     `, {
             EId: email.EId,
             PersonId: email.PersonId,
-            EmailAddress: email.EmailAddress
+            EmailAddress: email.EmailAddress,
+            new_id: {dir: oracle.BIND_OUT, type: oracle.NUMBER}
         });
 }
 
 export async function create_employee(employee: station.Employee) {
-    await db.execute_query(`BEGIN
+    let result = await db.execute_query(`BEGIN
     UPDATE Employee SET 
         PersonId = :PersonId,
         Username = :Username, 
@@ -128,8 +147,10 @@ export async function create_employee(employee: station.Employee) {
             :JobTitle, 
             :HireDate, 
             :FloorNumber,
-            :RoomNumber);
+            :RoomNumber)
+    returning EmployeeId INTO :new_id;
     END IF;
+    COMMIT;
     END;
     `,
         {
@@ -140,11 +161,23 @@ export async function create_employee(employee: station.Employee) {
             JobTitle: employee.JobTitle,
             HireDate: employee.HireDate,
             FloorNumber: employee.FloorNumber,
-            RoomNumber: employee.RoomNumber
+            RoomNumber: employee.RoomNumber,
+            new_id: {dir: oracle.BIND_OUT, type: oracle.NUMBER}
         });
 
-    if (employee.officer) { create_officer(employee.officer); };
-    if (employee.forensic_expert) { create_forensic_expert(employee.forensic_expert); };
+    let new_EmployeeId = employee.EmployeeId;
+    if (result && result.outBinds) {
+        new_EmployeeId = employee.EmployeeId || (result.outBinds as any).new_id[0];
+    }
+    
+    if (employee.officer) { 
+            employee.officer.EmployeeId = new_EmployeeId;
+            create_officer(employee.officer); 
+        };
+        if (employee.forensic_expert) { 
+            employee.forensic_expert.EmployeeId = new_EmployeeId;
+            create_forensic_expert(employee.forensic_expert); 
+        };
 }
 
 export async function create_officer(officer: station.Officer) {
@@ -162,10 +195,13 @@ export async function create_officer(officer: station.Officer) {
         VALUES (
             :EmployeeId, 
             :BadgeId 
-        );
+        )
+    returning BadgeId INTO :new_id;
     END IF;
+    COMMIT;
     END;
-        `, { EmployeeId: officer.EmployeeId, BadgeId: officer.BadgeId });
+        `, { EmployeeId: officer.EmployeeId, BadgeId: officer.BadgeId,
+            new_id: {dir: oracle.BIND_OUT, type: oracle.NUMBER} });
 }
 
 export async function create_forensic_expert(expert: station.ForensicExpert) {
@@ -183,12 +219,15 @@ export async function create_forensic_expert(expert: station.ForensicExpert) {
         VALUES (
             :EmployeeId,
             :ForensicExpertId
-        );
+        )
+    returning EmployeeId INTO :new_id;
     END IF;
+    COMMIT;
     END;
     `, {
             EmployeeId: expert.EmployeeId,
-            ForensicExpertId: expert.ForensicExpertId
+            ForensicExpertId: expert.ForensicExpertId,
+            new_id: {dir: oracle.BIND_OUT, type: oracle.NUMBER}
         });
 }
 
@@ -211,19 +250,18 @@ export async function create_visit(visit: station.Visit) {
             :PersonId,
             :DateofVisit, 
             :Reason
-        );
+        )
+    returning VisitId INTO :new_id;
     END IF;
+    COMMIT;
     END;
     `, {
             VisitId: visit.VisitId,
             PersonId: visit.PersonId,
             DateofVisit: new Date(visit.DateofVisit),
-            Reason: visit.Reason
+            Reason: visit.Reason,
+            new_id: {dir: oracle.BIND_OUT, type: oracle.NUMBER}
         });
-
-    if (visit.arrest) {
-        create_arrest(visit.arrest);
-    }
 }
 
 
@@ -248,68 +286,80 @@ export async function create_arrest(arrest: station.Arrest) {
             :BadgeId,
             :DateofArrest, 
             :ArrestReason
-        );
+        )
+    returning ArrestNumber INTO :new_id;
     END IF;
+    COMMIT;
     END;
     `, {
             ArrestNumber: arrest.ArrestNumber,
             PersonId: arrest.PersonId,
             BadgeId: arrest.BadgeId,
             DateofArrest: new Date(arrest.DateofArrest),
-            ArrestReason: arrest.ArrestReason
+            ArrestReason: arrest.ArrestReason,
+            new_id: {dir: oracle.BIND_OUT, type: oracle.NUMBER}
         });
 }
 
 export async function create_case(case_info: station.Case) {
-    await db.execute_query(`BEGIN
-        UPDATE "Case" SET 
-            Title = :Title,
-            DateEntered = :DateEntered, 
-            Status = :Status
-        WHERE CaseId = :CaseId;
+    let result = await db.execute_query(`BEGIN
+    UPDATE "Case" SET 
+        Title = :Title,
+        DateEntered = :DateEntered, 
+        Status = :Status
+    WHERE CaseId = :CaseId;
 
-        IF ( sql%notfound ) THEN
-            INSERT INTO "Case" (
-                Title,
-                DateEntered, 
-                Status
-            )
-            VALUES (
-                :Title,
-                :DateEntered, 
-                :Status
-            );
-        END IF;
+    IF ( sql%notfound ) THEN
+        INSERT INTO "Case" (
+            Title,
+            DateEntered, 
+            Status
+        )
+        VALUES (
+            :Title,
+            :DateEntered, 
+            :Status
+        )
+    returning CaseId INTO :new_id;
+    END IF;
+    COMMIT;
     END;
     `, {
             CaseId: case_info.CaseId,
             Title: case_info.Title,
             DateEntered: new Date(case_info.DateEntered),
-            Status: case_info.Status
+            Status: case_info.Status,
+            new_id: {dir: oracle.BIND_OUT, type: oracle.NUMBER}
         });
 
+    let new_CaseId = case_info.CaseId;
+    if (result && result.outBinds) {
+        new_CaseId = case_info.CaseId || (result.outBinds as any).new_id[0];
+    }
+
     for (const visit of case_info.visits) {
+        visit.CaseId = new_CaseId;
         await create_case_visit(visit);
     }
 
     for (const arrest of case_info.arrests) {
+        arrest.CaseID = new_CaseId;
         await create_case_arrest(arrest);
     }
 
     for (const assignment of case_info.assignments) {
+        assignment.CaseId = new_CaseId;
         await create_case_assignment(assignment);
     }
 
     for (const note of case_info.notes) {
+        note.CaseId = new_CaseId;
         await create_case_note(note);
     }
 
     for (const evidence of case_info.evidence) {
+        evidence.CaseId = new_CaseId;
         await create_evidence(evidence);
-    }
-
-    for (const test of case_info.tests) {
-        await create_test(test);
     }
 }
 
@@ -331,6 +381,7 @@ export async function create_case_visit(case_visit: station.CaseVisit) {
             :VisitId
         );
     END IF;
+    COMMIT;
     END;
     `, {
             CaseId: case_visit.CaseId,
@@ -357,6 +408,7 @@ export async function create_case_arrest(case_arrest: station.CaseArrest) {
             :ArrestNumber
         );
     END IF;
+    COMMIT;
     END;
     `, {
             CaseID: case_arrest.CaseID,
@@ -383,6 +435,7 @@ export async function create_case_assignment(assignment: station.CaseAssignment)
             :EmployeeId
         );
     END IF;
+    COMMIT;
     END;
     `, {
             CaseId: assignment.CaseId,
@@ -411,20 +464,23 @@ export async function create_case_note(note: station.CaseNote) {
             :EmployeeId,
             :DateEntered,
             :CaseId
-        );
+        )
+    returning NoteId INTO :new_id;
     END IF;
+    COMMIT;
     END;
     `, {
             NoteId: note.NoteId,
             Note: note.Note,
             EmployeeId: note.EmployeeId,
             DateEntered: new Date(note.DateEntered),
-            CaseId: note.CaseId
+            CaseId: note.CaseId,
+            new_id: {dir: oracle.BIND_OUT, type: oracle.NUMBER}
         });
 }
 
 export async function create_evidence(evidence: station.Evidence) {
-    await db.execute_query(`BEGIN
+    let result = await db.execute_query(`BEGIN
     UPDATE Evidence SET 
         CaseId = :CaseId,
         Date = :Date, 
@@ -447,8 +503,10 @@ export async function create_evidence(evidence: station.Evidence) {
             :Address, 
             :Description, 
             :Location
-        );
+        )
+    returning EvidenceId INTO :new_id;
     END IF;
+    COMMIT;
     END;
     `, {
             EvidenceId: evidence.EvidenceId,
@@ -456,12 +514,26 @@ export async function create_evidence(evidence: station.Evidence) {
             Date: evidence.Date,
             Address: evidence.Address,
             Description: evidence.Description,
-            Location: evidence.Location
+            Location: evidence.Location,
+            new_id: {dir: oracle.BIND_OUT, type: oracle.NUMBER}
         });
+
+
+    let new_EvidenceId = evidence.EvidenceId;
+    if (result && result.outBinds) {
+        new_EvidenceId = evidence.EvidenceId || (result.outBinds as any).new_id[0];
+    }
+
+    if (result && result.rows && result.rows.length) {
+        for (const test of evidence.tests) {
+            test.EvidenceId = new_EvidenceId;
+            await create_test(test);
+        }
+    }
 }
 
 export async function create_test(test: station.ForensicTest) {
-    await db.execute_query(`BEGIN
+    let result = await db.execute_query(`BEGIN
 
     UPDATE ForensicTest SET 
         EvidenceId = :EvidenceId,
@@ -482,18 +554,27 @@ export async function create_test(test: station.ForensicTest) {
             :ResultDescription, 
             :Date,
             :TestName
-        );
+        )
+    returning TestId INTO :new_id;
     END IF;
+    COMMIT;
     END;
     `, {
             TestId: test.TestId,
             EvidenceId: test.EvidenceId,
             ResultDescription: test.ResultDescription,
             Date: new Date(test.Date),
-            TestName: test.TestName
+            TestName: test.TestName,
+            new_id: {dir: oracle.BIND_OUT, type: oracle.NUMBER}
         });
 
+    let new_TestId = test.TestId;
+    if (result && result.outBinds) {
+        new_TestId = test.TestId || (result.outBinds as any).new_id[0];
+    }
+
     for (const expert of test.forensic_experts) {
+        expert.TestId = new_TestId;
         await create_test_expert(expert);
     }
 }
@@ -516,10 +597,12 @@ export async function create_test_expert(expert: station.ForensicTestForensicExp
             :ForensicExpertId
         );
     END IF;
+    COMMIT;
     END;
     `, {
             TestId: expert.TestId,
-            ForensicExpertId: expert.ForensicExpertId
+            ForensicExpertId: expert.ForensicExpertId,
+            new_id: {dir: oracle.BIND_OUT, type: oracle.NUMBER}
         });
 }
 

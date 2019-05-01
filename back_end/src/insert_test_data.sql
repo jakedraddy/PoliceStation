@@ -1,9 +1,9 @@
 
 -- Preferably, you would run this on fresh tables...
-INSERT INTO PERSON (PersonId,FirstName, LastName, DoB, SSN) VALUES (1,'Jacob','Draddy',trunc(DATE '1927-12-12'),'1231231233');
-INSERT INTO PERSON (PersonId,FirstName, LastName, DoB, SSN) VALUES (2,'Joe','Tester',trunc(DATE '1999-1-1'),'6456456456');
-INSERT INTO PERSON (PersonId,FirstName, LastName, DoB, SSN) VALUES (3,'Joe','Smith',trunc(DATE '1980-2-2'),'456456456');
-INSERT INTO PERSON (PersonId,FirstName, LastName, DoB, SSN) VALUES (4,'Bad','McScum',trunc(DATE '2000-3-10'),'267567576');
+INSERT INTO PERSON (PersonId,FirstName, LastName, DoB, SSN) VALUES (1,'Jacob','Draddy',DATE '1927-12-12','1231231233');
+INSERT INTO PERSON (PersonId,FirstName, LastName, DoB, SSN) VALUES (2,'Joe','Tester',DATE '1999-1-1','6456456456');
+INSERT INTO PERSON (PersonId,FirstName, LastName, DoB, SSN) VALUES (3,'Joe','Smith',DATE '1980-2-2','456456456');
+INSERT INTO PERSON (PersonId,FirstName, LastName, DoB, SSN) VALUES (4,'Bad','McScum',DATE '2000-3-10','267567576');
 
 INSERT INTO PhoneNumber
 (PId,PersonId,CountryCode,AreaCode,ExchangeCode,LineNumber,Extension) VALUES

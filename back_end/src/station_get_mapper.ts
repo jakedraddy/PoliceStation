@@ -113,23 +113,27 @@ export async function get_forensic_expert(EmployeeId: number): Promise<station.F
     return undefined;
 }
 
-// export class Visit {
-//     VisitId: number;
-//     PersonId: number;
-//     DateofVisit: Date; 
-//     Reason: string;
+export async function get_visit(VisitId: number): Promise<station.Visit | undefined> {
+    let result = await db.execute_query(`SELECT * FROM Visit WHERE VisitId=:VisitId`, [VisitId]);
 
-//     arrest: Arrest;
-// }
+    if (result && result.rows && result.rows.length) {
+        let visit = mapper.map_Visit(result.rows[0]);
+        return visit;
+    }
 
-// export class Arrest {
-//     ArrestNumber: number;
-//     PersonId: number;
-//     BadgeId: number;
-//     DateofArrest: Date; 
-//     ArrestReason: string;
-// }
+    return undefined;
+}
 
+export async function get_arrest(ArrestNumber: number): Promise<station.Arrest | undefined> {
+    let result = await db.execute_query(`SELECT * FROM Arrest WHERE ArrestNumber=:ArrestNumber`, [ArrestNumber]);
+
+    if (result && result.rows && result.rows.length) {
+        let arrest = mapper.map_Arrest(result.rows[0]);
+        return arrest;
+    }
+
+    return undefined;
+}
 
 // Just a fast return of a list of all the cases with no sub-details.
 export async function get_case_stubs(): Promise<station.Case[]> {

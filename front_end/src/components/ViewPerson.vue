@@ -9,8 +9,8 @@
         </b-form-group>
         <b-form-group id="inputDoB" label="Date of Birth">
             <b-form-input id="inputdob" type="date" 
-                    :value="person.DoB && person.DoB.split('T')[0]"
-                    @input="person.DoB = $event.target.valueAsDate"
+                    :value="person.DoB && person.DoB.toISOString().split('T')[0]"
+                    v-on:input="update_dob"
                     placeholder="date of birth"></b-form-input>
         </b-form-group>
         <b-form-group id="inputSSN" label="Social Security Number">
@@ -68,10 +68,15 @@ export default Vue.extend({
             var email = new station.Email();
             email.PersonId = this.person.PersonId;
             this.person.emails.push(email);
+        },
+
+        update_dob(event) {
+            this.person.DoB = new Date(event);
         }
     },
     mounted: function() {
         remote_api.get_person(this.$route.params.person_id).then((response) => {
+            response.data.DoB = new Date(response.data.DoB);
             this.person = response.data;
         });
     }
