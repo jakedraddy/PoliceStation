@@ -77,18 +77,18 @@ export async function create_phone(phone: station.PhoneNumber): Promise<station.
 
     IF ( sql%notfound ) THEN
         INSERT INTO PhoneNumber (
-            PersonId
-            CountryCode
-            AreaCode
-            ExchangeCode
-            LineNumber
+            PersonId,
+            CountryCode,
+            AreaCode,
+            ExchangeCode,
+            LineNumber,
             Extension)
         VALUES (
-            :PersonId
-            :CountryCode
-            :AreaCode
-            :ExchangeCode
-            :LineNumber
+            :PersonId,
+            :CountryCode,
+            :AreaCode,
+            :ExchangeCode,
+            :LineNumber,
             :Extension)
     returning PId INTO :new_id;
     END IF;
