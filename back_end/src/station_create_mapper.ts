@@ -53,6 +53,54 @@ export async function create_person(person: station.Person) {
         email.PersonId = new_PersonId;
         await create_email(email);
     }
+
+
+    
+
+}
+
+export async function create_phone(phone: station.PhoneNumber) {
+    await db.execute_query(`BEGIN
+    UPDATE PhoneNumber SET 
+        PersonId = :PersonId,
+        CountryCode = :CountryCode,
+        AreaCode = :AreaCode,
+        ExchangeCode = :ExchangeCode,
+        LineNumber = :LineNumber,
+        Extension = :Extension
+    WHERE PId = :PId;
+
+    IF ( sql%notfound ) THEN
+        INSERT INTO PhoneNumber (
+            PersonId,
+            StreetName,
+            BuildingNumber,
+            ZipCode,
+            ZipExtension)
+        VALUES (
+            :PId
+            :PersonId
+            :CountryCode
+            :AreaCode
+            :ExchangeCode
+            :LineNumber
+            :Extension)
+    returning AId INTO :new_id;
+    END IF;
+    COMMIT;
+    END;
+    `, {
+            PId: phone.PId,
+            PersonId: phone.PersonId,
+            CountryCode: phone.CountryCode,
+            AreaCode: phone.AreaCode,
+            ExchangeCode: phone.ExchangeCode,
+            LineNumber: phone.LineNumber,
+            Extension: phone.Extension,
+            new_id: {dir: oracle.BIND_OUT, type: oracle.NUMBER}
+        });
+
+
 }
 
 export async function create_address(address: station.Address) {
