@@ -29,6 +29,11 @@ export async function get_person(req: e.Request, res: e.Response, next?: e.NextF
     res.end();  
 }
 
+export async function get_people(req: e.Request, res: e.Response, next?: e.NextFunction) {
+    res.status(codes.OK).json(await getter.get_people());
+    res.end();
+}
+
 export async function get_employees(req: e.Request, res: e.Response, next?: e.NextFunction) {
     let empls = await getter.get_employees();
     res.json(empls);
