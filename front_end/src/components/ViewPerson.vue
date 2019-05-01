@@ -30,6 +30,7 @@
             <div v-for="phone in person.phones" 
             :key="phone.PId"
             :phone="phone">
+                <p>({{ phone.CountryCode }}) {{ phone.AreaCode }}-{{ phone.ExchangeCode }}</p>            
                 <b-form-input type="text" class="phones" v-model="phone.CountryCode" placeholder="Country Code"></b-form-input>
                 <b-form-input type="text" class="phones" v-model="phone.AreaCode" placeholder="Area Code"></b-form-input>
                 <b-form-input type="text" class="phones" v-model="phone.ExchangeCode" placeholder="Exchange Code"></b-form-input>
