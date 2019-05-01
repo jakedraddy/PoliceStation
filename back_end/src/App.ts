@@ -32,6 +32,7 @@ class App {
         router.get('/api/person/get', api.get_person);
         router.post('/api/person/create', api.create_person);
         router.get('/api/employee/all', api.get_employees);
+        router.get('/api/person/all', api.get_people)
 
         router.get('/api/auth', api.auth);
         router.post('/api/case/create', api.create_case);

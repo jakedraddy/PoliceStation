@@ -42,18 +42,18 @@
 import Vue from 'vue'
 export default Vue.extend({
     methods: {
-        ViewPeople: function () { this.$router.replace("main/People"); },
-        CreatePerson: function () { this.$router.replace("main/People/add"); },
-        ViewEmp: function () { this.$router.replace("main/Employees"); },
-        CreateEmp: function () { this.$router.replace("main/People/add"); },
-        ViewVisits: function () { this.$router.replace("main/Visits"); },
-        CreateVisit: function () { this.$router.replace("main/Visits/add"); },
-        ViewArrests: function () { this.$router.replace("main/Arrests"); },
-        CreateArrest: function () { this.$router.replace("main/Arrests/add"); },
-        ViewCases: function () { this.$router.replace("main/Cases"); },
-        CreateCase: function () { this.$router.replace("main/Cases/add"); },
-        ViewTests: function () { this.$router.replace("main/ForensicTests"); },
-        CreateTest: function () { this.$router.replace("main/ForensicTests/add"); },
+        ViewPeople: function () { this.$router.push("main/People"); },
+        CreatePerson: function () { this.$router.push("main/People/add"); },
+        ViewEmp: function () { this.$router.push("main/Employees"); },
+        CreateEmp: function () { this.$router.push("main/People/add"); },
+        ViewVisits: function () { this.$router.push("main/Visits"); },
+        CreateVisit: function () { this.$router.push("main/Visits/add"); },
+        ViewArrests: function () { this.$router.push("main/Arrests"); },
+        CreateArrest: function () { this.$router.push("main/Arrests/add"); },
+        ViewCases: function () { this.$router.push("main/Cases"); },
+        CreateCase: function () { this.$router.push("main/Cases/add"); },
+        ViewTests: function () { this.$router.push("main/ForensicTests"); },
+        CreateTest: function () { this.$router.push("main/ForensicTests/add"); },
     }
 })
 </script>

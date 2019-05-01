@@ -27,6 +27,24 @@ export async function get_person(PersonId: number): Promise<station.Person | und
     }
 }
 
+export async function get_people(): Promise<station.Person[]> {
+    let result = await db.execute_query(`SELECT * FROM Person`);
+    if (result && result.rows && result.rows.length) {
+
+        let out: station.Person[] = [];
+
+        for (const el of result.rows) {
+            let person = mapper.map_Person(el);
+            let match = await get_person(person.PersonId);
+            if (match) {out.push(match);}
+        }
+
+        return out;
+    }
+
+    return [];
+}
+
 export async function get_phones(PersonId: number): Promise<station.PhoneNumber[]> {
     return await map_many("PhoneNumber", "PersonId", PersonId, mapper.map_PhoneNumber);
 }
