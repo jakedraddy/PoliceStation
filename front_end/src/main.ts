@@ -10,9 +10,12 @@ Vue.use(VueRouter);
 import Login from "./components/Login.vue";
 import About from "./components/About.vue";
 import MainPage from "./components/MainPage.vue";
-import ViewEmployees from "./components/ViewEmployees.vue";
 import ViewPerson from "./components/ViewPerson.vue";
+import ViewEmployees from "./components/ViewEmployees.vue";
+import ViewVisits from "./components/ViewVisits.vue";
+import ViewArrests from "./components/ViewArrests.vue";
 import ViewCases from "./components/ViewCases.vue";
+import ViewForensics from "./components/ViewForensics.vue";
 
 import CreatePerson from "./components/CreatePerson.vue";
 
@@ -20,12 +23,18 @@ const routes: any[] = [
   { path: "/", component: Login },
   { path: "/about", component: About },
   { path: "/main", component: MainPage },
-  { path: "/employees", component: ViewEmployees },
-  { path: "/employee/:person_id", component: ViewPerson },
-  { path: "/cases", component: ViewCases },
-  { path: "/main/person/CreatePerson", component: CreatePerson },
-  // { path: "/", component: Login },
-  // { path: "/", component: Login },
+  { path: "/main/Person/all", component: Login}, //needs Comp
+  { path: "/main/Person/add", component: CreatePerson },
+  { path: "/main/Employees", component: ViewEmployees },
+  { path: "/main/Employee/:person_id", component: ViewPerson },
+  { path: "/main/Visits", component: ViewVisits },
+  { path: "/main/Visits/add", component: Login },//needs Comp
+  { path: "/main/Arrests", component: ViewArrests },
+  { path: "/main/Arrests/add", component: Login },//needs Comp
+  { path: "/main/Cases", component: ViewCases },
+  { path: "/main/Cases/add", component: Login },//needs Comp
+  { path: "/main/ForensicTests", component: ViewForensics },
+  { path: "/main/ForensicTests/add", component: Login },//needs Comp
   // { path: "/", component: Login },
 ];
 
