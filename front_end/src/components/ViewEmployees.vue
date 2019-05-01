@@ -1,9 +1,18 @@
 <template>
     <div>
-        <h3 v-if="!employees.length">Loading...</h3>
+        <h3 v-if="!employees">Loading...</h3>
+        <!-- >
+        <ul id="v-for-object" class="employee">
+            <li v-for="employee in employees"
+            v-bind:key="employee.PersonId"
+            v-bind:employee="employee">
+                {{ employee.PersonId }} {{ employee.FirstName }} {{ employee.LastName }} <OpenPersonButton :id="employee.PersonId"></OpenPersonButton>
+            </li>
+        </ul>
+        < -->
         <b-table striped hover small :items="employees" :fields="showEmployeesInfo">
-            <template slot="ViewInformation" slot-scope="data">
-                <b-button @click="open_person(data.item.PersonId)">Open</b-button>
+            <template slot="ViewInformation">
+                <b-button @click="open_person">Open</b-button>
             </template>
         </b-table>
     </div>
@@ -21,8 +30,8 @@ export default Vue.extend({
         OpenPersonButton
     },
     methods: {
-        open_person(id: Number) {
-            this.$router.push({name: 'viewPerson', params: { person_id: id}});
+        open_person() {
+            this.$router.replace("/employee/:person_id");
         }
     },
     data() {
@@ -39,6 +48,7 @@ export default Vue.extend({
             this.employees = response.data;
         });
     }
+    
 });
 </script>
 
