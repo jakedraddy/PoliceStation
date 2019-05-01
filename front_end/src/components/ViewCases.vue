@@ -10,12 +10,12 @@
 
 
             <template slot="ViewInformation">
-                <b-button @click="open_case(case.CaseId)">Edit</b-button>
+                <b-button @click="open_case(Case.CaseId)">Edit</b-button>
             </template>
 
             <template slot="row-details" slot-scope="row">
                 <b-card>
-                    <b-table striped :items=""></b-table>
+                    <b-table striped :items="cases"></b-table>
                 </b-card>
             </template>
         </b-table>
@@ -43,12 +43,11 @@ export default Vue.extend({
         }
     },
     mounted: function() {
-        var that = this;
         axios.default({
             method: 'get',
             url: '/api/cases/all'
         }).then((response) => {
-            that.cases = response.data;
+            this.cases = response.data;
         });
         //Then get all evidence and forensics for each Case
     }

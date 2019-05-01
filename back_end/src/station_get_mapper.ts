@@ -158,7 +158,16 @@ export async function get_case_stubs(): Promise<station.Case[]> {
     let result = await db.execute_query(`SELECT * FROM "Case"`);
 
     if (result && result.rows && result.rows.length) {
-        return (result.rows as Array<any>).map(mapper.map_Case);
+        let cases = (result.rows as Array<any>).map(mapper.map_Case);
+        let full_cases = [] as station.Case[];
+        for (const Case of cases) {
+            let full_case = await get_case(Case.CaseId);
+            if (full_case) {
+                full_cases.push();
+            }
+        }
+
+        return full_cases;
     }
 
     return [];
@@ -175,7 +184,6 @@ export async function get_case(CaseId: number): Promise<station.Case | undefined
         case_info.assignments = await get_case_assignments(CaseId);
         case_info.evidence = await get_case_evidence(CaseId);
         case_info.notes = await get_case_notes(CaseId);
-        case_info.tests = await get_case_tests(CaseId);
         case_info.visits = await get_case_visits(CaseId);
 
         return case_info;

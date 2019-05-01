@@ -6,8 +6,8 @@
                 <b-form-input id="inputlName" v-bind="person.LastName" placeholder="last name"></b-form-input>
                 <b-form-input id="inputdob" v-bind="person.DoB" placeholder="date of birth"></b-form-input>
                 <b-form-input id="inputssn" v-bind="person.SSN" placeholder="123-45-6789"></b-form-input>
-                <b-button type="save" variant="primary">Save</b-button>
-                <b-button type="cancel">Cancel</b-button>
+                <b-button type="submit" variant="primary">Save</b-button>
+                <b-button type="button">Cancel</b-button>
             </b-form>
         </b-jumbotron>
     </div>
