@@ -41,7 +41,7 @@ export default Vue.extend({
     },
     methods: {
         open_case: function (CaseId: number) {
-            this.$router.replace("api/cases/:id");
+            this.$router.push("api/cases/:id");
         }
     }
 });

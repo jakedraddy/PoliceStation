@@ -19,6 +19,7 @@ import ViewCases from "./components/ViewCases.vue";
 import ViewForensics from "./components/ViewForensics.vue";
 
 import CreatePerson from "./components/CreatePerson.vue";
+import CreateArrest from "./components/CreateArrest.vue";
 
 const routes: any[] = [
   { path: "/", component: Login },
@@ -31,7 +32,7 @@ const routes: any[] = [
   { path: "/main/Visits", component: ViewVisits },
   { path: "/main/Visits/add", component: MainPage },//needs Comp
   { path: "/main/Arrests", component: ViewArrests },
-  { path: "/main/Arrests/add", component: MainPage },//needs Comp
+  { path: "/main/Arrests/add", component: CreateArrest },//needs Comp
   { path: "/main/Cases", component: ViewCases },
   { path: "/main/Cases/add", component: MainPage },//needs Comp
   { path: "/main/ForensicTests", component: ViewForensics },
