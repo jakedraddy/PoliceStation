@@ -1,6 +1,7 @@
 import * as express from 'express';
 import * as session from 'express-session';
 import * as api from './api';
+import * as body_parser from 'body-parser'
 
 class App {
     public express: express.Express
@@ -20,6 +21,9 @@ class App {
             saveUninitialized: false, // don't create session until something stored
             secret: 'shhhh, very secret'
         }));
+
+        router.use(body_parser.json());
+
         router.use("*", async (req: express.Request, res: express.Response, next?: express.NextFunction) => {
             console.log(`Incoming request: ${req.method} ${req.originalUrl}`);
             if (next) {next()};

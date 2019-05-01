@@ -8,7 +8,10 @@
             <b-form-input id="inputlName" v-model="person.LastName" placeholder="last name"></b-form-input>
         </b-form-group>
         <b-form-group id="inputDoB" label="Date of Birth">
-            <b-form-input id="inputdob" v-model="person.DoB" placeholder="date of birth"></b-form-input>
+            <b-form-input id="inputdob" type="date" 
+                    :value="person.DoB && person.DoB.split('T')[0]"
+                    @input="person.DoB = $event.target.valueAsDate"
+                    placeholder="date of birth"></b-form-input>
         </b-form-group>
         <b-form-group id="inputSSN" label="Social Security Number">
             <b-form-input id="inputssn" v-model="person.SSN" placeholder="123-45-6789"></b-form-input>
@@ -47,11 +50,10 @@ import * as station from "../../../common/src/station";
 import * as axios from "axios";
 import * as remote_api from "../remote_api"
 
-
 export default Vue.extend({
     data() {
         return {
-            person: undefined,
+            person: undefined as station.Person,
             save_message: ""
         }
     },

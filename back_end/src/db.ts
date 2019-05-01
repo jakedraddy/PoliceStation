@@ -31,9 +31,16 @@ export async function execute_query(query: string, params?: any): Promise<oracle
 
     if (connection) {
         if (params) {
-            result = await connection.execute(query, params);
+            result = await connection.execute(query, 
+                params,
+                {
+                    outFormat: oracle.OBJECT
+                });
         } else {
-            result = await connection.execute(query);
+            result = await connection.execute(query, {},
+                {
+                    outFormat: oracle.OBJECT
+                });
         }
 
         if (result) {

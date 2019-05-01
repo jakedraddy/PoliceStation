@@ -1,9 +1,20 @@
 
 import * as station from "../../common/src/station";
-import * as axios from "axios";
+import axios, {AxiosPromise} from "axios";
 
-export function get_person(PersonId: number): axios.AxiosPromise<any> {
-    return axios.default({
+// axios.interceptors.response.use(function (response) {
+//     // Do something with response data
+
+//     for (const val of response.data) {
+//     }
+//     return response;
+//   }, function (error) {
+//     // Do something with response error
+//     return error;
+//   });
+
+export function get_person(PersonId: number): AxiosPromise<station.Person> {
+    return axios({
         method: "get",
         url: "/api/person/get/",
         params: {
@@ -12,8 +23,8 @@ export function get_person(PersonId: number): axios.AxiosPromise<any> {
     });
 }
 
-export function create_person(person: station.Person): axios.AxiosPromise<any> {
-    return axios.default({
+export function create_person(person: station.Person): AxiosPromise<any> {
+    return axios({
         method: "post",
         url: "/api/person/create",
         data: person,

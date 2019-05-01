@@ -3,7 +3,7 @@ import * as station from '../../common/src/station'
 import * as db from './db'
 
 export async function create_person(person: station.Person) {
-    await db.execute_query(`
+    await db.execute_query(`BEGIN
     UPDATE Person SET 
         LastName = :LastName,
         FirstName = :FirstName,
@@ -22,13 +22,15 @@ export async function create_person(person: station.Person) {
                 :FirstName,
                 :DoB,
                 :SSN);
-    END IF;`,
+    END IF;
+    END;
+    `,
         {
-            PersonId: { val: person.PersonId },
-            LastName: { val: person.LastName },
-            FirstName: { val: person.FirstName },
-            DoB: { val: person.DoB },
-            SSN: { val: person.SSN }
+            PersonId: person.PersonId,
+            LastName: person.LastName,
+            FirstName: person.FirstName,
+            DoB: new Date(person.DoB), // Date is passed to us as a string because of json conversion...convert back here.
+            SSN: person.SSN
         }
     );
     for (const address of person.addresses) {
@@ -41,7 +43,7 @@ export async function create_person(person: station.Person) {
 }
 
 export async function create_address(address: station.Address) {
-    await db.execute_query(`
+    await db.execute_query(`BEGIN
     UPDATE Address SET 
         PersonId = :PersonId,
         StreetName = :StreetName,
@@ -64,18 +66,19 @@ export async function create_address(address: station.Address) {
             :ZipCode,
             :ZipExtension);
     END IF;
+    END;
     `, {
-            AId: { val: address.AId },
-            PersonId: { val: address.PersonId },
-            StreetName: { val: address.StreetName },
-            BuildingNumber: { val: address.BuildingNumber },
-            ZipCode: { val: address.ZipCode },
-            ZipExtension: { val: address.ZipExtension }
+            AId: address.AId,
+            PersonId: address.PersonId,
+            StreetName: address.StreetName,
+            BuildingNumber: address.BuildingNumber,
+            ZipCode: address.ZipCode,
+            ZipExtension: address.ZipExtension
         });
 }
 
 export async function create_email(email: station.Email) {
-    await db.execute_query(`
+    await db.execute_query(`BEGIN
     UPDATE Email SET 
         PersonId = :PersonId,
         EmailAddress = :EmailAddress
@@ -89,15 +92,16 @@ export async function create_email(email: station.Email) {
             :PersonId,
             :EmailAddress);
     END IF;
+    END;
     `, {
-            EId: { val: email.EId },
-            PersonId: { val: email.PersonId },
-            EmailAddress: { val: email.EmailAddress }
+            EId: email.EId,
+            PersonId: email.PersonId,
+            EmailAddress: email.EmailAddress
         });
 }
 
 export async function create_employee(employee: station.Employee) {
-    await db.execute_query(`
+    await db.execute_query(`BEGIN
     UPDATE Employee SET 
         PersonId = :PersonId,
         Username = :Username, 
@@ -126,16 +130,17 @@ export async function create_employee(employee: station.Employee) {
             :FloorNumber,
             :RoomNumber);
     END IF;
+    END;
     `,
         {
-            EmployeeId: { val: employee.EmployeeId },
-            PersonId: { val: employee.PersonId },
-            Username: { val: employee.Username },
-            HashedPassword: { val: employee.HashedPassword },
-            JobTitle: { val: employee.JobTitle },
-            HireDate: { val: employee.HireDate },
-            FloorNumber: { val: employee.FloorNumber },
-            RoomNumber: { val: employee.RoomNumber }
+            EmployeeId: employee.EmployeeId,
+            PersonId: employee.PersonId,
+            Username: employee.Username,
+            HashedPassword: employee.HashedPassword,
+            JobTitle: employee.JobTitle,
+            HireDate: employee.HireDate,
+            FloorNumber: employee.FloorNumber,
+            RoomNumber: employee.RoomNumber
         });
 
     if (employee.officer) { create_officer(employee.officer); };
@@ -143,7 +148,7 @@ export async function create_employee(employee: station.Employee) {
 }
 
 export async function create_officer(officer: station.Officer) {
-    await db.execute_query(`
+    await db.execute_query(`BEGIN
     UPDATE Officer SET 
         EmployeeId = :EmployeeId, 
         BadgeId = :BadgeId 
@@ -159,11 +164,12 @@ export async function create_officer(officer: station.Officer) {
             :BadgeId 
         );
     END IF;
-        `, { EmployeeId: { val: officer.EmployeeId }, BadgeId: { val: officer.BadgeId } });
+    END;
+        `, { EmployeeId: officer.EmployeeId, BadgeId: officer.BadgeId });
 }
 
 export async function create_forensic_expert(expert: station.ForensicExpert) {
-    await db.execute_query(`
+    await db.execute_query(`BEGIN
     UPDATE ForensicExpert SET 
         (EmployeeId = :EmployeeId,
         ForensicExpertId = :ForensicExpertId)
@@ -179,14 +185,15 @@ export async function create_forensic_expert(expert: station.ForensicExpert) {
             :ForensicExpertId
         );
     END IF;
+    END;
     `, {
-            EmployeeId: { val: expert.EmployeeId },
-            ForensicExpertId: { val: expert.ForensicExpertId }
+            EmployeeId: expert.EmployeeId,
+            ForensicExpertId: expert.ForensicExpertId
         });
 }
 
 export async function create_visit(visit: station.Visit) {
-    await db.execute_query(`
+    await db.execute_query(`BEGIN
     UPDATE Visit SET 
         PersonId = :PersonId,
         DateofVisit = :DateofVisit, 
@@ -206,11 +213,12 @@ export async function create_visit(visit: station.Visit) {
             :Reason
         );
     END IF;
+    END;
     `, {
-            VisitId: { val: visit.VisitId },
-            PersonId: { val: visit.PersonId },
-            DateofVisit: { val: visit.DateofVisit },
-            Reason: { val: visit.Reason }
+            VisitId: visit.VisitId,
+            PersonId: visit.PersonId,
+            DateofVisit: new Date(visit.DateofVisit),
+            Reason: visit.Reason
         });
 
     if (visit.arrest) {
@@ -220,7 +228,7 @@ export async function create_visit(visit: station.Visit) {
 
 
 export async function create_arrest(arrest: station.Arrest) {
-    await db.execute_query(`
+    await db.execute_query(`BEGIN
     UPDATE Arrest SET 
         PersonId = :PersonId,
         BadgeId = :BadgeId,
@@ -242,17 +250,18 @@ export async function create_arrest(arrest: station.Arrest) {
             :ArrestReason
         );
     END IF;
+    END;
     `, {
-            ArrestNumber: { val: arrest.ArrestNumber },
-            PersonId: { val: arrest.PersonId },
-            BadgeId: { val: arrest.BadgeId },
-            DateofArrest: { val: arrest.DateofArrest },
-            ArrestReason: { val: arrest.ArrestReason }
+            ArrestNumber: arrest.ArrestNumber,
+            PersonId: arrest.PersonId,
+            BadgeId: arrest.BadgeId,
+            DateofArrest: new Date(arrest.DateofArrest),
+            ArrestReason: arrest.ArrestReason
         });
 }
 
 export async function create_case(case_info: station.Case) {
-    await db.execute_query(`
+    await db.execute_query(`BEGIN
         UPDATE "Case" SET 
             Title = :Title,
             DateEntered = :DateEntered, 
@@ -271,11 +280,12 @@ export async function create_case(case_info: station.Case) {
                 :Status
             );
         END IF;
+    END;
     `, {
-            CaseId: { val: case_info.CaseId },
-            Title: { val: case_info.Title },
-            DateEntered: { val: case_info.DateEntered },
-            Status: { val: case_info.Status }
+            CaseId: case_info.CaseId,
+            Title: case_info.Title,
+            DateEntered: new Date(case_info.DateEntered),
+            Status: case_info.Status
         });
 
     for (const visit of case_info.visits) {
@@ -304,7 +314,7 @@ export async function create_case(case_info: station.Case) {
 }
 
 export async function create_case_visit(case_visit: station.CaseVisit) {
-    await db.execute_query(`
+    await db.execute_query(`BEGIN
     UPDATE CaseVisit SET 
         CaseId = :CaseId,
         VisitId = :VisitId
@@ -321,14 +331,15 @@ export async function create_case_visit(case_visit: station.CaseVisit) {
             :VisitId
         );
     END IF;
+    END;
     `, {
-            CaseId: { val: case_visit.CaseId },
-            VisitId: { val: case_visit.VisitId }
+            CaseId: case_visit.CaseId,
+            VisitId: case_visit.VisitId
         });
 }
 
 export async function create_case_arrest(case_arrest: station.CaseArrest) {
-    await db.execute_query(`
+    await db.execute_query(`BEGIN
 
     UPDATE CaseArrest SET 
         CaseID = :CaseID,
@@ -346,14 +357,15 @@ export async function create_case_arrest(case_arrest: station.CaseArrest) {
             :ArrestNumber
         );
     END IF;
+    END;
     `, {
-            CaseID: { val: case_arrest.CaseID },
-            ArrestNumber: { val: case_arrest.ArrestNumber }
+            CaseID: case_arrest.CaseID,
+            ArrestNumber: case_arrest.ArrestNumber
         });
 }
 
 export async function create_case_assignment(assignment: station.CaseAssignment) {
-    await db.execute_query(`
+    await db.execute_query(`BEGIN
 
     UPDATE CaseAssignment SET 
         CaseID = :CaseID,
@@ -371,14 +383,15 @@ export async function create_case_assignment(assignment: station.CaseAssignment)
             :EmployeeId
         );
     END IF;
+    END;
     `, {
-            CaseId: { val: assignment.CaseId },
-            EmployeeId: { val: assignment.EmployeeId }
+            CaseId: assignment.CaseId,
+            EmployeeId: assignment.EmployeeId
         });
 }
 
 export async function create_case_note(note: station.CaseNote) {
-    await db.execute_query(`
+    await db.execute_query(`BEGIN
     UPDATE CaseNote SET 
             Note = :Note,
             EmployeeId = :EmployeeId,
@@ -400,17 +413,18 @@ export async function create_case_note(note: station.CaseNote) {
             :CaseId
         );
     END IF;
+    END;
     `, {
-            NoteId: { val: note.NoteId },
-            Note: { val: note.Note },
-            EmployeeId: { val: note.EmployeeId },
-            DateEntered: { val: note.DateEntered },
-            CaseId: { val: note.CaseId }
+            NoteId: note.NoteId,
+            Note: note.Note,
+            EmployeeId: note.EmployeeId,
+            DateEntered: new Date(note.DateEntered),
+            CaseId: note.CaseId
         });
 }
 
 export async function create_evidence(evidence: station.Evidence) {
-    await db.execute_query(`
+    await db.execute_query(`BEGIN
     UPDATE Evidence SET 
         CaseId = :CaseId,
         Date = :Date, 
@@ -435,18 +449,19 @@ export async function create_evidence(evidence: station.Evidence) {
             :Location
         );
     END IF;
+    END;
     `, {
-            EvidenceId: { val: evidence.EvidenceId },
-            CaseId: { val: evidence.CaseId },
-            Date: { val: evidence.Date },
-            Address: { val: evidence.Address },
-            Description: { val: evidence.Description },
-            Location: { val: evidence.Location }
+            EvidenceId: evidence.EvidenceId,
+            CaseId: evidence.CaseId,
+            Date: evidence.Date,
+            Address: evidence.Address,
+            Description: evidence.Description,
+            Location: evidence.Location
         });
 }
 
 export async function create_test(test: station.ForensicTest) {
-    await db.execute_query(`
+    await db.execute_query(`BEGIN
 
     UPDATE ForensicTest SET 
         EvidenceId = :EvidenceId,
@@ -469,12 +484,13 @@ export async function create_test(test: station.ForensicTest) {
             :TestName
         );
     END IF;
+    END;
     `, {
-            TestId: { val: test.TestId },
-            EvidenceId: { val: test.EvidenceId },
-            ResultDescription: { val: test.ResultDescription },
-            Date: { val: test.Date },
-            TestName: { val: test.TestName }
+            TestId: test.TestId,
+            EvidenceId: test.EvidenceId,
+            ResultDescription: test.ResultDescription,
+            Date: new Date(test.Date),
+            TestName: test.TestName
         });
 
     for (const expert of test.forensic_experts) {
@@ -483,7 +499,7 @@ export async function create_test(test: station.ForensicTest) {
 }
 
 export async function create_test_expert(expert: station.ForensicTestForensicExpert) {
-    await db.execute_query(`
+    await db.execute_query(`BEGIN
     UPDATE ForensicTestForensicExpert SET 
         TestId,
         ForensicExpertId
@@ -500,9 +516,10 @@ export async function create_test_expert(expert: station.ForensicTestForensicExp
             :ForensicExpertId
         );
     END IF;
+    END;
     `, {
-            TestId: { val: expert.TestId },
-            ForensicExpertId: { val: expert.ForensicExpertId }
+            TestId: expert.TestId,
+            ForensicExpertId: expert.ForensicExpertId
         });
 }
 
