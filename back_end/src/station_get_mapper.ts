@@ -163,7 +163,7 @@ export async function get_case_stubs(): Promise<station.Case[]> {
         for (const Case of cases) {
             let full_case = await get_case(Case.CaseId);
             if (full_case) {
-                full_cases.push();
+                full_cases.push(full_case);
             }
         }
 

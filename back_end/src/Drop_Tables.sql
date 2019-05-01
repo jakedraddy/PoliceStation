@@ -2,7 +2,7 @@ drop table ForensicTestForensicExpert;
 drop table ForensicTest;
 drop table Evidence;
 drop table CaseNote;
-drop table CaseAssignments;
+drop table CaseAssignment;
 drop table CaseArrest;
 drop table CaseVisit;
 drop table "Case";

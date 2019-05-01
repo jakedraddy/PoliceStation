@@ -86,11 +86,11 @@ INSERT INTO CaseArrest
 (CaseId,ArrestNumber) VALUES
 (1,1);
 
-INSERT INTO CaseAssignments
+INSERT INTO CaseAssignment
 (CaseId,EmployeeId) VALUES
 (1,1);
 
-INSERT INTO CaseAssignments
+INSERT INTO CaseAssignment
 (CaseId,EmployeeId) VALUES
 (1,2);
 
