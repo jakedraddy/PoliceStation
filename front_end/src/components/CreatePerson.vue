@@ -1,5 +1,5 @@
 <template>
-    <b-form @submit="save">
+    <b-form @save="save" @cancel="cancel">
         <b-form-group id="inputFirstName" label="First Name">
             <b-form-input id="inputfName" v-model="person.FirstName" placeholder="first name"></b-form-input>
         </b-form-group>
@@ -25,7 +25,8 @@
         </b-form-group>
         < --->
 
-        <b-button type="save" variant="primary">save</b-button>
+        <b-button type="save" variant="primary">Save</b-button>
+        <b-button type="cancel">Cancel</b-button>
     </b-form>
 </template>
 

@@ -4,9 +4,9 @@
       <b-nav tabs> 
         <b-nav-item disabled><b>Police Station Database</b></b-nav-item>
         <b-nav-item v-if="$root.user"><b-link :to="'/main'">Main Page</b-link></b-nav-item>
-        <b-nav-item><b-link :to="'/'">Login</b-link></b-nav-item>
+        <b-nav-item v-if="!$root.user"><b-link :to="'/'">Login</b-link></b-nav-item>
         <b-nav-item><b-link :to="'/about'">About</b-link></b-nav-item>
-        <b-nav-item v-if="$root.user"><b-link :to="'/tempCreatePerson'">CreatePerson</b-link></b-nav-item>
+        <b-nav-item v-if="$root.user"><b-link :to="'/'">Logout</b-link></b-nav-item>
       </b-nav>
     </div>
     <router-view></router-view>
