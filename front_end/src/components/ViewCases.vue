@@ -10,11 +10,12 @@
 
 
             <template slot="ViewInformation">
-                <b-button @click="open_case(row.item.CaseId)">Edit</b-button>
+                <b-button @click="open_case(case.CaseId)">Edit</b-button>
             </template>
 
             <template slot="row-details" slot-scope="row">
                 <b-card>
+                    <b-table striped :items=""></b-table>
                 </b-card>
             </template>
         </b-table>
@@ -23,7 +24,7 @@
 
 <script lang="ts">
     import Vue from 'vue'
-    import { Case } from '../../../common/src/station'
+    import { Case, Evidence, ForensicTest } from '../../../common/src/station'
 
     import * as axios from 'axios';
 export default Vue.extend({
@@ -36,7 +37,9 @@ export default Vue.extend({
         return {
             showCaseInfo: ['CaseId', 'DateEntered', 'Status', 'Title',
              "Details", 'ViewInformation'],
-            cases: [] as Case[]
+            cases: [] as Case[],
+            Evidence: [] as Evidence[],
+            ForensicTest: [] as ForensicTest[],
         }
     },
     mounted: function() {
@@ -46,6 +49,7 @@ export default Vue.extend({
         }).then((response) => {
             this.cases = response.data;
         });
+        //Then get all evidence and forensics for each Case
     }
 });
 </script>
