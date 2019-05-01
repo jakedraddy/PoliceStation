@@ -59,7 +59,7 @@ new Vue({
   render: h => h(App),
   data() {
     return {
-      user: null
+      user: undefined
     };
   },
   router
