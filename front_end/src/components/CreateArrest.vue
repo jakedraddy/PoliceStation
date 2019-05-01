@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-jumbotron lead="New Arrest Record">
-        <b-form @submit="save">
+        <b-form @submit.prevent="save">
             <b-form-input v-model="arrest.BadgeId" placeholder="Badge Number"></b-form-input>
             <b-form-input v-model="arrest.PersonId" placeholder="Id of PersonArrested"></b-form-input>
             <b-form-input v-model="arrest.DateOfArrest" placeholder="Date of Arrest"></b-form-input>

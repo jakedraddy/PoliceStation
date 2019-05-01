@@ -1,27 +1,27 @@
 <template>
     <b-form v-if="person" @submit.prevent="save">
-        <b-form-group id="inputFirstName" label="First Name">
-            <b-form-input id="inputfName" v-model="person.FirstName" placeholder="first name"></b-form-input>
+        <b-form-group id="inputFirstName" label="First Name" label-for="inputfName">
+            <b-form-input required id="inputfName" v-model="person.FirstName" placeholder="first name"></b-form-input>
         </b-form-group>
-        <b-form-group id="inputLastName" label="Last Name">
-            <b-form-input id="inputlName" v-model="person.LastName" placeholder="last name"></b-form-input>
+        <b-form-group id="inputLastName" label="Last Name" label-for="inputlName">
+            <b-form-input required id="inputlName" v-model="person.LastName" placeholder="last name"></b-form-input>
         </b-form-group>
-        <b-form-group id="inputDoB" label="Date of Birth">
-            <b-form-input id="inputdob" type="date" 
+        <b-form-group id="inputDoB" label="Date of Birth" label-for="inputdob">
+            <b-form-input required id="inputdob" type="date" 
                     :value="person.DoB && person.DoB.toISOString().split('T')[0]"
                     v-on:input="update_dob"
                     placeholder="date of birth"></b-form-input>
         </b-form-group>
-        <b-form-group id="inputSSN" label="Social Security Number">
+        <b-form-group id="inputSSN" label="Social Security Number" label-for="inputssn">
             <b-form-input id="inputssn" v-model="person.SSN" placeholder="123-45-6789"></b-form-input>
         </b-form-group>
-
-
         <b-form-group id="inputEmail" label="Emails">
             <div v-for="email in person.emails" 
             :key="email.EId"
             :email="email">
-                <b-form-input id="v-for-object" type="email" class="emails" v-model="email.EmailAddress" placeholder="Email@example.com"></b-form-input>
+                <b-card>
+                    <b-form-input id="v-for-object" type="email" class="emails" v-model="email.EmailAddress" placeholder="Email@example.com"></b-form-input>
+                </b-card>
             </div>
             <b-button href="#" @click="add_email">Add a new email</b-button>
         </b-form-group>
@@ -29,12 +29,14 @@
         <b-form inline id="inputPhone">
             <div v-for="phone in person.phones" 
             :key="phone.PId"
-            :phone="phone">         
-                <b-form-input type="text" class="phones" v-model="phone.CountryCode" placeholder="Country Code"></b-form-input>
-                <b-form-input type="text" class="phones" v-model="phone.AreaCode" placeholder="Area Code"></b-form-input>
-                <b-form-input type="text" class="phones" v-model="phone.ExchangeCode" placeholder="Exchange Code"></b-form-input>
-                <b-form-input type="text" class="phones" v-model="phone.LineNumber" placeholder="Line Number"></b-form-input>
-                <b-form-input type="text" class="phones" v-model="phone.Extension" placeholder="Extension"></b-form-input>
+            :phone="phone">
+                <b-card>
+                    <b-form-input type="text" class="phones" v-model="phone.CountryCode" placeholder="Country Code e.g. 1"></b-form-input>
+                    <b-form-input required type="text" class="phones" v-model="phone.AreaCode" placeholder="Area Code e.g. 555"></b-form-input>
+                    <b-form-input required type="text" class="phones" v-model="phone.ExchangeCode" placeholder="Exchange Code e.g. 555"></b-form-input>
+                    <b-form-input required type="text" class="phones" v-model="phone.LineNumber" placeholder="Line Number e.g. 5555"></b-form-input>
+                    <b-form-input type="text" class="phones" v-model="phone.Extension" placeholder="Extension"></b-form-input>
+                </b-card>
             </div>
             <b-button href="#" @click="add_phone">Add a new phone</b-button>
         </b-form>
@@ -43,10 +45,12 @@
             <div v-for="address in person.addresses" 
             :key="address.AId"
             :address="address">
-                <b-form-input type="text" class="address" v-model="address.StreetName" placeholder="Street Name"></b-form-input>
-                <b-form-input type="text" class="address" v-model="address.BuildingNumber" placeholder="Building Number"></b-form-input>
-                <b-form-input type="text" class="address" v-model="address.ZipCode" placeholder="Zip Code"></b-form-input>
-                <b-form-input type="text" class="address" v-model="address.ZipExtension" placeholder="Zip Extension"></b-form-input>
+                <b-card v-bind:title="'Address ' + address.AId">
+                    <b-form-input type="text" class="address" v-model="address.StreetName" placeholder="Street Name"></b-form-input>
+                    <b-form-input type="text" class="address" v-model="address.BuildingNumber" placeholder="Building Number"></b-form-input>
+                    <b-form-input type="text" class="address" v-model="address.ZipCode" placeholder="Zip Code"></b-form-input>
+                    <b-form-input type="text" class="address" v-model="address.ZipExtension" placeholder="Zip Extension"></b-form-input>
+                </b-card>        
             </div>
             <b-button href="#" @click="add_address">Add a new address</b-button>
         </b-form-group>
