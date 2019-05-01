@@ -133,7 +133,7 @@ export async function get_forensic_expert(EmployeeId: number): Promise<station.F
 
 // Just a fast return of a list of all the cases with no sub-details.
 export async function get_case_stubs(): Promise<station.Case[]> {
-    let result = await db.execute_query(`SELECT * FROM Cases`);
+    let result = await db.execute_query(`SELECT * FROM Case`);
 
     if (result && result.rows && result.rows.length) {
         return (result.rows as Array<any>).map(mapper.map_Case);
@@ -144,7 +144,7 @@ export async function get_case_stubs(): Promise<station.Case[]> {
 
 // Full grab of a case.
 export async function get_case(CaseId: number): Promise<station.Case | undefined> {
-    let result = await db.execute_query(`SELECT * FROM Cases WHERE CaseId=:CaseId`, [CaseId]);
+    let result = await db.execute_query(`SELECT * FROM Case WHERE CaseId=:CaseId`, [CaseId]);
     if (result && result.rows && result.rows.length) {
 
         let case_info = mapper.map_Case(result.rows[0]);
@@ -195,4 +195,14 @@ export async function get_case_tests(CaseId: number): Promise<station.ForensicTe
 
 export async function get_test_experts(TestId: number): Promise<station.ForensicTestForensicExpert[]> {
     return await map_many("Evidence", "TestId", TestId, mapper.map_ForensicTestForensicExpert);
+}
+
+export async function get_test_stubs(): Promise<station.ForensicTest[]> {
+    let result = await db.execute_query(`SELECT * FROM ForensicTest`);
+
+    if (result && result.rows && result.rows.length) {
+        return (result.rows as Array<any>).map(mapper.map_ForensicTest);
+    }
+
+    return [];
 }

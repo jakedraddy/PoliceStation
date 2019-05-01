@@ -1,5 +1,5 @@
 <template>
-    <b-form @save="save" @cancel="cancel">
+    <b-form @submit="save">
         <b-form-group id="inputFirstName" label="First Name">
             <b-form-input id="inputfName" v-model="person.FirstName" placeholder="first name"></b-form-input>
         </b-form-group>
@@ -56,6 +56,9 @@ export default Vue.extend({
             }).then((response) => {
                 this.save_message = "Saved!";
             });
+        },
+        cancel: function() {
+            this.$router.replace("main");
         }
     },
 })

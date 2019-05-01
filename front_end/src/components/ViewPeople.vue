@@ -1,7 +1,7 @@
 <template>
     <div>
-        <h3 v-if="!employees.length">Loading...</h3>
-        <b-table striped hover small :items="employees" :fields="showEmployeesInfo">
+        <h3 v-if="!people">Loading...</h3>
+        <b-table striped hover small :items="people" :fields="showpeopleInfo">
             <template slot="ViewInformation" slot-scope="data">
                 <b-button @click="open_person(data.item.PersonId)">Open</b-button>
             </template>
@@ -9,16 +9,13 @@
     </div>
 </template>
 
-
 <script lang="ts">
 import Vue from 'vue'
-import { Employee, Person } from '../../../common/src/station';
-import OpenPersonButton from './OpenPersonButton.vue';
+import { Person } from '../../../common/src/station';
 
 import * as axios from 'axios';
 export default Vue.extend({
     components: {
-        OpenPersonButton
     },
     methods: {
         open_person(id: Number) {
@@ -27,18 +24,19 @@ export default Vue.extend({
     },
     data() {
         return {
-            showEmployeesInfo: ['FirstName', 'LastName', 'ViewInformation'],
-            employees: [] as Person[]
+            showpeopleInfo: ['FirstName', 'LastName', 'ViewInformation'],
+            people: [] as Person[]
         }
     },
-    mounted: function() {
-        axios.default({
-            method: 'get',
-            url: '/api/employee/all'
-        }).then((response) => {
-            this.employees = response.data;
-        });
-    }
+    // mounted: function() {
+    //     axios.default({
+    //         method: 'get',
+    //         url: '/api/employee/all'
+    //     }).then((response) => {
+    //         this.people = response.data;
+    //     });
+    // }
+    
 });
 </script>
 

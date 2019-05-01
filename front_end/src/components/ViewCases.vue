@@ -1,14 +1,6 @@
 <template>
     <div>
         <h3 v-if="!cases.length">Loading...</h3>
-        <ul id="v-for-object" class="cases">
-            <li v-for="Case in cases"
-                :key="Case.CaseId"
-                :Case="Case">
-                {{ Case.CaseId }} {{ Case.DateEntered }} {{ Case.Status }} {{ Case.Title }} <button @click="open_case(Case.CaseId)">Open</button>
-            </li>
-        </ul>
-
         <b-table striped hover small :items="cases" :fields="showCaseInfo">
             <template slot="ViewInformation">
                 <b-button @click="open_case(Case.CaseId)">Open</b-button>
@@ -20,8 +12,14 @@
 <script lang="ts">
     import Vue from 'vue'
     import { Case } from '../../../common/src/station'
+
     import * as axios from 'axios';
 export default Vue.extend({
+    methods: {
+        open_case: function (CaseId: number) {
+            this.$router.push({name: 'viewCase', params: { CaseId: CaseId}})
+        }
+    },
     data() {
         return {
             showCaseInfo: ['CaseId', 'DateEntered', 'Status', 'Title', 'ViewInformation'],
@@ -30,16 +28,11 @@ export default Vue.extend({
     },
     mounted: function() {
         axios.default({
-            method: 'get_all_cases',
+            method: 'get',
             url: '/api/cases/all'
         }).then((response) => {
-            this.employees = response.data;
+            this.cases = response.data;
         });
-    },
-    methods: {
-        open_case: function (CaseId: number) {
-            this.$router.push({name: 'viewCase', params: { CaseId: CaseId}})
-        }
     }
 });
 </script>

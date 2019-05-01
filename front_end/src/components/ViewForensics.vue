@@ -1,13 +1,13 @@
 <template>
     <div>
-        <h3 v-if="!cases.length">Loading...</h3>
-        <b-table striped hover small :items="cases" :fields="showCaseInfo">
+        <h3 v-if="!forensicTests.length">Loading...</h3>
+        <b-table striped hover small :items="cases" :fields="showTestInfo">
             <template slot="ViewInformation" slot-scope="row">
                 <b-button size="sm" @click="row.toggleDetails" class="mr-2">
                     {{ row.detailsShowing ? 'Hide' : 'Show'}} Details
                 </b-button>>
             </template>
-            <template slot="row-details" slot-scope="row">
+            <template slot="ResultsDescript" slot-scope="row">
                 <b-card>
                     <b-row class="mb-2">
                         <b-col sm="3" class="text-sm-right"><b>Description:</b></b-col>
@@ -27,23 +27,23 @@
 export default Vue.extend({
     data() {
         return {
-            showCaseInfo: ['TestName', 'Date', 'ResultDescription', 'ViewInformation'],
+            showTestInfo: ['TestName', 'Date', 'ResultDescript', 'ViewInformation'],
             forensicTests: [] as ForensicTest[]
         }
     },
-    // mounted: function() {
-    //     axios.default({
-    //         method: 'post',
-    //         url: '/api/cases/all'
-    //     }).then((response) => {
-    //         this.employees = response.data;
-    //     });
-    // },
-    // methods: {
-    //     open_case: function (CaseId: number) {
-    //         this.$router.replace("api/cases/:id");
-    //     }
-    // }
+    mounted: function() {
+        axios.default({
+            method: 'get',
+            url: '/api/ftest/all'
+        }).then((response) => {
+            this.forensicTests = response.data;
+        });
+    },
+    methods: {
+        open_case: function (CaseId: number) {
+            this.$router.replace("api/cases/:id");
+        }
+    }
 });
 </script>
 

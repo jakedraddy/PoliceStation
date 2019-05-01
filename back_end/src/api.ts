@@ -68,3 +68,8 @@ export async function get_case(req: e.Request, res: e.Response, next?: e.NextFun
     res.status(codes.OK).json(await getter.get_case(req.query.case_id));
     res.end();
 }
+
+export async function get_all_ftests(req: e.Request, res: e.Response, next?: e.NextFunction) {
+    res.status(codes.OK).json(await getter.get_test_stubs());
+    res.end();
+}
