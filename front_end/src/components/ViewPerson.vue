@@ -23,10 +23,6 @@
         <b-form-group id="inputAddress" label="Address">
             <b-form-input id="" v-model="form.name" placeholder="5555 Secret Street"></b-form-input>
         </b-form-group>
-        <b-form-group id="inputEmail" label="Email">
-            <b-form-input id="inputemail" v-model="form.email" 
-            type="email" placeholder="example@aol.com"></b-form-input>
-        </b-form-group>
         < --->
         <b-form-group id="inputEmail" label="Emails">
             <div v-for="email in person.emails" 

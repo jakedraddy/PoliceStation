@@ -18,15 +18,17 @@ import ViewArrests from "./components/ViewArrests.vue";
 import ViewCases from "./components/ViewCases.vue";
 import ViewForensics from "./components/ViewForensics.vue";
 
-import CreatePerson from "./components/CreatePerson.vue";
+//import CreatePerson from "./components/CreatePerson.vue";
 import CreateArrest from "./components/CreateArrest.vue";
+import CreateCase from "./components/CreateCase.vue";
+import CreateTest from "./components/CreateTest.vue";
 
 const routes: any[] = [
   { path: "/", component: Login },
   { path: "/about", component: About },
   { path: "/main", component: MainPage },
   { path: "/main/People", component: ViewPeople},
-  { path: "/main/People/add", component: CreatePerson },
+  { path: "/main/People/add", name: "viewPerson", component: ViewPerson },
   { path: "/main/People/view/:person_id", name: "viewPerson", component: ViewPerson },
   { path: "/main/Employees", component: ViewEmployees },
   { path: "/main/Visits", component: ViewVisits },
@@ -34,8 +36,10 @@ const routes: any[] = [
   { path: "/main/Arrests", component: ViewArrests },
   { path: "/main/Arrests/add", component: CreateArrest },//needs Comp
   { path: "/main/Cases", component: ViewCases },
-  { path: "/main/Cases/add", component: MainPage },//needs Comp
+  { path: "/main/Cases/edit", name: "inspectCase", component: CreateCase},
+  { path: "/main/Cases/add", component: CreateCase },
   { path: "/main/ForensicTests", component: ViewForensics },
+  { path: "/main/ForensicTests/edit", name: "inspectTest", component: CreateTest },
   { path: "/main/ForensicTests/add", component: MainPage },//needs Comp
   // { path: "/", component: Login },
 ];

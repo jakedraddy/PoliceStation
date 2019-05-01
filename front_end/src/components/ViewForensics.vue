@@ -40,8 +40,8 @@ export default Vue.extend({
         });
     },
     methods: {
-        open_case: function (CaseId: number) {
-            this.$router.push("api/cases/:id");
+        edit_test(TestId: number) { 
+            this.$router.push({name: 'inspectTest', params: {test_Id: TestId}});
         }
     }
 });
