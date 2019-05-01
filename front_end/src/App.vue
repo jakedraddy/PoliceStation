@@ -24,6 +24,7 @@ export default Vue.extend({
     return  {
       session: {},
       listsOfData: [],
+      user: undefined,
       index: 0
     }
   }
