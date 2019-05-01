@@ -37,11 +37,12 @@ export default Vue.extend({
         }
     },
     mounted: function() {
+        var that = this;
         axios.default({
             method: 'get',
             url: '/api/arrests/all'
         }).then((response) => {
-            this.arrests = response.data;
+            that.arrests = response.data;
         });
     }
 });

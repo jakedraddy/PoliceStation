@@ -24,10 +24,18 @@ export function get_person(PersonId: number): AxiosPromise<station.Person> {
     });
 }
 
-export function create_person(person: station.Person): AxiosPromise<any> {
+export function create_person(person: station.Person): AxiosPromise<station.Person> {
     return axios({
         method: "post",
         url: "/api/person/create",
         data: person,
+    });
+}
+
+export function create_case(Case: station.Case): AxiosPromise<station.Case> {
+    return axios({
+        method: "post",
+        url: "/api/case/create",
+        data: Case,
     });
 }

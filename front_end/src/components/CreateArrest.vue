@@ -8,8 +8,8 @@
             <b-form-textarea v-model="arrest.ArrestReason" placeholder="Reason for arrest" 
             rows="3" max-rows="6">
             </b-form-textarea>
-            <b-button type="save" variant="primary">Save</b-button>
-            <b-button type="cancel">Cancel</b-button>
+            <b-button type="submit" variant="primary">Save</b-button>
+            <b-button type="button" @click="cancel">Cancel</b-button>
         </b-form>
         </b-jumbotron>
     </div>

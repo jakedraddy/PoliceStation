@@ -32,11 +32,12 @@ export default Vue.extend({
         }
     },
     mounted: function() {
+        var that = this;
         axios.default({
             method: 'get',
             url: '/api/ftest/all'
         }).then((response) => {
-            this.forensicTests = response.data;
+            that.forensicTests = response.data;
         });
     },
     methods: {
