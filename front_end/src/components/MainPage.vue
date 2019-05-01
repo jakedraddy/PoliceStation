@@ -28,11 +28,16 @@
                 <b-list-group-item class="w-25"><b-button @click="ViewCases">List of Cases</b-button></b-list-group-item>
                 <b-list-group-item class="w-25"><b-button @click="CreateCase">New Case</b-button></b-list-group-item>
             </b-list-group>
+            <!-- <b-list-group horizontal>
+                <b-list-group-item class="w-25">Evidence</b-list-group-item>
+                <b-list-group-item class="w-25"><b-button @click="ViewEvi">List of Evidence</b-button></b-list-group-item>
+                <b-list-group-item class="w-25"><b-button @click="CreateEvi">New Evidence</b-button></b-list-group-item>
+            </b-list-group>
             <b-list-group horizontal>
                 <b-list-group-item class="w-25">Forensic Tests</b-list-group-item>
                 <b-list-group-item class="w-25"><b-button @click="ViewTests">List of Forensic Tests</b-button></b-list-group-item>
                 <b-list-group-item class="w-25"><b-button @click="CreateTest">New Test</b-button></b-list-group-item>
-            </b-list-group>
+            </b-list-group> -->
         </b-list-group>
         </b-jumbotron>
     </div>
@@ -52,8 +57,10 @@ export default Vue.extend({
         CreateArrest: function () { this.$router.push("main/Arrests/add"); },
         ViewCases: function () { this.$router.push("main/Cases"); },
         CreateCase: function () { this.$router.push("main/Cases/add"); },
-        ViewTests: function () { this.$router.push("main/ForensicTests"); },
-        CreateTest: function () { this.$router.push("main/ForensicTests/add"); },
+        // ViewEvi: function () { this.$router.push("main/Evidence"); },
+        // CreateEvi: function () { this.$router.push("main/Evidence/add"); },
+        // ViewTests: function () { this.$router.push("main/ForensicTests"); },
+        // CreateTest: function () { this.$router.push("main/ForensicTests/add"); },
     }
 })
 </script>

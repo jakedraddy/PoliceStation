@@ -16,6 +16,7 @@ import ViewEmployees from "./components/ViewEmployees.vue";
 import ViewVisits from "./components/ViewVisits.vue";
 import ViewArrests from "./components/ViewArrests.vue";
 import ViewCases from "./components/ViewCases.vue";
+import ViewEvidence from "./components/ViewEvidence.vue";
 import ViewForensics from "./components/ViewForensics.vue";
 
 //import CreatePerson from "./components/CreatePerson.vue";
@@ -38,6 +39,8 @@ const routes: any[] = [
   { path: "/main/Cases", component: ViewCases },
   { path: "/main/Cases/edit", name: "inspectCase", component: CreateCase},
   { path: "/main/Cases/add", component: CreateCase },
+  { path: "/main/Evidence", component: ViewEvidence },
+  { path: "/main/Evidence/add", component: MainPage },//needs comp
   { path: "/main/ForensicTests", component: ViewForensics },
   { path: "/main/ForensicTests/edit", name: "inspectTest", component: CreateTest },
   { path: "/main/ForensicTests/add", component: MainPage },//needs Comp
