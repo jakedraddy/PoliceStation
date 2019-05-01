@@ -4,10 +4,9 @@
         <b-table striped small :items="cases" :fields="showCaseInfo">
             <template slot="Details" slot-scope="row">
                 <b-button @click="row.toggleDetails" class="mr-2"> 
-                    {{ row.detailsShowing ? 'Hide' : 'Show'}} Cases
+                    {{ row.detailsShowing ? 'Hide' : 'Show'}} Evidence
                 </b-button>
             </template>
-
 
             <template slot="ViewInformation">
                 <b-button @click="open_case(Case.CaseId)">Edit</b-button>
@@ -15,7 +14,8 @@
 
             <template slot="row-details" slot-scope="row">
                 <b-card>
-                    <b-table striped :items="cases"></b-table>
+                    <b-table striped :items="row.item.evidence" :fields="showEvidenceInfo"></b-table>
+                    <b-button @click="create_evidence()">New Piece of Evidence</b-button>
                 </b-card>
             </template>
         </b-table>
@@ -24,22 +24,26 @@
 
 <script lang="ts">
     import Vue from 'vue'
-    import { Case, Evidence, ForensicTest } from '../../../common/src/station'
+    import { Case } from '../../../common/src/station'
 
     import * as axios from 'axios';
 export default Vue.extend({
     methods: {
         open_case: function (CaseId: number) {
-            this.$router.push({name: 'viewCase', params: { CaseId: CaseId}})
+            this.$router.push({name: 'viewCase', params: { CaseId: CaseId }})
+        },
+        create_evidence: function (CaseId: number) {
+            this.$router.push({name: 'addCaseEvidence', params: { CaseId: CaseId }})
         }
     },
     data() {
         return {
             showCaseInfo: ['CaseId', 'DateEntered', 'Status', 'Title',
              "Details", 'ViewInformation'],
+            showEvidenceInfo: ['EvidenceId', 'CaseId', 'Date', 'Address',
+             'Description', 'Location'],
+            //showTestInfo: [],
             cases: [] as Case[],
-            Evidence: [] as Evidence[],
-            ForensicTest: [] as ForensicTest[],
         }
     },
     mounted: function() {
