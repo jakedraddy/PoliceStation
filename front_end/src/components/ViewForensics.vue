@@ -7,7 +7,7 @@
                     {{ row.detailsShowing ? 'Hide' : 'Show'}} Details
                 </b-button>>
             </template>
-            <template slot="row-details" slot-scope="row">
+            <template slot="ResultsDescript" slot-scope="row">
                 <b-card>
                     <b-row class="mb-2">
                         <b-col sm="3" class="text-sm-right"><b>Description:</b></b-col>
@@ -27,7 +27,7 @@
 export default Vue.extend({
     data() {
         return {
-            showTestInfo: ['TestName', 'Date', 'ResultDescription', 'ViewInformation'],
+            showTestInfo: ['TestName', 'Date', 'ResultDescript', 'ViewInformation'],
             forensicTests: [] as ForensicTest[]
         }
     },

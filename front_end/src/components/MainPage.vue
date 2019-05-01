@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-jumbotron fluid>
+        <b-jumbotron>
         <p v-if="$root.user"> Welcome {{ $root.user.FirstName }}</p>
         <b-list-group>
             <b-list-group horizontal>
